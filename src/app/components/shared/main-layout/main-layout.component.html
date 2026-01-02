@@ -23,7 +23,10 @@
                 <mat-icon matListItemIcon>bar_chart</mat-icon>
                 <span matListItemTitle>Relatórios</span>
             </a>
-            <!-- Removed Connection WhatsApp as requested -->
+            <a mat-list-item routerLink="/settings/account" (click)="drawer.close()">
+                <mat-icon matListItemIcon>person</mat-icon>
+                <span matListItemTitle>Conta</span>
+            </a>
             <mat-divider></mat-divider>
             <a mat-list-item (click)="logout()">
                 <mat-icon matListItemIcon>logout</mat-icon>

@@ -33,6 +33,7 @@ export class SpecialDaysComponent implements OnInit {
     public specialDayForm: FormGroup;
     public specialDays: ISpecialDay[] = [];
     public minDate: Date = new Date();
+    public showAddForm: boolean = false;
 
     constructor(
         private fb: FormBuilder,
@@ -101,8 +102,8 @@ export class SpecialDaysComponent implements OnInit {
         const formValue = this.specialDayForm.value;
 
         // Convert Date object to ISO string for backend
-        const dateValue = formValue.date instanceof Date 
-            ? formValue.date.toISOString() 
+        const dateValue = formValue.date instanceof Date
+            ? formValue.date.toISOString()
             : formValue.date;
 
         const newSpecialDay: ISpecialDay = {
@@ -117,6 +118,7 @@ export class SpecialDaysComponent implements OnInit {
             next: () => {
                 this.loadSpecialDays();
                 this.specialDayForm.reset({ isDayOff: true });
+                this.showAddForm = false;
                 this.dialogService.showMessage('Dia especial adicionado!', true);
             },
             error: (err) => {
@@ -138,6 +140,10 @@ export class SpecialDaysComponent implements OnInit {
                 this.dialogService.showMessage('Erro ao remover dia especial', false);
             }
         });
+    }
+
+    toggleAddForm(): void {
+        this.showAddForm = !this.showAddForm;
     }
 
     goBack(): void {

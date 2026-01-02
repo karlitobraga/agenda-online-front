@@ -85,11 +85,7 @@ export class InitialComponent implements OnInit {
   checkSubscription() {
     const status = localStorage.getItem('subscriptionStatus');
     if (status === 'EXPIRED') {
-      this.dialog.open(SubscriptionModalComponent, {
-        width: '450px',
-        disableClose: true,
-        panelClass: 'subscription-dialog'
-      });
+      this.router.navigate(['/subscription']);
     }
   }
 
@@ -113,11 +109,7 @@ export class InitialComponent implements OnInit {
 
           // Trigger subscription check with fresh data
           if (status === 'EXPIRED') {
-            this.dialog.open(SubscriptionModalComponent, {
-              width: '450px',
-              disableClose: true,
-              panelClass: 'subscription-dialog'
-            });
+            this.router.navigate(['/subscription']);
           }
         }
       }

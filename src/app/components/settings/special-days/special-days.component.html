@@ -11,15 +11,20 @@
     </div>
 
     <div class="content">
+        <button class="btn-add-toggle" (click)="toggleAddForm()" [class.active]="showAddForm">
+            <mat-icon>{{ showAddForm ? 'remove_circle' : 'add_circle' }}</mat-icon>
+            <span>{{ showAddForm ? 'Cancelar Adição' : 'Adicionar Dia Especial' }}</span>
+        </button>
+
         <!-- Add Special Day Form -->
-        <form [formGroup]="specialDayForm" class="settings-card">
+        <form [formGroup]="specialDayForm" class="settings-card add-form-card" *ngIf="showAddForm">
             <div class="card-header">
                 <div class="card-title">
-                    <mat-icon>add_circle</mat-icon>
-                    <h3>Adicionar Dia Especial</h3>
+                    <mat-icon>event_available</mat-icon>
+                    <h3>Configurar Novo Dia</h3>
                 </div>
                 <mat-slide-toggle formControlName="isDayOff" color="warn">
-                    {{ specialDayForm.get('isDayOff')?.value ? 'Fechado' : 'Horário Especial' }}
+                    {{ specialDayForm.get('isDayOff')?.value ? 'Fechado' : 'Aberto' }}
                 </mat-slide-toggle>
             </div>
 
@@ -29,54 +34,51 @@
                     <input matInput [matDatepicker]="picker" formControlName="date" [min]="minDate" />
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
-                    <mat-error *ngIf="specialDayForm.get('date')?.hasError('required')">
-                        Obrigatório
-                    </mat-error>
                 </mat-form-field>
 
                 <ng-container *ngIf="!specialDayForm.get('isDayOff')?.value">
-                    <mat-form-field appearance="outline" class="time-field">
-                        <mat-label>Início</mat-label>
-                        <input matInput type="time" formControlName="start" />
-                        <mat-error *ngIf="specialDayForm.get('start')?.hasError('required')">
-                            Obrigatório
-                        </mat-error>
-                    </mat-form-field>
+                    <div class="time-inputs">
+                        <mat-form-field appearance="outline" class="time-field">
+                            <mat-label>Início</mat-label>
+                            <input matInput type="time" formControlName="start" />
+                        </mat-form-field>
 
-                    <mat-form-field appearance="outline" class="time-field">
-                        <mat-label>Fim</mat-label>
-                        <input matInput type="time" formControlName="end" />
-                        <mat-error *ngIf="specialDayForm.get('end')?.hasError('required')">
-                            Obrigatório
-                        </mat-error>
-                    </mat-form-field>
+                        <mat-form-field appearance="outline" class="time-field">
+                            <mat-label>Fim</mat-label>
+                            <input matInput type="time" formControlName="end" />
+                        </mat-form-field>
+                    </div>
                 </ng-container>
 
                 <div class="time-error" *ngIf="specialDayForm.hasError('timeRangeInvalid')">
                     O horário inicial deve ser menor que o final
                 </div>
 
-                <button class="btn-add" (click)="addSpecialDay()" [disabled]="specialDayForm.invalid">
-                    <mat-icon>add</mat-icon> Adicionar
+                <button class="btn-save-day" (click)="addSpecialDay()" [disabled]="specialDayForm.invalid">
+                    <mat-icon>check</mat-icon> Confirmar
                 </button>
             </div>
         </form>
 
         <!-- List of Special Days -->
-        <div class="special-days-list" *ngIf="specialDays.length > 0">
-            <h3 class="section-title">Dias Cadastrados</h3>
+        <h3 class="section-title" *ngIf="specialDays.length > 0">Dias Cadastrados</h3>
 
-            <div class="special-day-card" *ngFor="let day of specialDays">
-                <div class="day-info">
-                    <span class="day-date">{{ day.date | date: 'dd/MM/yyyy' }}</span>
-                    <span class="day-status" [class.closed]="day.isDayOff" [class.open]="!day.isDayOff">
-                        {{ day.isDayOff ? 'Fechado' : 'Horário Especial' }}
-                    </span>
-                    <span class="day-hours" *ngIf="!day.isDayOff">{{ day.start }} - {{ day.end }}</span>
+        <div class="services-list" *ngIf="specialDays.length > 0">
+            <div class="service-card" *ngFor="let day of specialDays">
+                <div class="service-info">
+                    <div class="service-name">{{ day.date | date: 'dd/MM/yyyy' }}</div>
+                    <div class="service-details">
+                        <span class="detail-item" [class.closed]="day.isDayOff">
+                            <mat-icon>{{ day.isDayOff ? 'event_busy' : 'schedule' }}</mat-icon>
+                            {{ day.isDayOff ? 'Fechado' : (day.start + ' - ' + day.end) }}
+                        </span>
+                    </div>
                 </div>
-                <button class="btn-delete" (click)="deleteSpecialDay(day.id)">
-                    <mat-icon>delete</mat-icon>
-                </button>
+                <div class="service-actions">
+                    <button class="btn-icon delete" (click)="deleteSpecialDay(day.id)" title="Excluir">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
             </div>
         </div>
 
