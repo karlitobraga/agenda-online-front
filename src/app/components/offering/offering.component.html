@@ -1,0 +1,240 @@
+<!-- OFFERING -->
+<div class="offering-container" *ngIf="operacao == enumOperacao.Offering">
+  <h2>Cadastrar serviços</h2>
+
+  <button class="btn-add" (click)="openDetail()">
+    <mat-icon>add</mat-icon>Adicionar novo serviço
+  </button>
+
+  <div class="offerings-list">
+    <div class="offering-item" *ngFor="let offering of offerings">
+      <div class="services">
+        <p>Serviço: <b>{{ offering.name }}</b></p>
+        <p>Duração: <b>{{ offering.executionTime }} minutos</b></p>
+        <p>Preço: R$ <b>{{ offering?.price ?? '0,00' }}</b></p>
+      </div>
+
+      <div class="actions">
+        <button class="btn-action edit" (click)="openDetail(offering)"><mat-icon>edit</mat-icon></button>
+        <button class="btn-action del" (click)="delete(offering)"><mat-icon>delete</mat-icon></button>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-continue" (click)="continue()">
+    Salvar e Continuar <mat-icon>arrow_forward</mat-icon>
+  </button>
+</div>
+
+<!-- DAYWEEK -->
+<div class="offering-container" *ngIf="operacao == enumOperacao.DayWeek">
+  <h2>Horário de funcionamento</h2>
+
+  <!-- conteúdo rolável centralizado, cards ocupam quase toda a largura -->
+  <div class="content">
+    <div class="content-inner">
+      <!-- CARD ALMOÇO (form separado) -->
+      <form [formGroup]="lunchForm" class="lunch-card">
+        <div class="day-header">
+          <h3>Horário de almoço</h3>
+          <mat-slide-toggle formControlName="active">Ativo</mat-slide-toggle>
+        </div>
+
+        <div class="day-content" *ngIf="lunchForm.get('active')?.value">
+          <mat-form-field appearance="outline" class="hour-field">
+            <mat-label>Início</mat-label>
+            <input matInput type="time" formControlName="start" />
+            <mat-error *ngIf="lunchForm.get('start')?.hasError('required')">
+              Campo obrigatório
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="hour-field">
+            <mat-label>Fim</mat-label>
+            <input matInput type="time" formControlName="end" />
+            <mat-error *ngIf="lunchForm.get('end')?.hasError('required')">
+              Campo obrigatório
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </form>
+
+      <!-- LISTA DE DIAS -->
+      <form [formGroup]="daysWeekForm" class="schedule-container">
+        <div class="days-week-container" formArrayName="daysWeek">
+          <div class="day-card" *ngFor="let day of daysWeek.controls; let i = index" [formGroupName]="i">
+            <div class="day-header">
+              <h3>{{ day.get('day')?.value }}</h3>
+              <mat-slide-toggle formControlName="dayOff">Folga</mat-slide-toggle>
+            </div>
+
+            <div class="day-content" *ngIf="!day.get('dayOff')?.value">
+              <mat-form-field appearance="outline" class="hour-field">
+                <mat-label>Início</mat-label>
+                <input matInput type="time" formControlName="start" />
+                <mat-error *ngIf="day.get('start')?.hasError('required')">Obrigatório</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="hour-field">
+                <mat-label>Fim</mat-label>
+                <input matInput type="time" formControlName="end" />
+                <mat-error *ngIf="day.get('end')?.hasError('required')">Obrigatório</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- botões fixos -->
+  <div class="actions">
+    <button class="btn-continue" (click)="return()">
+      <mat-icon>arrow_backward</mat-icon> Anterior
+    </button>
+
+    <button class="btn-continue" (click)="saveAndContinue()">
+      Salvar e Continuar <mat-icon>save</mat-icon>
+    </button>
+  </div>
+</div>
+
+
+<!-- QR CODE -->
+<div class="offering-container" *ngIf="operacao == enumOperacao.QrCode">
+  <h2>Conectar WhatsApp</h2>
+  <p class="subtitle" *ngIf="!isConnected">Escaneie o QR Code abaixo para integrar seu WhatsApp ao sistema.</p>
+  <p class="subtitle success" *ngIf="isConnected">
+    <mat-icon>check_circle</mat-icon> WhatsApp Conectado com Sucesso!
+  </p>
+
+  <div class="instructions-steps" *ngIf="!isConnected">
+    <div class="step">
+      <mat-icon>smartphone</mat-icon>
+      <p>1. Abra o WhatsApp no seu celular</p>
+    </div>
+    <div class="step">
+      <mat-icon>more_vert</mat-icon>
+      <p>2. Toque em Mais opções ou Configurações</p>
+    </div>
+    <div class="step">
+      <mat-icon>qr_code_scanner</mat-icon>
+      <p>3. Selecione Aparelhos conectados > Conectar aparelho</p>
+    </div>
+    <div class="step">
+      <mat-icon>center_focus_strong</mat-icon>
+      <p>4. Aponte o celular para esta tela</p>
+    </div>
+  </div>
+
+  <div class="content centered-content">
+    <div class="qrcode-wrapper" *ngIf="!loadingQrCode && qrCodeBase64 && !isConnected">
+      <img [src]="qrCodeBase64" alt="QR Code WhatsApp" class="qrcode-img" />
+    </div>
+
+    <div *ngIf="loadingQrCode && !isConnected" class="loading-state">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Gerando QR Code...</p>
+    </div>
+
+    <div *ngIf="!loadingQrCode && !qrCodeBase64 && !isConnected" class="error-state">
+      <p>Não foi possível carregar o QR Code. Tente novamente.</p>
+      <button mat-stroked-button color="primary" (click)="loadQrCode()">Recarregar</button>
+    </div>
+
+    <div *ngIf="isConnected" class="connected-state">
+      <p>Seu WhatsApp já está automatizado e pronto para uso.</p>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-continue" (click)="return()" [disabled]="isInitialFlow">
+      <mat-icon>arrow_backward</mat-icon> Anterior
+    </button>
+
+    <button class="btn-continue" [disabled]="!isConnected" (click)="continue()">
+      Próximo <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+</div>
+
+<!-- SPECIAL DAYS -->
+<div class="offering-container" *ngIf="operacao == enumOperacao.SpecialDay">
+  <h2>Dias Especiais / Feriados</h2>
+
+  <div class="content">
+    <div class="content-inner">
+      <!-- Form to Add Special Day -->
+      <form [formGroup]="specialDayForm" class="lunch-card">
+        <div class="day-header">
+          <h3>Adicionar Dia Especial</h3>
+          <mat-slide-toggle formControlName="isDayOff">Folga</mat-slide-toggle>
+        </div>
+
+        <div class="day-content">
+          <mat-form-field appearance="outline" class="hour-field">
+            <mat-label>Data</mat-label>
+            <input matInput type="date" formControlName="date" />
+            <mat-error *ngIf="specialDayForm.get('date')?.hasError('required')">
+              Obrigatório
+            </mat-error>
+          </mat-form-field>
+
+          <ng-container *ngIf="!specialDayForm.get('isDayOff')?.value">
+            <mat-form-field appearance="outline" class="hour-field">
+              <mat-label>Início</mat-label>
+              <input matInput type="time" formControlName="start" />
+              <mat-error *ngIf="specialDayForm.get('start')?.hasError('required')">
+                Obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="hour-field">
+              <mat-label>Fim</mat-label>
+              <input matInput type="time" formControlName="end" />
+              <mat-error *ngIf="specialDayForm.get('end')?.hasError('required')">
+                Obrigatório
+              </mat-error>
+            </mat-form-field>
+          </ng-container>
+
+          <button mat-raised-button color="primary" (click)="addSpecialDay()" [disabled]="specialDayForm.invalid">
+            Adicionar
+          </button>
+        </div>
+      </form>
+
+      <!-- List of Special Days -->
+      <div class="schedule-container" *ngIf="specialDays.length > 0">
+        <h3>Dias Cadastrados</h3>
+        <div class="days-week-container">
+          <div class="day-card" *ngFor="let day of specialDays">
+            <div class="day-header">
+              <h3>{{ day.date | date: 'dd/MM/yyyy' }}</h3>
+              <span *ngIf="day.isDayOff" class="badge-closed">Fechado</span>
+              <span *ngIf="!day.isDayOff" class="badge-open">Aberto</span>
+              <button mat-icon-button color="warn" (click)="deleteSpecialDay(day.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div class="day-content" *ngIf="!day.isDayOff">
+              <p>Horário: {{ day.start }} - {{ day.end }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <!-- Note: 'return()' logic might need adjustment if we want to go back to DayWeek correctly, 
+         currently it just decrements 'operacao' which works if DayWeek is 2 and SpecialDay is 3 -->
+    <button class="btn-continue" (click)="return()">
+      <mat-icon>arrow_backward</mat-icon> Anterior
+    </button>
+
+    <button class="btn-continue" (click)="finish()">
+      Salvar e Finalizar <mat-icon>check</mat-icon>
+    </button>
+  </div>
+</div>

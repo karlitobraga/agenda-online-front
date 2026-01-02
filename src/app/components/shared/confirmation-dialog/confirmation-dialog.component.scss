@@ -1,0 +1,29 @@
+h2 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+mat-dialog-content {
+    p {
+        font-family: 'Inter', sans-serif;
+        color: #64748b;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+}
+
+mat-dialog-actions {
+    padding-bottom: 16px;
+    padding-right: 16px;
+    gap: 8px;
+
+    button {
+        border-radius: 50px;
+        font-weight: 500;
+
+        &.btn-cancel {
+            color: #64748b;
+        }
+    }
+}

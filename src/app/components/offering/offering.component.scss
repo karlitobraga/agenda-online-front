@@ -1,0 +1,304 @@
+.offering-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+
+  h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 30px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  p.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 16px;
+
+    &.success {
+      color: #4caf50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: 600;
+    }
+  }
+}
+
+.instructions-steps {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  background: #f5f7fa;
+  padding: 20px;
+  border-radius: 12px;
+
+  .step {
+    flex: 1;
+    min-width: 150px;
+    text-align: center;
+
+    mat-icon {
+      color: #6200ea;
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #444;
+      line-height: 1.4;
+    }
+  }
+}
+
+.qrcode-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+
+  /* Prevent excessive height on small laptops */
+  max-height: 400px;
+  overflow: hidden;
+
+  .qrcode-img {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: 250px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Ensure actions buttons are always visible, not pushed off screen */
+@media (max-height: 800px) {
+  .offering-container {
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  .instructions-steps {
+    display: none;
+    /* Hide instructions on small screens to prioritize QR and buttons */
+  }
+}
+
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  /* Space out Back and Next buttons */
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+
+  .btn-continue {
+    background: linear-gradient(135deg, #6200ea 0%, #7c4dff 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(98, 0, 234, 0.3);
+
+    &:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      background: #4a00b0;
+    }
+
+    /* First button (Previous) usually should be different style, e.g., outline */
+    &:first-child {
+      background: #fff;
+      color: #666;
+      border: 1px solid #ddd;
+
+      &:hover {
+        background: #f5f5f5;
+      }
+    }
+
+    /* If it's the "Next" button (last-child), keep primary style */
+    &:last-child {
+      background: #6200ea;
+      color: white;
+      border: none;
+    }
+  }
+}
+
+.loading-state,
+.error-state,
+.connected-state {
+  text-align: center;
+  padding: 40px;
+
+  p {
+    color: #666;
+    margin-top: 15px;
+  }
+}
+
+/* Existing styles for Offering list */
+/* Existing styles for Offering list */
+.offerings-list {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  margin-bottom: 30px;
+}
+
+.offering-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .services {
+    width: 100%;
+    margin-bottom: 15px;
+
+    p {
+      margin: 8px 0;
+      color: #555;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    b {
+      color: #222;
+      font-weight: 600;
+    }
+  }
+
+  .actions {
+    /* Internal item actions */
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 0;
+    padding-top: 15px;
+    width: 100%;
+    justify-content: flex-end;
+
+    .btn-action {
+      background: #f5f5f5;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #666;
+      transition: all 0.2s;
+
+      &:hover {
+        background: #e0e0e0;
+      }
+
+      &.edit:hover {
+        color: #6200ea;
+        background: #ede7f6;
+      }
+
+      &.del:hover {
+        color: #d32f2f;
+        background: #ffebee;
+      }
+    }
+  }
+}
+
+.btn-add {
+  background: #e3f2fd;
+  color: #1976d2;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  font-weight: 500;
+
+  &:hover {
+    background: #bbdefb;
+  }
+}
+
+/* Special Days Specific Styles */
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  mat-slide-toggle {
+    margin-left: 15px;
+  }
+}
+
+.day-content {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.badge-closed {
+  background: #ffebee;
+  color: #c62828;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.badge-open {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}

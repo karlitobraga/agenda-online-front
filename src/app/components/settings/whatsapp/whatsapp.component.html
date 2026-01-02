@@ -1,0 +1,77 @@
+<div class="settings-container">
+    <div class="header">
+        <button class="btn-back" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div class="header-content">
+            <mat-icon class="header-icon">qr_code_2</mat-icon>
+            <h2>Conexão WhatsApp</h2>
+            <p class="subtitle">Gerencie a conexão do WhatsApp para agendamentos automáticos.</p>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- Connected State -->
+        <div class="status-card connected" *ngIf="isConnected">
+            <div class="status-icon success">
+                <mat-icon>check_circle</mat-icon>
+            </div>
+            <div class="status-info">
+                <h3>WhatsApp Conectado</h3>
+                <p>Seu WhatsApp está funcionando corretamente e recebendo agendamentos.</p>
+            </div>
+        </div>
+
+        <!-- Disconnected State -->
+        <div class="status-card disconnected" *ngIf="!isConnected && !loadingQrCode">
+            <div class="status-icon warning">
+                <mat-icon>warning</mat-icon>
+            </div>
+            <div class="status-info">
+                <h3>WhatsApp Desconectado</h3>
+                <p>Escaneie o QR Code abaixo para reconectar.</p>
+            </div>
+        </div>
+
+        <!-- QR Code Section -->
+        <div class="qr-section" *ngIf="!isConnected">
+            <div class="instructions" *ngIf="!loadingQrCode && qrCodeBase64">
+                <div class="step">
+                    <mat-icon>smartphone</mat-icon>
+                    <span>Abra o WhatsApp</span>
+                </div>
+                <div class="step">
+                    <mat-icon>settings</mat-icon>
+                    <span>Configurações > Aparelhos conectados</span>
+                </div>
+                <div class="step">
+                    <mat-icon>center_focus_strong</mat-icon>
+                    <span>Escaneie o código</span>
+                </div>
+            </div>
+
+            <div class="qrcode-wrapper" *ngIf="!loadingQrCode && qrCodeBase64">
+                <img [src]="qrCodeBase64" alt="QR Code WhatsApp" class="qrcode-img" />
+            </div>
+
+            <div class="loading-state" *ngIf="loadingQrCode">
+                <mat-spinner diameter="50"></mat-spinner>
+                <p>Gerando QR Code...</p>
+            </div>
+
+            <div class="error-state" *ngIf="!loadingQrCode && !qrCodeBase64 && !isConnected">
+                <mat-icon>error_outline</mat-icon>
+                <p>Erro ao carregar QR Code</p>
+                <button mat-stroked-button color="primary" (click)="loadQrCode()">
+                    <mat-icon>refresh</mat-icon> Tentar novamente
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="btn-secondary" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon> Voltar
+        </button>
+    </div>
+</div>

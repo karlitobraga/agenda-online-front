@@ -1,0 +1,11 @@
+<div class="dialog-container">
+  <div class="title-container">
+    <h2>{{data.success ? 'Alerta': 'Erro'}}</h2>
+  </div>
+  <div class="message-container">
+    <p>{{ data.message }}</p>
+  </div>
+  <div class="footer-container">
+      <button mat-button (click)="dialogRef.close()">Fechar</button>
+  </div>
+</div>

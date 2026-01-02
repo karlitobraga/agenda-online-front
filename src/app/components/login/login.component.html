@@ -1,0 +1,27 @@
+<div class="registry-container">
+    <h2>Acessar Sistema</h2>
+
+    <form (submit)="submit()" [formGroup]="formGroup" class="registry-form">
+        <div class="input-container">
+            <label for="phone">Número de celular</label>
+            <input placeholder="(00) 00000-0000" mask="(00) 00000-0000" id="phone" formControlName="phoneNumber"
+                type="text"
+                [ngClass]="{'is-invalid': formGroup.get('phoneNumber')?.touched && formGroup.get('phoneNumber')?.invalid }">
+            <div class="error" *ngIf="formGroup.get('phoneNumber')?.touched && formGroup.get('phoneNumber')?.invalid">
+                Número de celular inválido (10 ou 11 dígitos).</div>
+        </div>
+
+        <div class="input-container">
+            <label for="password">Senha</label>
+            <input id="password" type="password" formControlName="password" placeholder="Digite sua senha"
+                [ngClass]="{'is-invalid': formGroup.get('password')?.touched && formGroup.get('password')?.invalid}">
+            <div class="info"
+                [ngClass]="{'error': formGroup.get('password')?.touched && formGroup.get('password')?.invalid}">
+                Sua senha deve ter no mínimo 5 caracteres.
+            </div>
+        </div>
+
+        <button [disabled]="formGroup.invalid" [ngClass]="{'invalid': formGroup.invalid}" type="submit">Entrar
+        </button>
+    </form>
+</div>

@@ -1,0 +1,531 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+.initial-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  min-height: 100vh;
+  background: #f8fafc;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .app-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0;
+      letter-spacing: -1px;
+
+      .highlight {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    }
+
+    .header-actions {
+      button {
+        color: #64748b;
+        transition: color 0.2s;
+
+        &:hover {
+          color: #667eea;
+        }
+      }
+    }
+  }
+
+  .section-title {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #334155;
+      margin: 0;
+    }
+
+    .btn-new {
+      border-radius: 50px;
+      font-weight: 600;
+      border: 2px solid #667eea;
+      color: #667eea;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+      height: 36px;
+
+      &:hover {
+        background-color: #667eea;
+        color: white;
+      }
+
+      mat-icon {
+        margin-right: 6px;
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        line-height: normal;
+        /* Reset line-height */
+        display: flex;
+        /* Flex helps centering */
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  /* Booking Link Card */
+  .booking-link-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+
+    .link-content {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+
+      mat-icon {
+        color: white;
+        font-size: 32px;
+        width: 32px;
+        height: 32px;
+      }
+
+      .link-text {
+        flex: 1;
+        min-width: 200px;
+
+        // ...Existing styles...
+        .link-label {
+          display: block;
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 0.85rem;
+          margin-bottom: 4px;
+        }
+
+        .link-url {
+          color: white;
+          font-weight: 600;
+          font-size: 0.95rem;
+          word-break: break-all;
+        }
+      }
+
+      // ...Existing styles...
+      button {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border-color: rgba(255, 255, 255, 0.4);
+        border-radius: 50px;
+        padding: 8px 20px;
+        transition: all 0.3s;
+
+        &:hover {
+          background: white;
+          color: #667eea;
+        }
+
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+          margin-right: 6px;
+        }
+      }
+    }
+  }
+
+  // ... Warning Banner ...
+  .warning-banner {
+    background: linear-gradient(135deg, #fef3cd, #fff3e0);
+    border: 1px solid #ffc107;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
+
+    .warning-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+
+      mat-icon {
+        color: #f59e0b;
+        font-size: 36px;
+        width: 36px;
+        height: 36px;
+      }
+
+      .warning-text {
+        flex: 1;
+
+        h3 {
+          margin: 0 0 4px 0;
+          color: #92400e;
+          font-size: 1.1rem;
+          font-weight: 600;
+        }
+
+        p {
+          margin: 0;
+          color: #b45309;
+          font-size: 0.9rem;
+        }
+      }
+
+      button {
+        border-radius: 50px;
+        padding: 10px 24px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .filters {
+    display: flex;
+    justify-content: flex-start; // Align left to match title
+    margin-bottom: 32px;
+
+    .date-picker {
+      width: 100%;
+      max-width: 300px;
+
+      ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+      }
+    }
+
+    .btn-refresh {
+      margin-left: 8px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      mat-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+        line-height: 1;
+      }
+
+      &:hover {
+        background-color: #f1f5f9;
+        color: #667eea;
+      }
+    }
+  }
+
+  .schedule-list {
+
+    .empty-state {
+      // ... same ...
+      text-align: center;
+      color: #94a3b8;
+      margin-top: 60px;
+      padding: 40px;
+
+      .empty-icon {
+        font-size: 64px;
+        height: 64px;
+        width: 64px;
+        margin-bottom: 20px;
+        opacity: 0.5;
+      }
+
+      p {
+        font-size: 1.1rem;
+        font-weight: 500;
+      }
+    }
+
+    .schedule-grid {
+      display: grid;
+      // Change to auto-fit with minmax and justify to center
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 24px;
+      justify-content: center;
+
+      .schedule-card {
+        background: white;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        display: flex;
+        align-items: center;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid #f1f5f9;
+        position: relative;
+        overflow: hidden;
+
+        &.active-service {
+          border: 2px solid #667eea;
+          background: #fdfaff;
+          box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
+          transform: scale(1.02);
+
+          .card-time span {
+            color: #764ba2;
+          }
+        }
+
+        &.completed {
+          background: #f8fafc;
+          border-color: #e2e8f0;
+
+          .card-time span {
+            color: #10b981;
+          }
+
+          .card-details h3 {
+            text-decoration: line-through;
+            color: #94a3b8;
+          }
+        }
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .card-time {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding-right: 24px;
+          border-right: 2px dashed #e2e8f0;
+          min-width: 85px;
+
+          span {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #667eea;
+            letter-spacing: -1px;
+          }
+        }
+
+        .card-details {
+          flex: 1;
+          padding-left: 24px;
+
+          .active-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+
+          h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+          }
+
+          .service-name {
+            display: inline-block;
+            margin: 0 0 8px 0;
+            background-color: #e0e7ff;
+            color: #4338ca;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+
+          .phone-number {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 500;
+
+            mat-icon {
+              font-size: 18px;
+              height: 18px;
+              width: 18px;
+              color: #94a3b8;
+            }
+          }
+
+          .service-duration {
+            margin: 4px 0 0 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #667eea;
+            font-size: 0.85rem;
+            font-weight: 600;
+
+            mat-icon {
+              font-size: 16px;
+              height: 16px;
+              width: 16px;
+              color: #667eea;
+            }
+          }
+
+          .service-price {
+            margin: 4px 0 0 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #059669;
+            font-size: 0.95rem;
+            font-weight: 700;
+
+            mat-icon {
+              font-size: 18px;
+              height: 18px;
+              width: 18px;
+              color: #059669;
+            }
+          }
+        }
+
+        .card-actions {
+          display: flex;
+          flex-direction: column; // Vertical actions
+          gap: 8px;
+          margin-left: 12px;
+
+          button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+
+            mat-icon {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 22px;
+              width: 22px;
+              height: 22px;
+              line-height: 1;
+            }
+
+            &:hover {
+              background-color: #f1f5f9;
+            }
+
+            &.completed-icon mat-icon {
+              color: #10b981;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Mobile Adjustments
+@media (max-width: 768px) {
+  .initial-container {
+    padding: 16px;
+
+    .header {
+      .app-title {
+        font-size: 1.4rem;
+      }
+    }
+
+    .booking-link-card .link-content {
+      flex-direction: column;
+      text-align: center;
+
+      .link-text {
+        text-align: center;
+      }
+
+      button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    .schedule-list .schedule-grid {
+      grid-template-columns: 1fr;
+
+      .schedule-card {
+        flex-direction: column;
+        /* Stack vertically on small screens */
+        align-items: stretch;
+        /* Stretch to fill width */
+        padding: 16px;
+        /* consistent padding */
+        gap: 16px;
+
+        .card-time {
+          border-right: none;
+          border-bottom: 1px dashed #e2e8f0;
+          padding-right: 0;
+          padding-bottom: 12px;
+          flex-direction: row;
+          /* Horizontal time on mobile */
+          min-width: unset;
+        }
+
+        .card-details {
+          padding-left: 0;
+          text-align: center;
+        }
+
+        .card-actions {
+          margin-left: 0;
+          flex-direction: row;
+          justify-content: space-between;
+          gap: 12px;
+
+          button {
+            flex: 1;
+            /* evenly distributed width */
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+          }
+        }
+      }
+    }
+  }
+}

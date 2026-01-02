@@ -1,0 +1,66 @@
+<div class="settings-container">
+    <button class="btn-back" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="settings-header">
+        <h1>Configurações da Conta</h1>
+    </div>
+
+    <!-- Name Section -->
+    <mat-card class="settings-card">
+        <mat-card-header>
+            <mat-icon mat-card-avatar>store</mat-icon>
+            <mat-card-title>Nome do Estabelecimento</mat-card-title>
+            <mat-card-subtitle>Como seus clientes verão seu negócio</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="nameForm" (ngSubmit)="saveName()">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nome do Estabelecimento</mat-label>
+                    <input matInput formControlName="name" placeholder="Ex: Salão da Maria">
+                    <mat-error *ngIf="nameForm.get('name')?.hasError('required')">Nome é obrigatório</mat-error>
+                </mat-form-field>
+                <button mat-flat-button color="primary" type="submit" [disabled]="nameForm.invalid || savingName">
+                    <mat-spinner diameter="20" *ngIf="savingName"></mat-spinner>
+                    <span *ngIf="!savingName">Salvar Nome</span>
+                </button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Password Section -->
+    <mat-card class="settings-card">
+        <mat-card-header>
+            <mat-icon mat-card-avatar>lock</mat-icon>
+            <mat-card-title>Alterar Senha</mat-card-title>
+            <mat-card-subtitle>Para sua segurança, informe a senha atual</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="passwordForm" (ngSubmit)="savePassword()">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Senha Atual</mat-label>
+                    <input matInput type="password" formControlName="oldPassword" placeholder="Digite sua senha atual">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nova Senha</mat-label>
+                    <input matInput type="password" formControlName="newPassword" placeholder="Digite a nova senha">
+                    <mat-error *ngIf="passwordForm.get('newPassword')?.hasError('minlength')">Mínimo 4
+                        caracteres</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Confirmar Nova Senha</mat-label>
+                    <input matInput type="password" formControlName="confirmPassword"
+                        placeholder="Confirme a nova senha">
+                </mat-form-field>
+
+                <button mat-flat-button color="primary" type="submit"
+                    [disabled]="passwordForm.invalid || savingPassword">
+                    <mat-spinner diameter="20" *ngIf="savingPassword"></mat-spinner>
+                    <span *ngIf="!savingPassword">Alterar Senha</span>
+                </button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

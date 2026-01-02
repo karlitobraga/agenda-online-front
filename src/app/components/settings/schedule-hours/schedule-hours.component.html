@@ -1,0 +1,90 @@
+<div class="settings-container">
+    <button class="btn-back" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header">
+        <div class="header-content">
+            <mat-icon class="header-icon">schedule</mat-icon>
+            <h2>Horários de Funcionamento</h2>
+            <p class="subtitle">Configure os horários em que você está disponível para atendimento.</p>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- Lunch Break Card -->
+        <form [formGroup]="lunchForm" class="settings-card lunch-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <mat-icon>restaurant</mat-icon>
+                    <h3>Horário de Almoço</h3>
+                </div>
+                <mat-slide-toggle formControlName="active" color="primary">
+                    {{ lunchForm.get('active')?.value ? 'Ativo' : 'Desativado' }}
+                </mat-slide-toggle>
+            </div>
+
+            <div class="card-content" *ngIf="lunchForm.get('active')?.value">
+                <mat-form-field appearance="outline" class="time-field">
+                    <mat-label>Início</mat-label>
+                    <input matInput type="time" formControlName="start" />
+                    <mat-error *ngIf="lunchForm.get('start')?.hasError('required')">
+                        Obrigatório
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="time-field">
+                    <mat-label>Fim</mat-label>
+                    <input matInput type="time" formControlName="end" />
+                    <mat-error *ngIf="lunchForm.get('end')?.hasError('required')">
+                        Obrigatório
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </form>
+
+        <!-- Days of Week -->
+        <form [formGroup]="daysWeekForm" class="days-section">
+            <h3 class="section-title">Dias da Semana</h3>
+
+            <div class="days-grid" formArrayName="daysWeek">
+                <div class="day-card" *ngFor="let day of daysWeek.controls; let i = index" [formGroupName]="i">
+                    <div class="card-header">
+                        <span class="day-name">{{ day.get('day')?.value }}</span>
+                        <mat-slide-toggle formControlName="dayOff" color="warn">
+                            {{ day.get('dayOff')?.value ? 'Folga' : 'Ativo' }}
+                        </mat-slide-toggle>
+                    </div>
+
+                    <div class="card-content" *ngIf="!day.get('dayOff')?.value">
+                        <mat-form-field appearance="outline" class="time-field">
+                            <mat-label>Início</mat-label>
+                            <input matInput type="time" formControlName="start" />
+                            <mat-error *ngIf="day.get('start')?.hasError('required')">Obrigatório</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="time-field">
+                            <mat-label>Fim</mat-label>
+                            <input matInput type="time" formControlName="end" />
+                            <mat-error *ngIf="day.get('end')?.hasError('required')">Obrigatório</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="day-off-indicator" *ngIf="day.get('dayOff')?.value">
+                        <mat-icon>event_busy</mat-icon>
+                        <span>Dia de folga</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="actions">
+        <button class="btn-secondary" (click)="goBack()">
+            <mat-icon>close</mat-icon> Cancelar
+        </button>
+        <button class="btn-primary" (click)="save()" [disabled]="saving">
+            <mat-icon>{{ saving ? 'sync' : 'save' }}</mat-icon>
+            {{ saving ? 'Salvando...' : 'Salvar Alterações' }}
+        </button>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+@import '../../../../styles/colors.scss';
+
+.dialog-container {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+}
+
+.message-container {
+    padding: 1rem;
+    overflow-y: scroll;
+    line-break: anywhere;
+    max-height: 50px;
+}
+
+.footer-container {
+    padding: 1rem;
+}
+
+.title-container {
+    border-bottom: 1px solid;
+    text-align: center;
+}
+
+h2 {
+    margin: 0;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 15px;
+    border: none;
+    background-color: $color-accent;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+   &:hover {
+    background-color: $color-secondary;
+   }
+}

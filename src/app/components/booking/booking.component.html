@@ -1,0 +1,251 @@
+<div class="booking-container">
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="loading && !tenant">
+        <mat-spinner diameter="48"></mat-spinner>
+        <p>Carregando...</p>
+    </div>
+
+    <!-- Error State -->
+    <div class="error-state" *ngIf="error">
+        <mat-icon>error_outline</mat-icon>
+        <h2>Ops!</h2>
+        <p>{{ error }}</p>
+    </div>
+
+    <!-- Success State -->
+    <div class="success-state" *ngIf="bookingSuccess">
+        <div class="success-card">
+            <div class="success-icon">
+                <mat-icon>check_circle</mat-icon>
+            </div>
+            <h1>Agendamento Confirmado!</h1>
+            <p class="success-message">Seu agendamento foi realizado com sucesso.</p>
+
+            <div class="booking-details">
+                <div class="detail-row">
+                    <mat-icon>calendar_today</mat-icon>
+                    <span>{{ selectedDate | date:'EEEE, d \'de\' MMMM':'':'pt-BR' }}</span>
+                </div>
+                <div class="detail-row">
+                    <mat-icon>schedule</mat-icon>
+                    <span>{{ selectedSlot?.timeDisplay }}</span>
+                </div>
+                <div class="detail-row">
+                    <mat-icon>content_cut</mat-icon>
+                    <span>{{ getSelectedServicesNames() }}</span>
+                </div>
+            </div>
+
+            <p class="thanks-message">Obrigado por agendar conosco!</p>
+        </div>
+    </div>
+
+    <!-- Booking Flow -->
+    <div class="booking-content" *ngIf="tenant && !bookingSuccess && !error">
+        <!-- Header -->
+        <div class="booking-header">
+            <h1 class="tenant-name">{{ tenant.name }}</h1>
+            <p class="tenant-subtitle">Agende seu horário online</p>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="progress-steps">
+            <div class="step" [class.active]="currentStep >= BookingStep.ClientInfo"
+                [class.completed]="currentStep > BookingStep.ClientInfo">
+                <div class="step-number">1</div>
+                <span>Seus Dados</span>
+            </div>
+            <div class="step-line" [class.active]="currentStep > BookingStep.ClientInfo"></div>
+            <div class="step" [class.active]="currentStep >= BookingStep.SelectService"
+                [class.completed]="currentStep > BookingStep.SelectService">
+                <div class="step-number">2</div>
+                <span>Serviços</span>
+            </div>
+            <div class="step-line" [class.active]="currentStep > BookingStep.SelectService"></div>
+            <div class="step" [class.active]="currentStep >= BookingStep.SelectDateTime"
+                [class.completed]="currentStep > BookingStep.SelectDateTime">
+                <div class="step-number">3</div>
+                <span>Data/Hora</span>
+            </div>
+            <div class="step-line" [class.active]="currentStep > BookingStep.SelectDateTime"></div>
+            <div class="step" [class.active]="currentStep >= BookingStep.Confirmation">
+                <div class="step-number">4</div>
+                <span>Confirmar</span>
+            </div>
+        </div>
+
+        <!-- Step 1: Client Info -->
+        <div class="step-content" *ngIf="currentStep === BookingStep.ClientInfo">
+            <div class="step-card">
+                <h2>Seus Dados</h2>
+                <p class="step-description">Informe seu nome e WhatsApp para continuar</p>
+
+                <form [formGroup]="clientForm" (ngSubmit)="submitClientInfo()">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Seu Nome</mat-label>
+                        <input matInput formControlName="name" placeholder="Digite seu nome completo">
+                        <mat-error *ngIf="clientForm.get('name')?.hasError('required')">Nome é obrigatório</mat-error>
+                        <mat-error *ngIf="clientForm.get('name')?.hasError('minlength')">Nome muito curto</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>WhatsApp</mat-label>
+                        <input matInput formControlName="phone" placeholder="11999999999" type="tel">
+                        <mat-error *ngIf="clientForm.get('phone')?.hasError('required')">WhatsApp é
+                            obrigatório</mat-error>
+                        <mat-error *ngIf="clientForm.get('phone')?.hasError('pattern')">Número inválido (somente
+                            números)</mat-error>
+                    </mat-form-field>
+
+                    <button mat-flat-button color="primary" type="submit" [disabled]="clientForm.invalid"
+                        class="next-btn">
+                        Continuar <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Step 2: Select Services -->
+        <div class="step-content" *ngIf="currentStep === BookingStep.SelectService">
+            <div class="step-card">
+                <div class="step-header-with-back">
+                    <button mat-icon-button (click)="goBack()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    <div>
+                        <h2>Escolha os Serviços</h2>
+                        <p class="step-description">Selecione um ou mais serviços</p>
+                    </div>
+                </div>
+
+                <div class="services-grid">
+                    <div class="service-card" *ngFor="let service of services"
+                        [class.selected]="isServiceSelected(service)" (click)="toggleService(service)">
+                        <div class="service-check">
+                            <mat-icon *ngIf="isServiceSelected(service)">check_circle</mat-icon>
+                            <mat-icon *ngIf="!isServiceSelected(service)">radio_button_unchecked</mat-icon>
+                        </div>
+                        <div class="service-info">
+                            <h3>{{ service.name }}</h3>
+                            <p *ngIf="service.description">{{ service.description }}</p>
+                            <div class="service-meta">
+                                <span class="price">{{ formatPrice(service.price) }}</span>
+                                <span class="duration">{{ service.durationMinutes }} min</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="selection-summary" *ngIf="selectedServices.length > 0">
+                    <span>{{ selectedServices.length }} serviço(s) selecionado(s)</span>
+                    <span class="total">Total: {{ formatPrice(getTotalPrice()) }}</span>
+                </div>
+
+                <button mat-flat-button color="primary" (click)="confirmServices()"
+                    [disabled]="selectedServices.length === 0" class="next-btn">
+                    Continuar <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 3: Select DateTime -->
+        <div class="step-content" *ngIf="currentStep === BookingStep.SelectDateTime">
+            <div class="step-card">
+                <div class="step-header-with-back">
+                    <button mat-icon-button (click)="goBack()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    <div>
+                        <h2>Escolha a Data e Hora</h2>
+                        <p class="step-description">Selecione o melhor horário para você</p>
+                    </div>
+                </div>
+
+                <mat-form-field appearance="outline" class="full-width date-field">
+                    <mat-label>Data</mat-label>
+                    <input matInput [matDatepicker]="picker" [min]="minDate" [(ngModel)]="selectedDate"
+                        (dateChange)="onDateChange($event)">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+                <div class="slots-container">
+                    <h3>Horários Disponíveis</h3>
+
+                    <div class="loading-slots" *ngIf="loadingSlots">
+                        <mat-spinner diameter="32"></mat-spinner>
+                    </div>
+
+                    <div class="no-slots" *ngIf="!loadingSlots && availableSlots.length === 0">
+                        <mat-icon>event_busy</mat-icon>
+                        <p>Nenhum horário disponível para esta data.</p>
+                    </div>
+
+                    <div class="slots-grid" *ngIf="!loadingSlots && availableSlots.length > 0">
+                        <button class="slot-btn" *ngFor="let slot of availableSlots"
+                            [class.selected]="selectedSlot?.timeDisplay === slot.timeDisplay"
+                            (click)="selectSlot(slot)">
+                            {{ slot.timeDisplay }}
+                        </button>
+                    </div>
+                </div>
+
+                <button mat-flat-button color="primary" (click)="confirmDateTime()" [disabled]="!selectedSlot"
+                    class="next-btn">
+                    Continuar <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 4: Confirmation -->
+        <div class="step-content" *ngIf="currentStep === BookingStep.Confirmation">
+            <div class="step-card">
+                <div class="step-header-with-back">
+                    <button mat-icon-button (click)="goBack()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    <div>
+                        <h2>Confirme seu Agendamento</h2>
+                        <p class="step-description">Revise os detalhes antes de confirmar</p>
+                    </div>
+                </div>
+
+                <div class="confirmation-details">
+                    <div class="detail-group">
+                        <h4>Seus Dados</h4>
+                        <p><strong>Nome:</strong> {{ clientForm.value.name }}</p>
+                        <p><strong>WhatsApp:</strong> {{ clientForm.value.phone }}</p>
+                    </div>
+
+                    <div class="detail-group">
+                        <h4>Serviços</h4>
+                        <ul>
+                            <li *ngFor="let service of selectedServices">
+                                {{ service.name }} - {{ formatPrice(service.price) }}
+                            </li>
+                        </ul>
+                        <p class="total-price"><strong>Total:</strong> {{ formatPrice(getTotalPrice()) }}</p>
+                    </div>
+
+                    <div class="detail-group">
+                        <h4>Data e Hora</h4>
+                        <p>{{ selectedDate | date:'EEEE, d \'de\' MMMM \'de\' yyyy':'':'pt-BR' }}</p>
+                        <p class="selected-time">{{ selectedSlot?.timeDisplay }}</p>
+                    </div>
+                </div>
+
+                <button mat-flat-button color="primary" (click)="confirmBooking()" [disabled]="loading"
+                    class="confirm-btn">
+                    <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+                    <span *ngIf="!loading">Confirmar Agendamento</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Branding -->
+    <div class="booking-footer" *ngIf="tenant">
+        <span>Powered by</span>
+        <span class="brand">agende<span class="highlight">hora</span></span>
+    </div>
+</div>

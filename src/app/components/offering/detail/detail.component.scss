@@ -1,0 +1,70 @@
+@import '../../../../styles/colors.scss';
+
+h2 {
+  color: $color-primary;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.detail-container {
+    border-radius: $border-radius;
+    padding: 10px;
+}
+
+.detail-form {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    color: $color-text-primary;
+}
+
+input {
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid $color-accent;
+    outline: none;
+    font-size: 13px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.btn-continue {
+  background-color: $color-success;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: $border-radius;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  box-shadow: $shadow-card;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: darken($color-success, 5%);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &.invalid {
+    background-color: $color-text-secondary;
+   }
+}
+
+.error {
+    color: $color-error;
+    font-size: 11px;
+}

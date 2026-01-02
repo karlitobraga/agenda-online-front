@@ -1,0 +1,56 @@
+<div class="services-container">
+    <div class="header">
+        <mat-icon class="header-icon">list_alt</mat-icon>
+        <h2>Cadastrar Serviços</h2>
+        <p class="subtitle">Adicione os serviços que você oferece. Seus clientes poderão agendar esses serviços via
+            WhatsApp.</p>
+    </div>
+
+    <button class="btn-add" (click)="openDetail()">
+        <mat-icon>add_circle</mat-icon>
+        <span>Adicionar Novo Serviço</span>
+    </button>
+
+    <div class="services-list" *ngIf="offerings.length > 0">
+        <div class="service-card" *ngFor="let offering of offerings">
+            <div class="service-info">
+                <div class="service-name">{{ offering.name }}</div>
+                <div class="service-details">
+                    <span class="detail-item">
+                        <mat-icon>schedule</mat-icon>
+                        {{ offering.executionTime }} min
+                    </span>
+                    <span class="detail-item price">
+                        <mat-icon>attach_money</mat-icon>
+                        R$ {{ offering.price | number:'1.2-2' }}
+                    </span>
+                </div>
+            </div>
+            <div class="service-actions">
+                <button class="btn-icon edit" (click)="openDetail(offering)" title="Editar">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button class="btn-icon delete" (click)="deleteService(offering)" [disabled]="offerings.length <= 1"
+                    title="Excluir">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="empty-state" *ngIf="offerings.length === 0">
+        <mat-icon>inbox</mat-icon>
+        <h3>Nenhum serviço cadastrado</h3>
+        <p>Comece adicionando o primeiro serviço que você oferece.</p>
+    </div>
+
+    <div class="actions">
+        <button class="btn-secondary" *ngIf="showBackButton" (click)="onBack()">
+            <mat-icon>arrow_back</mat-icon> Voltar
+        </button>
+        <div class="spacer" *ngIf="!showBackButton"></div>
+        <button class="btn-primary" [disabled]="!canContinue" (click)="onContinue()">
+            Finalizar Configuração <mat-icon>check</mat-icon>
+        </button>
+    </div>
+</div>

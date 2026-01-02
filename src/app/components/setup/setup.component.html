@@ -1,0 +1,13 @@
+<div class="setup-container">
+    <!-- Header -->
+    <div class="setup-header">
+        <h1>Configuração Inicial</h1>
+        <p>Cadastre seus serviços para começar a receber agendamentos</p>
+    </div>
+
+    <!-- Step Content -->
+    <div class="step-content">
+        <app-services [showBackButton]="false" (completed)="onServicesCompleted()">
+        </app-services>
+    </div>
+</div>

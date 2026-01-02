@@ -1,0 +1,150 @@
+<div class="initial-container">
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <h1 class="app-title">agende<span class="highlight">hora</span></h1>
+        </div>
+        <div class="header-actions">
+            <button mat-icon-button [matMenuTriggerFor]="settingsMenu" title="Configurações">
+                <mat-icon>settings</mat-icon>
+            </button>
+            <mat-menu #settingsMenu="matMenu">
+                <button mat-menu-item (click)="goToSettings('services')">
+                    <mat-icon>list_alt</mat-icon>
+                    <span>Serviços</span>
+                </button>
+                <button mat-menu-item (click)="goToSettings('hours')">
+                    <mat-icon>schedule</mat-icon>
+                    <span>Horários</span>
+                </button>
+                <button mat-menu-item (click)="goToSettings('holidays')">
+                    <mat-icon>event_busy</mat-icon>
+                    <span>Feriados</span>
+                </button>
+                <button mat-menu-item (click)="goToSettings('account')">
+                    <mat-icon>person</mat-icon>
+                    <span>Conta</span>
+                </button>
+                <button mat-menu-item (click)="goToSettings('reports')">
+                    <mat-icon>bar_chart</mat-icon>
+                    <span>Relatórios</span>
+                </button>
+                <mat-divider></mat-divider>
+                <button mat-menu-item (click)="copyBookingLink()">
+                    <mat-icon>link</mat-icon>
+                    <span>Copiar Link de Agendamento</span>
+                </button>
+                <mat-divider></mat-divider>
+                <button mat-menu-item (click)="logout()">
+                    <mat-icon>logout</mat-icon>
+                    <span>Sair</span>
+                </button>
+            </mat-menu>
+        </div>
+    </div>
+
+    <!-- Warning Banner -->
+    <div class="warning-banner" *ngIf="showConfigWarning">
+        <div class="warning-content">
+            <mat-icon>warning</mat-icon>
+            <div class="warning-text">
+                <h3>Cadastre seus Serviços</h3>
+                <p>O sistema precisa que você cadastre pelo menos um serviço para começar.</p>
+            </div>
+            <button mat-flat-button color="warn" (click)="goToConfiguration()">Configurar Agora</button>
+        </div>
+    </div>
+
+    <!-- Booking Link Card -->
+    <div class="booking-link-card" *ngIf="!showConfigWarning">
+        <div class="link-content">
+            <mat-icon>share</mat-icon>
+            <div class="link-text">
+                <span class="link-label">Seu link de agendamento:</span>
+                <span class="link-url">{{ bookingUrl }}</span>
+            </div>
+            <button mat-stroked-button (click)="copyBookingLink()">
+                <mat-icon>content_copy</mat-icon>
+                Copiar
+            </button>
+        </div>
+    </div>
+
+    <!-- Title & Action -->
+    <div class="section-title">
+        <h2>Meus Agendamentos</h2>
+        <button mat-stroked-button color="primary" class="btn-new" (click)="openBookingModal()">
+            <mat-icon>add</mat-icon> Novo
+        </button>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+        <mat-form-field appearance="outline" class="date-picker">
+            <mat-label>Selecione uma data</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="onDateChange($event)">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <button mat-icon-button (click)="loadSchedules()" class="btn-refresh" title="Recarregar Lista">
+            <mat-icon>refresh</mat-icon>
+        </button>
+    </div>
+
+    <!-- Content -->
+    <div class="schedule-list">
+        <div class="empty-state" *ngIf="schedules.length === 0">
+            <mat-icon class="empty-icon">event_busy</mat-icon>
+            <p>Nenhum agendamento para este dia.</p>
+        </div>
+
+        <div class="schedule-grid" *ngIf="schedules.length > 0">
+            <div class="schedule-card" *ngFor="let schedule of schedules; let i = index"
+                [class.completed]="schedule.completed" [class.active-service]="i === 0 && !schedule.completed">
+                <div class="card-time">
+                    <span>{{ schedule.date | date:'HH:mm' }}</span>
+                </div>
+
+                <div class="card-details">
+                    <div class="active-badge" *ngIf="i === 0 && !schedule.completed">Em Execução</div>
+                    <h3>{{ schedule.clientName || 'Cliente sem nome' }}</h3>
+
+                    <!-- List all offerings -->
+                    <div class="services-list">
+                        <p class="service-name" *ngFor="let offering of schedule.offerings">
+                            {{ offering.name }}
+                        </p>
+                    </div>
+
+                    <p class="phone-number" *ngIf="schedule.phoneNumber">
+                        <mat-icon>phone</mat-icon> {{ schedule.phoneNumber }}
+                    </p>
+
+                    <!-- Total duration -->
+                    <p class="service-duration">
+                        <mat-icon>timer</mat-icon> {{ getScheduleDuration(schedule) }} min
+                    </p>
+
+                    <!-- Total price -->
+                    <p class="service-price" *ngIf="getSchedulePrice(schedule) > 0">
+                        <mat-icon>attach_money</mat-icon> R$ {{ getSchedulePrice(schedule) | number:'1.2-2' }}
+                    </p>
+                </div>
+
+                <div class="card-actions">
+                    <button mat-icon-button color="primary" *ngIf="!schedule.completed"
+                        (click)="completeSchedule(schedule)" title="Concluir Atendimento">
+                        <mat-icon>check_circle_outline</mat-icon>
+                    </button>
+                    <button mat-icon-button class="completed-icon" *ngIf="schedule.completed" disabled>
+                        <mat-icon>check_circle</mat-icon>
+                    </button>
+
+                    <button mat-icon-button color="warn" (click)="deleteSchedule(schedule)" title="Excluir Agendamento">
+                        <mat-icon>delete_outline</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

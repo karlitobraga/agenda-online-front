@@ -1,0 +1,49 @@
+<div class="detail-container">
+    <h2>{{isEditMode ? 'Editar serviço' : 'Novo serviço'}}</h2>
+    <form class="detail-form" [formGroup]="formGroup">
+        <div class="input-container">
+            <label for="name">Nome do serviço</label>
+            <input
+                id="name" 
+                type="text" 
+                formControlName="name"
+                placeholder="Digite o nome do serviço">
+            <div 
+                class="error" 
+                *ngIf="formGroup.get('name')?.touched && formGroup.get('name')?.invalid">
+                    O nome do serviço é obrigatório.</div>
+        </div>
+         <div class="input-container">
+            <label for="duration">Duração (em minutos)</label>
+            <input
+                id="duration" 
+                type="number"
+                maxlength="3"
+                formControlName="duration"
+                placeholder="Em quantos minutos fica pronto?">
+            <div 
+                class="error" 
+                *ngIf="formGroup.get('duration')?.touched && formGroup.get('duration')?.invalid">
+                    A duração do serviço é obrigatória</div>
+        </div>
+         <div class="input-container">
+            <label for="price">Valor do serviço</label>
+            <input
+                id="price" 
+                type="text" 
+                formControlName="price"
+                placeholder="Quanto você cobra?"
+                mask="separator.2" 
+                thousandSeparator="." 
+                decimalMarker="," >
+             <div 
+                class="error" 
+                *ngIf="formGroup.get('price')?.touched && formGroup.get('price')?.invalid">
+                    O preço do serviço é obrigatório.</div>
+        </div>
+    </form>
+    <button [disabled]="formGroup.invalid"
+            [ngClass]="{'invalid': formGroup.invalid}"
+            class="btn-continue"
+            (click)="salvar()">Salvar</button>
+</div>

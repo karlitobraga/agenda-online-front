@@ -1,0 +1,30 @@
+/* 🎨 Paleta principal do TinyPet */
+$color-primary: #7B61FF;      // Roxo vibrante
+$color-secondary: #A890FF;    // Roxo claro (hover, destaques)
+$color-accent: #FF9FE5;       // Rosa pastel (botões de ação)
+$color-success: #6EE7B7;      // Verde menta
+$color-warning: #FACC15;      // Amarelo suave
+$color-error: #F87171;        // Vermelho suave
+
+/* 🧩 Cores de fundo e superfícies */
+$color-background: #F6F5FA;   // Fundo geral
+$color-surface: #FFFFFF;      // Cartões, inputs, modais
+$color-header-gradient: linear-gradient(135deg, #7B61FF 0%, #A890FF 100%);
+
+/* ✍️ Cores de texto */
+$color-text-primary: #2D2D2D;
+$color-text-secondary: #6B7280;
+
+/* 🌙 Tema escuro (opcional) */
+$dark-background: #1E1B2E;
+$dark-surface: #2B2540;
+$dark-text-primary: #E5E7EB;
+$dark-primary: #A78BFA;
+$dark-secondary: #C4B5FD;
+
+/* 💠 Sombra e bordas */
+$shadow-card: 0 4px 10px rgba(0, 0, 0, 0.08);
+$border-radius: 1rem;
+
+/* 🐾 Fonte padrão */
+$font-family: 'Poppins', 'Nunito', 'Quicksand', sans-serif;

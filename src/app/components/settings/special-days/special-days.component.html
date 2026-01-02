@@ -1,0 +1,95 @@
+<div class="settings-container">
+    <div class="header">
+        <button class="btn-back" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div class="header-content">
+            <mat-icon class="header-icon">event_busy</mat-icon>
+            <h2>Dias Especiais e Feriados</h2>
+            <p class="subtitle">Configure dias em que você terá horários diferenciados ou estará fechado.</p>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- Add Special Day Form -->
+        <form [formGroup]="specialDayForm" class="settings-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <mat-icon>add_circle</mat-icon>
+                    <h3>Adicionar Dia Especial</h3>
+                </div>
+                <mat-slide-toggle formControlName="isDayOff" color="warn">
+                    {{ specialDayForm.get('isDayOff')?.value ? 'Fechado' : 'Horário Especial' }}
+                </mat-slide-toggle>
+            </div>
+
+            <div class="card-content">
+                <mat-form-field appearance="outline" class="date-field">
+                    <mat-label>Data</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="date" [min]="minDate" />
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="specialDayForm.get('date')?.hasError('required')">
+                        Obrigatório
+                    </mat-error>
+                </mat-form-field>
+
+                <ng-container *ngIf="!specialDayForm.get('isDayOff')?.value">
+                    <mat-form-field appearance="outline" class="time-field">
+                        <mat-label>Início</mat-label>
+                        <input matInput type="time" formControlName="start" />
+                        <mat-error *ngIf="specialDayForm.get('start')?.hasError('required')">
+                            Obrigatório
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="time-field">
+                        <mat-label>Fim</mat-label>
+                        <input matInput type="time" formControlName="end" />
+                        <mat-error *ngIf="specialDayForm.get('end')?.hasError('required')">
+                            Obrigatório
+                        </mat-error>
+                    </mat-form-field>
+                </ng-container>
+
+                <div class="time-error" *ngIf="specialDayForm.hasError('timeRangeInvalid')">
+                    O horário inicial deve ser menor que o final
+                </div>
+
+                <button class="btn-add" (click)="addSpecialDay()" [disabled]="specialDayForm.invalid">
+                    <mat-icon>add</mat-icon> Adicionar
+                </button>
+            </div>
+        </form>
+
+        <!-- List of Special Days -->
+        <div class="special-days-list" *ngIf="specialDays.length > 0">
+            <h3 class="section-title">Dias Cadastrados</h3>
+
+            <div class="special-day-card" *ngFor="let day of specialDays">
+                <div class="day-info">
+                    <span class="day-date">{{ day.date | date: 'dd/MM/yyyy' }}</span>
+                    <span class="day-status" [class.closed]="day.isDayOff" [class.open]="!day.isDayOff">
+                        {{ day.isDayOff ? 'Fechado' : 'Horário Especial' }}
+                    </span>
+                    <span class="day-hours" *ngIf="!day.isDayOff">{{ day.start }} - {{ day.end }}</span>
+                </div>
+                <button class="btn-delete" (click)="deleteSpecialDay(day.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="empty-state" *ngIf="specialDays.length === 0">
+            <mat-icon>event_available</mat-icon>
+            <h3>Nenhum dia especial cadastrado</h3>
+            <p>Adicione feriados ou dias com horários diferenciados.</p>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button mat-stroked-button (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon> Voltar
+        </button>
+    </div>
+</div>

@@ -1,0 +1,328 @@
+.subscription-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.subscription-card {
+    background: white;
+    border-radius: 24px;
+    padding: 32px 24px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.card-header {
+    margin-bottom: 24px;
+
+    .logo-circle {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+
+        mat-icon {
+            font-size: 36px;
+            width: 36px;
+            height: 36px;
+            color: white;
+        }
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0 0 8px 0;
+    }
+
+    .subtitle {
+        font-size: 0.95rem;
+        color: #666;
+        margin: 0;
+    }
+}
+
+.alert-box {
+    background-color: #fff3e0;
+    color: #e65100;
+    padding: 14px 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+    text-align: left;
+
+    mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    span {
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1.4;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+}
+
+.benefits-section {
+    text-align: left;
+    margin-bottom: 24px;
+
+    h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 16px 0;
+    }
+}
+
+.benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid #f0f0f0;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        mat-icon {
+            color: #4caf50;
+            font-size: 22px;
+            width: 22px;
+            height: 22px;
+            min-width: 22px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        span {
+            font-size: 0.95rem;
+            color: #444;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.4;
+        }
+    }
+}
+
+.price-section {
+    margin: 28px 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2px;
+
+    .currency {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+        margin-top: 8px;
+    }
+
+    .price-value {
+        font-size: 4rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        line-height: 1;
+    }
+
+    .cents {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #333;
+        margin-top: 8px;
+    }
+
+    .period {
+        font-size: 1rem;
+        color: #888;
+        font-weight: 400;
+        align-self: flex-end;
+        margin-bottom: 8px;
+        margin-left: 4px;
+    }
+}
+
+.subscribe-btn {
+    width: 100%;
+    height: 56px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Result Cards */
+.result-card {
+    padding: 40px 24px;
+
+    .result-icon {
+        margin-bottom: 20px;
+
+        mat-icon {
+            font-size: 72px;
+            width: 72px;
+            height: 72px;
+        }
+    }
+
+    .success-icon mat-icon {
+        color: #4caf50;
+    }
+
+    .error-icon mat-icon {
+        color: #f44336;
+    }
+
+    .pending-icon mat-icon {
+        color: #ff9800;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0 0 12px 0;
+    }
+
+    p {
+        font-size: 1rem;
+        color: #666;
+        margin: 0 0 28px 0;
+        line-height: 1.5;
+    }
+
+    .action-btn {
+        width: 100%;
+        height: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 12px;
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+    .subscription-container {
+        padding: 16px;
+        align-items: flex-start;
+        padding-top: 40px;
+    }
+
+    .subscription-card {
+        padding: 24px 20px;
+        border-radius: 20px;
+    }
+
+    .card-header {
+        .logo-circle {
+            width: 60px;
+            height: 60px;
+
+            mat-icon {
+                font-size: 30px;
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+        h1 {
+            font-size: 1.3rem;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+        }
+    }
+
+    .alert-box {
+        padding: 12px;
+
+        mat-icon {
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+        }
+
+        span {
+            font-size: 0.85rem;
+        }
+    }
+
+    .benefits-list li {
+        padding: 8px 0;
+
+        mat-icon {
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+        }
+
+        span {
+            font-size: 0.9rem;
+        }
+    }
+
+    .price-section {
+        margin: 24px 0;
+
+        .price-value {
+            font-size: 3rem;
+        }
+
+        .currency,
+        .cents {
+            margin-top: 5px;
+        }
+    }
+
+    .subscribe-btn {
+        height: 52px;
+        font-size: 0.95rem;
+    }
+
+    .result-card {
+        .result-icon mat-icon {
+            font-size: 60px;
+            width: 60px;
+            height: 60px;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+        }
+
+        p {
+            font-size: 0.95rem;
+        }
+    }
+}

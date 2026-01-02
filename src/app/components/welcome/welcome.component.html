@@ -1,0 +1,47 @@
+<div class="welcome-container">
+  <div class="content-wrapper">
+    <div class="header">
+      <h1 class="app-title">agende<span class="highlight">hora</span></h1>
+      <p class="subtitle">Organize, automatize e simplifique seus agendamentos em poucos passos.</p>
+    </div>
+
+    <div class="cta-top">
+      <button mat-stroked-button color="primary" (click)="startConfiguration()">
+        Iniciar Configuração <mat-icon>settings</mat-icon>
+      </button>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon-circle">
+          <mat-icon>list_alt</mat-icon>
+        </div>
+        <h3>Seus Serviços</h3>
+        <p>Cadastre seus serviços com preços e duração personalizados.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon-circle">
+          <mat-icon>link</mat-icon>
+        </div>
+        <h3>Link de Agendamento</h3>
+        <p>Compartilhe um link único para seus clientes agendarem online.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon-circle">
+          <mat-icon>event_available</mat-icon>
+        </div>
+        <h3>Agenda Inteligente</h3>
+        <p>Controle total dos horários e visualize sua agenda em tempo real.</p>
+      </div>
+    </div>
+
+    <div class="cta-section">
+      <p>Vamos configurar seu ambiente para começar a receber agendamentos?</p>
+      <button mat-flat-button color="primary" class="btn-start" (click)="startConfiguration()">
+        Começar Configuração <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

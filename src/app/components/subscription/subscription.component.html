@@ -1,0 +1,87 @@
+<div class="subscription-container">
+    <!-- EXPIRED / PAYWALL STATE -->
+    <div class="subscription-card" *ngIf="status === 'expired' || status === 'init'">
+        <div class="card-header">
+            <div class="logo-circle">
+                <mat-icon>verified</mat-icon>
+            </div>
+            <h1>Assinatura AgendeHora</h1>
+            <p class="subtitle">Desbloqueie todo o potencial do seu negócio</p>
+        </div>
+
+        <div class="alert-box">
+            <mat-icon>warning</mat-icon>
+            <span>Seu período de teste acabou. Assine para continuar.</span>
+        </div>
+
+        <div class="benefits-section">
+            <h3>O que você ganha:</h3>
+            <ul class="benefits-list">
+                <li>
+                    <mat-icon>check_circle</mat-icon>
+                    <span>Agendamentos Ilimitados</span>
+                </li>
+                <li>
+                    <mat-icon>check_circle</mat-icon>
+                    <span>Integração com WhatsApp</span>
+                </li>
+                <li>
+                    <mat-icon>check_circle</mat-icon>
+                    <span>Gestão de Serviços e Horários</span>
+                </li>
+                <li>
+                    <mat-icon>check_circle</mat-icon>
+                    <span>Suporte Prioritário</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="price-section">
+            <span class="currency">R$</span>
+            <span class="price-value">30</span>
+            <span class="cents">,00</span>
+            <span class="period">/mês</span>
+        </div>
+
+        <button mat-flat-button color="primary" class="subscribe-btn" (click)="subscribe()" [disabled]="isLoading">
+            <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+            <span *ngIf="!isLoading">ASSINAR AGORA</span>
+        </button>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="subscription-card result-card success" *ngIf="status === 'success'">
+        <div class="result-icon success-icon">
+            <mat-icon>check_circle</mat-icon>
+        </div>
+        <h2>Pagamento Confirmado!</h2>
+        <p>Sua assinatura está ativa. Obrigado por confiar no AgendeHora.</p>
+        <button mat-flat-button color="primary" class="action-btn" (click)="continue()">
+            CONTINUAR PARA O SISTEMA
+        </button>
+    </div>
+
+    <!-- FAILURE STATE -->
+    <div class="subscription-card result-card failure" *ngIf="status === 'failure'">
+        <div class="result-icon error-icon">
+            <mat-icon>error</mat-icon>
+        </div>
+        <h2>Pagamento Recusado</h2>
+        <p>Houve um problema com seu pagamento. Por favor, tente novamente.</p>
+        <button mat-stroked-button class="action-btn" (click)="retry()">
+            TENTAR NOVAMENTE
+        </button>
+    </div>
+
+    <!-- PENDING STATE -->
+    <div class="subscription-card result-card pending" *ngIf="status === 'pending'">
+        <div class="result-icon pending-icon">
+            <mat-icon>hourglass_empty</mat-icon>
+        </div>
+        <h2>Pagamento Pendente</h2>
+        <p>Estamos processando seu pagamento. Assim que confirmado, seu acesso será liberado.</p>
+        <button mat-stroked-button class="action-btn" (click)="continue()">
+            VERIFICAR E CONTINUAR
+        </button>
+    </div>
+</div>
