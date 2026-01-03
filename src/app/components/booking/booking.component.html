@@ -44,6 +44,11 @@
     <div class="booking-content" *ngIf="tenant && !bookingSuccess && !error">
         <!-- Header -->
         <div class="booking-header">
+            <div class="logo-container" *ngIf="tenant.logoUrl">
+                <div class="logo-wrapper">
+                    <img [src]="tenant.logoUrl" [alt]="tenant.name">
+                </div>
+            </div>
             <h1 class="tenant-name">{{ tenant.name }}</h1>
             <p class="tenant-subtitle">Agende seu horário online</p>
         </div>

@@ -28,6 +28,46 @@
         </mat-card-content>
     </mat-card>
 
+    <!-- Theme Section -->
+    <mat-card class="settings-card">
+        <mat-card-header>
+            <mat-icon mat-card-avatar>palette</mat-icon>
+            <mat-card-title>Personalização</mat-card-title>
+            <mat-card-subtitle>Configure a identidade visual do seu sistema</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="themeForm" (ngSubmit)="saveTheme()">
+                <div class="theme-inputs">
+                    <div class="color-picker-container">
+                        <mat-label>Cor Principal</mat-label>
+                        <div class="picker-wrapper">
+                            <input type="color" formControlName="themeColor" class="color-picker">
+                            <span class="color-hex">{{ themeForm.get('themeColor')?.value }}</span>
+                        </div>
+                    </div>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>URL do Logo (Imagem)</mat-label>
+                        <input matInput formControlName="logoUrl" placeholder="https://exemplo.com/logo.png">
+                        <mat-hint>O logo aparecerá redondo na tela de agendamento</mat-hint>
+                    </mat-form-field>
+
+                    <div class="logo-preview" *ngIf="themeForm.get('logoUrl')?.value">
+                        <p>Pré-visualização do Logo:</p>
+                        <div class="logo-wrapper">
+                            <img [src]="themeForm.get('logoUrl')?.value" alt="Logo Preview" (error)="$any($event.target).style.display='none'">
+                        </div>
+                    </div>
+                </div>
+
+                <button mat-flat-button color="primary" type="submit" [disabled]="savingTheme">
+                    <mat-spinner diameter="20" *ngIf="savingTheme"></mat-spinner>
+                    <span *ngIf="!savingTheme">Salvar Personalização</span>
+                </button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
     <!-- Password Section -->
     <mat-card class="settings-card">
         <mat-card-header>

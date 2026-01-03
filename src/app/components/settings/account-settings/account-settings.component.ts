@@ -33,6 +33,7 @@ import { environment } from '../../../../environments/environment';
 export class AccountSettingsComponent implements OnInit {
     nameForm: FormGroup;
     passwordForm: FormGroup;
+    themeForm: FormGroup;
 
     tenantId: string = '';
     tenantName: string = '';
@@ -40,6 +41,7 @@ export class AccountSettingsComponent implements OnInit {
 
     savingName = false;
     savingPassword = false;
+    savingTheme = false;
     generatingLink = false;
 
     constructor(
@@ -57,6 +59,11 @@ export class AccountSettingsComponent implements OnInit {
             newPassword: ['', [Validators.required, Validators.minLength(4)]],
             confirmPassword: ['', [Validators.required]]
         });
+
+        this.themeForm = this.fb.group({
+            themeColor: ['#667eea'],
+            logoUrl: ['']
+        });
     }
 
     ngOnInit(): void {
@@ -73,6 +80,10 @@ export class AccountSettingsComponent implements OnInit {
             next: (tenant) => {
                 this.tenantName = tenant.name;
                 this.nameForm.patchValue({ name: tenant.name });
+                this.themeForm.patchValue({
+                    themeColor: tenant.themeColor || '#667eea',
+                    logoUrl: tenant.logoUrl || ''
+                });
             }
         });
     }
@@ -131,6 +142,23 @@ export class AccountSettingsComponent implements OnInit {
             error: (err) => {
                 this.snackBar.open(err.error?.message || 'Erro ao gerar link', 'Fechar', { duration: 3000 });
                 this.generatingLink = false;
+            }
+        });
+    }
+
+    saveTheme() {
+        this.savingTheme = true;
+        this.http.put(`${environment.apiUrl}/Auth/Tenant/${this.tenantId}/theme`, {
+            themeColor: this.themeForm.value.themeColor,
+            logoUrl: this.themeForm.value.logoUrl
+        }).subscribe({
+            next: () => {
+                this.snackBar.open('Tema atualizado com sucesso!', 'Fechar', { duration: 3000 });
+                this.savingTheme = false;
+            },
+            error: (err) => {
+                this.snackBar.open(err.error?.message || 'Erro ao atualizar tema', 'Fechar', { duration: 3000 });
+                this.savingTheme = false;
             }
         });
     }
