@@ -11,18 +11,19 @@ export const AuthGuard: CanActivateFn = (route, state) => {
     let tenantId = localStorage.getItem("tenantId");
 
     if (token && tenantId) {
+      /* 
       // Check subscription status
       const subscriptionStatus = localStorage.getItem('subscriptionStatus');
 
       // If status is 'EXPIRED' and not navigating to subscription/payment pages
       if (subscriptionStatus === 'EXPIRED') {
         // Allow access to subscription and payment output pages
-        // state.url includes params? Yes.
         if (!state.url.includes('subscription') && !state.url.includes('payment/')) {
           router.navigate(['/subscription']);
           return false;
         }
       }
+      */
       // If status is 'true' and trying to access subscription (optional: redirect to home? No, maybe they want to update payment)
 
       return true;

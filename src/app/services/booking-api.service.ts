@@ -8,7 +8,7 @@ export interface TenantPublic {
     name: string;
     slug: string;
     themeColor?: string;
-    logoUrl?: string;
+    logoBase64?: string;
 }
 
 export interface ServicePublic {

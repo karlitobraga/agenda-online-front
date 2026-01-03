@@ -46,16 +46,20 @@
                         </div>
                     </div>
 
-                    <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>URL do Logo (Imagem)</mat-label>
-                        <input matInput formControlName="logoUrl" placeholder="https://exemplo.com/logo.png">
-                        <mat-hint>O logo aparecerá redondo na tela de agendamento</mat-hint>
-                    </mat-form-field>
+                    <div class="file-upload-container">
+                        <mat-label>Sua Foto de Perfil</mat-label>
+                        <input type="file" (change)="handleFileInput($event)" accept="image/*" class="file-input"
+                            #fileInput>
+                        <button type="button" mat-stroked-button (click)="fileInput.click()" class="upload-btn">
+                            <mat-icon>upload</mat-icon> Selecionar Foto
+                        </button>
+                        <mat-hint>A foto ficará redonda na tela de agendamento</mat-hint>
+                    </div>
 
-                    <div class="logo-preview" *ngIf="themeForm.get('logoUrl')?.value">
-                        <p>Pré-visualização do Logo:</p>
+                    <div class="logo-preview" *ngIf="themeForm.get('logoBase64')?.value">
+                        <p>Pré-visualização do Perfil:</p>
                         <div class="logo-wrapper">
-                            <img [src]="themeForm.get('logoUrl')?.value" alt="Logo Preview" (error)="$any($event.target).style.display='none'">
+                            <img [src]="themeForm.get('logoBase64')?.value" alt="Profile Preview">
                         </div>
                     </div>
                 </div>

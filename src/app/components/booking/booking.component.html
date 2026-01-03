@@ -42,11 +42,11 @@
 
     <!-- Booking Flow -->
     <div class="booking-content" *ngIf="tenant && !bookingSuccess && !error">
-        <!-- Header -->
+        <!-- Header (Instagram Style Profile) -->
         <div class="booking-header">
-            <div class="logo-container" *ngIf="tenant.logoUrl">
-                <div class="logo-wrapper">
-                    <img [src]="tenant.logoUrl" [alt]="tenant.name">
+            <div class="profile-container" *ngIf="tenant.logoBase64">
+                <div class="profile-wrapper">
+                    <img [src]="tenant.logoBase64" [alt]="tenant.name">
                 </div>
             </div>
             <h1 class="tenant-name">{{ tenant.name }}</h1>

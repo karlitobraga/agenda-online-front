@@ -7,7 +7,10 @@
 
     <!-- Step Content -->
     <div class="step-content">
-        <app-services [showBackButton]="false" (completed)="onServicesCompleted()">
+        <app-services *ngIf="currentStep === 'services'" [showBackButton]="false" (completed)="onServicesCompleted()">
         </app-services>
+
+        <app-setup-theme *ngIf="currentStep === 'theme'" (completed)="onSetupCompleted()" (back)="onThemeBack()">
+        </app-setup-theme>
     </div>
 </div>

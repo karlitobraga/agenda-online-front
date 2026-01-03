@@ -135,6 +135,35 @@
                 }
 
                 .logo-preview {
+                    .file-upload-container {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+
+                        mat-label {
+                            font-size: 0.85rem;
+                            color: rgba(0, 0, 0, 0.6);
+                            font-weight: 500;
+                        }
+
+                        .file-input {
+                            display: none;
+                        }
+
+                        .upload-btn {
+                            border-radius: 8px;
+                            height: 48px;
+                            color: #64748b;
+                            border-style: dashed;
+                            border-width: 2px;
+                        }
+
+                        mat-hint {
+                            font-size: 0.75rem;
+                            color: rgba(0, 0, 0, 0.4);
+                        }
+                    }
+
                     p {
                         font-size: 0.85rem;
                         color: rgba(0, 0, 0, 0.6);
@@ -142,15 +171,28 @@
                     }
 
                     .logo-wrapper {
-                        width: 100px;
-                        height: 100px;
+                        width: 120px;
+                        height: 120px;
                         border-radius: 50%;
                         overflow: hidden;
-                        border: 3px solid #e2e8f0;
+                        border: 4px solid white;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         background: #f8fafc;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                        position: relative;
+
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            top: -8px;
+                            left: -8px;
+                            right: -8px;
+                            bottom: -8px;
+                            border-radius: 50%;
+                            border: 2px solid #e2e8f0;
+                        }
 
                         img {
                             width: 100%;

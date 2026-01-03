@@ -1,0 +1,45 @@
+<div class="theme-setup-container">
+    <div class="setup-section">
+        <h2>Personalize sua Agenda</h2>
+        <p>Escolha a cor que melhor combina com seu negócio e adicione uma foto de perfil para seus clientes.</p>
+
+        <form [formGroup]="themeForm">
+            <div class="theme-inputs">
+                <!-- Color Picker -->
+                <div class="input-group">
+                    <label>Cor Principal</label>
+                    <div class="picker-wrapper">
+                        <input type="color" formControlName="themeColor" class="color-picker">
+                        <span class="color-hex">{{ themeForm.get('themeColor')?.value }}</span>
+                    </div>
+                </div>
+
+                <!-- File Upload -->
+                <div class="input-group">
+                    <label>Sua Foto de Perfil</label>
+                    <input type="file" (change)="handleFileInput($event)" accept="image/*" class="file-input"
+                        #fileInput>
+                    <button type="button" mat-stroked-button (click)="fileInput.click()" class="upload-btn">
+                        <mat-icon>upload</mat-icon> Selecionar Foto
+                    </button>
+                    <p class="hint">Essa foto aparecerá redonda (estilo Instagram) na sua agenda.</p>
+                </div>
+
+                <!-- Preview -->
+                <div class="logo-preview" *ngIf="themeForm.get('logoBase64')?.value">
+                    <div class="logo-wrapper">
+                        <img [src]="themeForm.get('logoBase64')?.value" alt="Profile Preview">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="setup-actions">
+        <button mat-button (click)="goBack()">Voltar</button>
+        <button mat-flat-button color="primary" (click)="save()" [disabled]="saving">
+            <mat-spinner diameter="20" *ngIf="saving"></mat-spinner>
+            <span *ngIf="!saving">Finalizar Configuração</span>
+        </button>
+    </div>
+</div>

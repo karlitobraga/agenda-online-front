@@ -62,7 +62,7 @@ export class AccountSettingsComponent implements OnInit {
 
         this.themeForm = this.fb.group({
             themeColor: ['#667eea'],
-            logoUrl: ['']
+            logoBase64: [null]
         });
     }
 
@@ -82,7 +82,7 @@ export class AccountSettingsComponent implements OnInit {
                 this.nameForm.patchValue({ name: tenant.name });
                 this.themeForm.patchValue({
                     themeColor: tenant.themeColor || '#667eea',
-                    logoUrl: tenant.logoUrl || ''
+                    logoBase64: tenant.logoBase64 || null
                 });
             }
         });
@@ -146,18 +146,31 @@ export class AccountSettingsComponent implements OnInit {
         });
     }
 
+    handleFileInput(event: any) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                this.themeForm.patchValue({
+                    logoBase64: reader.result as string
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
     saveTheme() {
         this.savingTheme = true;
         this.http.put(`${environment.apiUrl}/Auth/Tenant/${this.tenantId}/theme`, {
             themeColor: this.themeForm.value.themeColor,
-            logoUrl: this.themeForm.value.logoUrl
+            logoBase64: this.themeForm.value.logoBase64
         }).subscribe({
             next: () => {
-                this.snackBar.open('Tema atualizado com sucesso!', 'Fechar', { duration: 3000 });
+                this.snackBar.open('Personalização salva com sucesso!', 'Fechar', { duration: 3000 });
                 this.savingTheme = false;
             },
             error: (err) => {
-                this.snackBar.open(err.error?.message || 'Erro ao atualizar tema', 'Fechar', { duration: 3000 });
+                this.snackBar.open(err.error?.message || 'Erro ao salvar personalização', 'Fechar', { duration: 3000 });
                 this.savingTheme = false;
             }
         });
