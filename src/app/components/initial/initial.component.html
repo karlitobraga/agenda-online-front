@@ -100,13 +100,16 @@
 
         <div class="schedule-grid" *ngIf="schedules.length > 0">
             <div class="schedule-card" *ngFor="let schedule of schedules; let i = index"
-                [class.completed]="schedule.completed" [class.active-service]="i === 0 && !schedule.completed">
+                [class.completed]="schedule.completed" [class.cancelled]="schedule.isCancelled"
+                [class.active-service]="i === 0 && !schedule.completed && !schedule.isCancelled">
                 <div class="card-time">
                     <span>{{ schedule.date | date:'HH:mm' }}</span>
                 </div>
 
                 <div class="card-details">
-                    <div class="active-badge" *ngIf="i === 0 && !schedule.completed">Em Execução</div>
+                    <div class="active-badge" *ngIf="i === 0 && !schedule.completed && !schedule.isCancelled">Próximo
+                    </div>
+                    <div class="cancelled-badge" *ngIf="schedule.isCancelled">Cancelado</div>
                     <h3>{{ schedule.clientName || 'Cliente sem nome' }}</h3>
 
                     <!-- List all offerings -->
@@ -116,9 +119,15 @@
                         </p>
                     </div>
 
-                    <p class="phone-number" *ngIf="schedule.phoneNumber">
-                        <mat-icon>phone</mat-icon> {{ schedule.phoneNumber }}
-                    </p>
+                    <div class="contact-row" *ngIf="schedule.phoneNumber">
+                        <p class="phone-number">
+                            <mat-icon>phone</mat-icon> {{ schedule.phoneNumber }}
+                        </p>
+                        <button mat-icon-button class="btn-whatsapp" (click)="openWhatsApp(schedule.phoneNumber)"
+                            title="Abrir WhatsApp">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                        </button>
+                    </div>
 
                     <!-- Total duration -->
                     <p class="service-duration">
@@ -132,7 +141,7 @@
                 </div>
 
                 <div class="card-actions">
-                    <button mat-icon-button color="primary" *ngIf="!schedule.completed"
+                    <button mat-icon-button color="primary" *ngIf="!schedule.completed && !schedule.isCancelled"
                         (click)="completeSchedule(schedule)" title="Concluir Atendimento">
                         <mat-icon>check_circle_outline</mat-icon>
                     </button>
@@ -140,9 +149,11 @@
                         <mat-icon>check_circle</mat-icon>
                     </button>
 
-                    <button mat-icon-button color="warn" (click)="deleteSchedule(schedule)" title="Excluir Agendamento">
+                    <button mat-icon-button color="warn" *ngIf="!schedule.isCancelled"
+                        (click)="deleteSchedule(schedule)" title="Cancelar Agendamento">
                         <mat-icon>delete_outline</mat-icon>
                     </button>
+                    <mat-icon class="cancelled-icon" *ngIf="schedule.isCancelled" title="Cancelado">cancel</mat-icon>
                 </div>
             </div>
         </div>

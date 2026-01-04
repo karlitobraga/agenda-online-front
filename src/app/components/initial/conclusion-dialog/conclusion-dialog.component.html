@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>Concluir Atendimento</h2>
+<mat-dialog-content>
+    <p>Revise os serviços realizados para <strong>{{ data.schedule.clientName }}</strong>:</p>
+
+    <mat-list>
+        <div *ngFor="let offering of selectedOfferings" class="offering-item">
+            <div class="offering-info">
+                <span class="name">{{ offering.name }}</span>
+                <span class="price">R$ {{ offering.price | number:'1.2-2' }}</span>
+            </div>
+            <button mat-icon-button color="warn" (click)="removeOffering(offering.id)">
+                <mat-icon>remove_circle_outline</mat-icon>
+            </button>
+        </div>
+        <div *ngIf="selectedOfferings.length === 0" class="empty-list">
+            Nenhum serviço selecionado.
+        </div>
+    </mat-list>
+
+    <mat-divider></mat-divider>
+
+    <div class="add-offering">
+        <mat-form-field appearance="outline">
+            <mat-label>Adicionar outro serviço</mat-label>
+            <mat-select [(ngModel)]="newOfferingId">
+                <mat-option *ngFor="let off of allOfferings" [value]="off.id">
+                    {{ off.name }} - R$ {{ off.price | number:'1.2-2' }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" (click)="addOffering()" [disabled]="!newOfferingId">
+            <mat-icon>add</mat-icon> Adicionar
+        </button>
+    </div>
+
+    <div class="total-section">
+        <span class="total-label">Total:</span>
+        <span class="total-value">R$ {{ getTotalPrice() | number:'1.2-2' }}</span>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()">Cancelar</button>
+    <button mat-flat-button color="primary" (click)="confirm()" [disabled]="selectedOfferings.length === 0">
+        Concluir Atendimento
+    </button>
+</mat-dialog-actions>

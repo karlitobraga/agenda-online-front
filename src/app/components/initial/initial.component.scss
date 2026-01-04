@@ -311,6 +311,37 @@
           }
         }
 
+        &.cancelled {
+          background: #f1f5f9;
+          border-color: #cbd5e1;
+          opacity: 0.8;
+
+          .card-time span {
+            color: #64748b;
+          }
+
+          .card-details {
+            h3 {
+              text-decoration: line-through;
+              color: #64748b;
+            }
+
+            .service-name {
+              background-color: #e2e8f0;
+              color: #64748b;
+            }
+
+            .service-price,
+            .service-duration {
+              color: #94a3b8;
+
+              mat-icon {
+                color: #94a3b8;
+              }
+            }
+          }
+        }
+
         &:hover {
           transform: translateY(-4px);
           box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -350,6 +381,19 @@
             letter-spacing: 0.5px;
           }
 
+          .cancelled-badge {
+            display: inline-block;
+            background: #64748b;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+
           h3 {
             margin: 0 0 8px 0;
             font-size: 1.1rem;
@@ -370,20 +414,44 @@
             letter-spacing: 0.5px;
           }
 
-          .phone-number {
-            margin: 0;
+          .contact-row {
             display: flex;
             align-items: center;
-            gap: 6px;
-            color: #64748b;
-            font-size: 0.9rem;
-            font-weight: 500;
+            gap: 8px;
+            margin-bottom: 8px;
 
-            mat-icon {
-              font-size: 18px;
-              height: 18px;
-              width: 18px;
-              color: #94a3b8;
+            .phone-number {
+              margin: 0;
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              color: #64748b;
+              font-size: 0.9rem;
+              font-weight: 500;
+
+              mat-icon {
+                font-size: 18px;
+                height: 18px;
+                width: 18px;
+                color: #94a3b8;
+              }
+            }
+
+            .btn-whatsapp {
+              width: 32px;
+              height: 32px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              img {
+                width: 20px;
+                height: 20px;
+              }
+
+              &:hover {
+                background-color: #e8f5e9;
+              }
             }
           }
 
@@ -453,6 +521,26 @@
             &.completed-icon mat-icon {
               color: #10b981;
             }
+
+            &.cancelled-icon {
+              color: #64748b;
+              font-size: 24px;
+              width: 24px;
+              height: 24px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+          }
+
+          .cancelled-icon {
+            color: #94a3b8;
+            font-size: 28px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
           }
         }
       }

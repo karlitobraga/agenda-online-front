@@ -20,6 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ManualBookingComponent } from './manual-booking/manual-booking.component';
 import { SubscriptionModalComponent } from '../shared/subscription-modal/subscription-modal.component';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { ConclusionDialogComponent } from './conclusion-dialog/conclusion-dialog.component';
 
 @Component({
   selector: 'app-initial',
@@ -140,8 +141,18 @@ export class InitialComponent implements OnInit {
     this.scheduleService.getByDate(this.tenantId, formattedDate).subscribe({
       next: (data) => {
         this.schedules = data;
-        // Sort by time
-        this.schedules.sort((a, b) => a.date.localeCompare(b.date));
+        // Sort by status (active first, then completed, then cancelled) and then time
+        this.schedules.sort((a, b) => {
+          // Status weight: Active=0, Completed=1, Cancelled=2
+          const getWeight = (s: ISchedule) => (s.isCancelled ? 2 : (s.completed ? 1 : 0));
+          const weightA = getWeight(a);
+          const weightB = getWeight(b);
+
+          if (weightA !== weightB) {
+            return weightA - weightB;
+          }
+          return a.date.localeCompare(b.date);
+        });
       },
       error: (err) => {
         console.error('Erro ao carregar agendamentos', err);
@@ -228,24 +239,25 @@ export class InitialComponent implements OnInit {
   }
 
   completeSchedule(schedule: ISchedule) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '400px',
+    const dialogRef = this.dialog.open(ConclusionDialogComponent, {
+      width: '500px',
       data: {
-        title: 'Concluir Atendimento',
-        message: `Deseja marcar o agendamento de ${schedule.clientName || 'Cliente'} como concluído?`
+        schedule: schedule,
+        tenantId: this.tenantId
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.scheduleService.markAsCompleted(schedule.id).subscribe({
-          next: () => {
-            this.loadSchedules();
-            this.dialogService.showMessage('Agendamento concluído!', true);
-          },
-          error: (err) => this.dialogService.showMessage('Erro ao atualizar agendamento', false)
-        });
+        this.loadSchedules();
+        this.dialogService.showMessage('Agendamento concluído com sucesso!', true);
       }
     });
+  }
+
+  openWhatsApp(phoneNumber: string) {
+    if (!phoneNumber) return;
+    const cleanNumber = phoneNumber.replace(/\D/g, '');
+    window.open(`https://wa.me/55${cleanNumber}`, '_blank');
   }
 }

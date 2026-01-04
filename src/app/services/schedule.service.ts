@@ -20,6 +20,7 @@ export interface ISchedule {
     start?: string; // "2025-12-13T14:00:00" or similar full date string from backend serialization
     end?: string;
     completed: boolean;
+    isCancelled: boolean;
     price?: number;
 }
 
@@ -33,11 +34,6 @@ export class ScheduleService {
     constructor(private http: HttpClient) { }
 
     getByDate(tenantId: string, date: string): Observable<ISchedule[]> {
-        // Controller expects [HttpGet("{tenantId}/{date}")]
-        // Date needs to be formatted as backend expects. Usually yyyy-MM-dd is safer for URLs if backend parses it, 
-        // but C# DateTime binding in path often works with ISO. Let's try yyyy-MM-dd first as it's cleaner.
-        // However, the controller signature is `DateTime date`. 
-        // If I pass "2025-12-13", standard binding works.
         return this.http.get<ISchedule[]>(`${this.apiUrl}/${tenantId}/${date}`);
     }
 
@@ -51,5 +47,9 @@ export class ScheduleService {
 
     add(schedule: any): Observable<void> {
         return this.http.post<void>(this.apiUrl, schedule);
+    }
+
+    update(id: string, dto: any): Observable<void> {
+        return this.http.put<void>(`${this.apiUrl}/${id}`, dto);
     }
 }

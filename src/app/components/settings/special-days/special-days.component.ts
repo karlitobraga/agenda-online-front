@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -11,6 +11,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { DayWeekService, ISpecialDay } from '../../offering/day-week.service';
 import { InfoDialogService } from '../../shared/info-dialog/info-dialog.service';
+import { ScheduleService, ISchedule } from '../../../services/schedule.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-special-days',
@@ -27,7 +31,8 @@ import { InfoDialogService } from '../../shared/info-dialog/info-dialog.service'
         MatNativeDateModule
     ],
     templateUrl: './special-days.component.html',
-    styleUrls: ['./special-days.component.scss']
+    styleUrls: ['./special-days.component.scss'],
+    providers: [DatePipe]
 })
 export class SpecialDaysComponent implements OnInit {
     public specialDayForm: FormGroup;
@@ -39,7 +44,10 @@ export class SpecialDaysComponent implements OnInit {
         private fb: FormBuilder,
         private dayWeekService: DayWeekService,
         private router: Router,
-        private dialogService: InfoDialogService
+        private dialogService: InfoDialogService,
+        private scheduleService: ScheduleService,
+        private dialog: MatDialog,
+        private datePipe: DatePipe
     ) {
         this.specialDayForm = this.fb.group({
             date: [null, [Validators.required]],
@@ -67,7 +75,7 @@ export class SpecialDaysComponent implements OnInit {
     }
 
     setupFormSubscriptions(): void {
-        this.specialDayForm.get('isDayOff')?.valueChanges.subscribe(isDayOff => {
+        this.specialDayForm.get('isDayOff')?.valueChanges.subscribe((isDayOff: boolean) => {
             const start = this.specialDayForm.get('start');
             const end = this.specialDayForm.get('end');
             if (isDayOff) {
@@ -100,7 +108,53 @@ export class SpecialDaysComponent implements OnInit {
 
         const tenantId = localStorage.getItem('tenantId') ?? '';
         const formValue = this.specialDayForm.value;
+        const formattedDate = this.datePipe.transform(formValue.date, 'yyyy-MM-dd') || '';
 
+        // Check for active schedules on this date
+        this.scheduleService.getByDate(tenantId, formattedDate).subscribe({
+            next: (schedules: ISchedule[]) => {
+                const activeSchedules = schedules.filter(s => !s.completed && !s.isCancelled);
+
+                if (activeSchedules.length > 0) {
+                    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+                        width: '450px',
+                        data: {
+                            title: 'Conflito de Agendamentos',
+                            message: `Existem ${activeSchedules.length} agendamento(s) para este dia. Ao fechar este dia, eles deverão ser cancelados. Deseja prosseguir?`,
+                            confirmText: 'Sim, cancelar e salvar',
+                            confirmColor: 'warn'
+                        }
+                    });
+
+                    dialogRef.afterClosed().subscribe(result => {
+                        if (result) {
+                            this.cancelSchedulesAndSave(activeSchedules, formValue, tenantId);
+                        }
+                    });
+                } else {
+                    this.saveSpecialDay(formValue, tenantId);
+                }
+            },
+            error: () => this.saveSpecialDay(formValue, tenantId)
+        });
+    }
+
+    private cancelSchedulesAndSave(schedules: ISchedule[], formValue: any, tenantId: string) {
+        const deleteRequests = schedules.map(s => this.scheduleService.delete(s.id));
+
+        forkJoin(deleteRequests).subscribe({
+            next: () => {
+                this.saveSpecialDay(formValue, tenantId);
+                this.router.navigate(['/inicio']);
+            },
+            error: (err) => {
+                console.error('Erro ao cancelar agendamentos', err);
+                this.dialogService.showMessage('Erro ao cancelar agendamentos existentes', false);
+            }
+        });
+    }
+
+    private saveSpecialDay(formValue: any, tenantId: string) {
         // Convert Date object to ISO string for backend
         const dateValue = formValue.date instanceof Date
             ? formValue.date.toISOString()
