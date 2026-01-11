@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ProfessionalService, Professional } from '../../../services/professional.service';
-import { InfoDialogService } from '../../../shared/info-dialog/info-dialog.service';
+import { InfoDialogService } from '../../shared/info-dialog/info-dialog.service';
 import { ProfessionalDetailComponent } from './professional-detail/professional-detail.component';
 
 @Component({

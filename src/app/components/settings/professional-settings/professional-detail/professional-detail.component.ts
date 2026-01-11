@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ProfessionalService, Professional } from '../../../../services/professional.service';
-import { OfferingService } from '../../../../offering/offering.service';
-import { IOfferingResponse } from '../../../../offering/offering.interface';
-import { InfoDialogService } from '../../../../shared/info-dialog/info-dialog.service';
+import { OfferingService } from '../../../offering/offering.service';
+import { IOfferingResponse } from '../../../offering/offering.interface';
+import { InfoDialogService } from '../../../shared/info-dialog/info-dialog.service';
 
 @Component({
     selector: 'app-professional-detail',
