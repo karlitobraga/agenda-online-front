@@ -63,29 +63,30 @@
             <div class="step-line" [class.active]="currentStep > BookingStep.ClientInfo"></div>
 
             <div class="step" [class.active]="currentStep >= BookingStep.SelectProfessional"
-                [class.completed]="currentStep > BookingStep.SelectProfessional" *ngIf="professionals.length > 0">
+                [class.completed]="currentStep > BookingStep.SelectProfessional"
+                *ngIf="professionals && professionals.length > 0">
                 <div class="step-number">2</div>
                 <span>Equipe</span>
             </div>
             <div class="step-line" [class.active]="currentStep > BookingStep.SelectProfessional"
-                *ngIf="professionals.length > 0"></div>
+                *ngIf="professionals && professionals.length > 0"></div>
 
             <div class="step" [class.active]="currentStep >= BookingStep.SelectService"
                 [class.completed]="currentStep > BookingStep.SelectService">
-                <div class="step-number">{{ professionals.length > 0 ? 3 : 2 }}</div>
+                <div class="step-number">{{ professionals && professionals.length > 0 ? 3 : 2 }}</div>
                 <span>Serviços</span>
             </div>
             <div class="step-line" [class.active]="currentStep > BookingStep.SelectService"></div>
 
             <div class="step" [class.active]="currentStep >= BookingStep.SelectDateTime"
                 [class.completed]="currentStep > BookingStep.SelectDateTime">
-                <div class="step-number">{{ professionals.length > 0 ? 4 : 3 }}</div>
+                <div class="step-number">{{ professionals && professionals.length > 0 ? 4 : 3 }}</div>
                 <span>Data/Hora</span>
             </div>
             <div class="step-line" [class.active]="currentStep > BookingStep.SelectDateTime"></div>
 
             <div class="step" [class.active]="currentStep >= BookingStep.Confirmation">
-                <div class="step-number">{{ professionals.length > 0 ? 5 : 4 }}</div>
+                <div class="step-number">{{ professionals && professionals.length > 0 ? 5 : 4 }}</div>
                 <span>Confirmar</span>
             </div>
         </div>
@@ -121,7 +122,50 @@
             </div>
         </div>
 
-        <!-- Step 2: Select Services -->
+        <!-- Step 2: Professional Selection -->
+        <div class="step-content" *ngIf="currentStep === BookingStep.SelectProfessional">
+            <div class="step-card">
+                <div class="step-header-with-back">
+                    <button mat-icon-button (click)="goBack()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    <div>
+                        <h2>Com quem deseja agendar?</h2>
+                        <p class="step-description">Selecione um profissional ou continue sem preferência</p>
+                    </div>
+                </div>
+
+                <div class="professionals-grid">
+                    <div class="professional-card-select" (click)="skipProfessional()">
+                        <div class="prof-photo-placeholder">
+                            <mat-icon>groups</mat-icon>
+                        </div>
+                        <div class="prof-info">
+                            <h3>Sem Preferência</h3>
+                            <p>Qualquer profissional disponível</p>
+                        </div>
+                        <mat-icon class="arrow">chevron_right</mat-icon>
+                    </div>
+
+                    <div class="professional-card-select" *ngFor="let prof of professionals"
+                        (click)="selectProfessional(prof)">
+                        <div class="prof-photo" *ngIf="prof.photoBase64">
+                            <img [src]="'data:image/png;base64,' + prof.photoBase64" [alt]="prof.name">
+                        </div>
+                        <div class="prof-photo-placeholder" *ngIf="!prof.photoBase64">
+                            <mat-icon>person</mat-icon>
+                        </div>
+                        <div class="prof-info">
+                            <h3>{{ prof.name }}</h3>
+                            <p>Especialista</p>
+                        </div>
+                        <mat-icon class="arrow">chevron_right</mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Select Services -->
         <div class="step-content" *ngIf="currentStep === BookingStep.SelectService">
             <div class="step-card">
                 <div class="step-header-with-back">
@@ -164,7 +208,7 @@
             </div>
         </div>
 
-        <!-- Step 3: Select DateTime -->
+        <!-- Step 4: Select DateTime -->
         <div class="step-content" *ngIf="currentStep === BookingStep.SelectDateTime">
             <div class="step-card">
                 <div class="step-header-with-back">
@@ -213,7 +257,7 @@
             </div>
         </div>
 
-        <!-- Step 4: Confirmation -->
+        <!-- Step 5: Confirmation -->
         <div class="step-content" *ngIf="currentStep === BookingStep.Confirmation">
             <div class="step-card">
                 <div class="step-header-with-back">
@@ -233,7 +277,8 @@
                         <p><strong>WhatsApp:</strong> {{ clientForm.value.phone }}</p>
                         <p *ngIf="selectedProfessional"><strong>Profissional:</strong> {{ selectedProfessional.name }}
                         </p>
-                        <p *ngIf="!selectedProfessional && professionals.length > 0"><strong>Profissional:</strong> Sem
+                        <p *ngIf="!selectedProfessional && professionals && professionals.length > 0">
+                            <strong>Profissional:</strong> Sem
                             preferência</p>
                     </div>
 

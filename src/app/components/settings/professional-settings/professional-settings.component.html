@@ -16,7 +16,7 @@
             <span>Adicionar Novo Profissional</span>
         </button>
 
-        <div class="professionals-list" *ngIf="professionals.length > 0">
+        <div class="professionals-list" *ngIf="professionals && professionals.length > 0">
             <div class="professional-card" *ngFor="let professional of professionals">
                 <div class="professional-info">
                     <div class="professional-photo" *ngIf="professional.photoBase64">
@@ -27,9 +27,9 @@
                     </div>
                     <div class="details">
                         <div class="professional-name">{{ professional.name }}</div>
-                        <div class="professional-username">@{{ professional.username }}</div>
+                        <div class="professional-username"><span>@</span>{{ professional.username }}</div>
                         <div class="professional-status" [class.hidden]="!professional.showInAgenda">
-                             {{ professional.showInAgenda ? 'Visível na Agenda' : 'Oculto na Agenda' }}
+                            {{ professional.showInAgenda ? "Visível na Agenda" : "Oculto na Agenda" }}
                         </div>
                     </div>
                 </div>
@@ -37,15 +37,14 @@
                     <button class="btn-icon edit" (click)="openDetail(professional)" title="Editar">
                         <mat-icon>edit</mat-icon>
                     </button>
-                    <button class="btn-icon delete" (click)="deleteProfessional(professional)"
-                        title="Excluir">
+                    <button class="btn-icon delete" (click)="deleteProfessional(professional)" title="Excluir">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </div>
             </div>
         </div>
 
-        <div class="empty-state" *ngIf="professionals.length === 0">
+        <div class="empty-state" *ngIf="professionals && professionals.length === 0">
             <mat-icon>group_off</mat-icon>
             <h3>Nenhum profissional cadastrado</h3>
             <p>Adicione seu primeiro profissional para organizar sua agenda por equipe.</p>
