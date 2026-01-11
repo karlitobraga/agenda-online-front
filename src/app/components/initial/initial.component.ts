@@ -138,7 +138,8 @@ export class InitialComponent implements OnInit {
 
   loadSchedules() {
     const formattedDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd') ?? '';
-    this.scheduleService.getByDate(this.tenantId, formattedDate).subscribe({
+    const profId = localStorage.getItem('professionalId') ?? undefined;
+    this.scheduleService.getByDate(this.tenantId, formattedDate, profId).subscribe({
       next: (data) => {
         this.schedules = data;
         // Sort by status (active first, then completed, then cancelled) and then time

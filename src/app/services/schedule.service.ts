@@ -33,8 +33,12 @@ export class ScheduleService {
 
     constructor(private http: HttpClient) { }
 
-    getByDate(tenantId: string, date: string): Observable<ISchedule[]> {
-        return this.http.get<ISchedule[]>(`${this.apiUrl}/${tenantId}/${date}`);
+    getByDate(tenantId: string, date: string, professionalId?: string): Observable<ISchedule[]> {
+        let url = `${this.apiUrl}/${tenantId}/${date}`;
+        if (professionalId) {
+            url += `?professionalId=${professionalId}`;
+        }
+        return this.http.get<ISchedule[]>(url);
     }
 
     markAsCompleted(id: string): Observable<void> {

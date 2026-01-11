@@ -9,6 +9,7 @@ export interface LoginResponse {
   token: string;
   expiresAt: Date;
   tenantId: string;
+  professionalId?: string;
   subscriptionStatus: string;
 }
 
@@ -31,6 +32,11 @@ export class LoginService {
       tap((response: LoginResponse) => {
         localStorage.setItem('token', response.token);
         localStorage.setItem('tenantId', response.tenantId);
+        if (response.professionalId) {
+          localStorage.setItem('professionalId', response.professionalId);
+        } else {
+          localStorage.removeItem('professionalId');
+        }
         localStorage.setItem('subscriptionStatus', response.subscriptionStatus);
       })
     );
