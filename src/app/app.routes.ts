@@ -85,7 +85,7 @@ export const routes: Routes = [
         loadComponent: () => import('./components/settings/services-settings/services-settings.component').then(m => m.ServicesSettingsComponent)
       },
       {
-        path: 'settings/professional-settings',
+        path: 'settings/professionals',
         loadComponent: () => import('./components/settings/professional-settings/professional-settings.component').then(m => m.ProfessionalSettingsComponent)
       },
       {

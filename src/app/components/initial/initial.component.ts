@@ -181,7 +181,7 @@ export class InitialComponent implements OnInit {
   }
 
   goToProfessionals(): void {
-    this.router.navigate(['/settings/professional-settings']);
+    this.router.navigate(['/settings/professionals']);
   }
 
   goToServices(): void {
