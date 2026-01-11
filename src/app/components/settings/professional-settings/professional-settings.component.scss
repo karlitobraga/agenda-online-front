@@ -1,0 +1,250 @@
+.settings-container {
+    padding: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+
+    .btn-back {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        margin-bottom: 8px;
+        color: var(--primary-color, #673ab7);
+        display: flex;
+        align-items: center;
+        border-radius: 50%;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background-color: rgba(103, 58, 183, 0.1);
+        }
+    }
+
+    .header {
+        margin-bottom: 32px;
+        
+        .header-content {
+            .header-icon {
+                font-size: 48px;
+                width: 48px;
+                height: 48px;
+                color: var(--primary-color, #673ab7);
+                margin-bottom: 16px;
+            }
+
+            h2 {
+                margin: 0;
+                font-size: 24px;
+                font-weight: 600;
+                color: #333;
+            }
+
+            .subtitle {
+                margin: 4px 0 0;
+                color: #666;
+                font-size: 14px;
+            }
+        }
+    }
+
+    .content {
+        .btn-add {
+            width: 100%;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background-color: var(--primary-color, #673ab7);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(103, 58, 183, 0.2);
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(103, 58, 183, 0.3);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+
+        .professionals-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            .professional-card {
+                background: white;
+                border: 1px solid #eee;
+                border-radius: 16px;
+                padding: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                transition: transform 0.2s, box-shadow 0.2s;
+
+                &:hover {
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+                }
+
+                .professional-info {
+                    display: flex;
+                    align-items: center;
+                    gap: 16px;
+
+                    .professional-photo {
+                        width: 56px;
+                        height: 56px;
+                        border-radius: 50%;
+                        overflow: hidden;
+                        background: #f5f5f5;
+                        
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+
+                    .professional-no-photo {
+                        width: 56px;
+                        height: 56px;
+                        border-radius: 50%;
+                        background: #f5f5f5;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #999;
+                        
+                        mat-icon {
+                            font-size: 32px;
+                            width: 32px;
+                            height: 32px;
+                        }
+                    }
+
+                    .details {
+                        .professional-name {
+                            font-weight: 600;
+                            color: #333;
+                            font-size: 16px;
+                        }
+
+                        .professional-username {
+                            color: #666;
+                            font-size: 13px;
+                            margin: 2px 0;
+                        }
+
+                        .professional-status {
+                            font-size: 11px;
+                            padding: 2px 8px;
+                            border-radius: 10px;
+                            background: #e8f5e9;
+                            color: #2e7d32;
+                            display: inline-block;
+
+                            &.hidden {
+                                background: #f5f5f5;
+                                color: #999;
+                            }
+                        }
+                    }
+                }
+
+                .professional-actions {
+                    display: flex;
+                    gap: 8px;
+
+                    .btn-icon {
+                        background: none;
+                        border: none;
+                        cursor: pointer;
+                        padding: 8px;
+                        border-radius: 8px;
+                        transition: background-color 0.2s;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        mat-icon {
+                            font-size: 20px;
+                            width: 20px;
+                            height: 20px;
+                        }
+
+                        &.edit {
+                            color: #1976d2;
+                            &:hover { background: rgba(25, 118, 210, 0.05); }
+                        }
+
+                        &.delete {
+                            color: #d32f2f;
+                            &:hover { background: rgba(211, 47, 47, 0.05); }
+                        }
+                    }
+                }
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px 0;
+            color: #999;
+
+            mat-icon {
+                font-size: 64px;
+                width: 64px;
+                height: 64px;
+                margin-bottom: 16px;
+                opacity: 0.5;
+            }
+
+            h3 {
+                margin: 0;
+                font-size: 18px;
+                color: #666;
+            }
+
+            p {
+                margin: 8px 0 0;
+                font-size: 14px;
+            }
+        }
+    }
+
+    .actions {
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: center;
+
+        .btn-secondary {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background: white;
+            color: #666;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+                background: #f5f5f5;
+                border-color: #ccc;
+            }
+        }
+    }
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProfessionalService } from '../../services/professional.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,9 +16,10 @@ import { BookingApiService, TenantPublic, ServicePublic, TimeSlot } from '../../
 
 enum BookingStep {
     ClientInfo = 1,
-    SelectService = 2,
-    SelectDateTime = 3,
-    Confirmation = 4
+    SelectProfessional = 2,
+    SelectService = 3,
+    SelectDateTime = 4,
+    Confirmation = 5
 }
 
 @Component({
@@ -47,14 +49,17 @@ export class BookingComponent implements OnInit {
 
     tenant: TenantPublic | null = null;
     services: ServicePublic[] = [];
+    professionals: any[] = [];
     availableSlots: TimeSlot[] = [];
 
+    selectedProfessional: any | null = null;
     selectedServices: ServicePublic[] = [];
     selectedDate: Date = new Date();
     selectedSlot: TimeSlot | null = null;
 
     clientForm: FormGroup;
     loading: boolean = false;
+    loadingProfessionals: boolean = false;
     loadingSlots: boolean = false;
     bookingSuccess: boolean = false;
     error: string = '';
@@ -64,6 +69,7 @@ export class BookingComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private bookingApi: BookingApiService,
+        private professionalService: ProfessionalService,
         private fb: FormBuilder,
         private snackBar: MatSnackBar
     ) {
@@ -89,6 +95,7 @@ export class BookingComponent implements OnInit {
             next: (tenant) => {
                 this.tenant = tenant;
                 this.applyTheme();
+                this.loadProfessionals();
                 this.loadServices();
             },
             error: (err) => {
@@ -111,11 +118,42 @@ export class BookingComponent implements OnInit {
         });
     }
 
+    loadProfessionals() {
+        this.loadingProfessionals = true;
+        // Need tenantId to load professionals. TenantPublic usually has Id.
+        if (this.tenant) {
+            this.professionalService.getPublicByTenantId(this.tenant.id).subscribe({
+                next: (profs) => {
+                    this.professionals = profs;
+                    this.loadingProfessionals = false;
+                },
+                error: () => {
+                    this.loadingProfessionals = false;
+                }
+            });
+        }
+    }
+
     // Step 1: Client Info
     submitClientInfo() {
         if (this.clientForm.valid) {
-            this.currentStep = BookingStep.SelectService;
+            if (this.professionals.length > 0) {
+                this.currentStep = BookingStep.SelectProfessional;
+            } else {
+                this.currentStep = BookingStep.SelectService;
+            }
         }
+    }
+
+    // Step 2: Professional Selection
+    selectProfessional(prof: any) {
+        this.selectedProfessional = prof;
+        this.currentStep = BookingStep.SelectService;
+    }
+
+    skipProfessional() {
+        this.selectedProfessional = null;
+        this.currentStep = BookingStep.SelectService;
     }
 
     // Step 2: Service Selection
@@ -130,6 +168,15 @@ export class BookingComponent implements OnInit {
 
     isServiceSelected(service: ServicePublic): boolean {
         return this.selectedServices.some(s => s.id === service.id);
+    }
+
+    getAvailableServices(): ServicePublic[] {
+        if (!this.selectedProfessional) return this.services;
+
+        // Filter out excluded services for the selected professional
+        return this.services.filter(s =>
+            !this.selectedProfessional.excludedOfferingIds.includes(s.id)
+        );
     }
 
     confirmServices() {
@@ -156,7 +203,7 @@ export class BookingComponent implements OnInit {
 
         const serviceIds = this.selectedServices.map(s => s.id);
 
-        this.bookingApi.getAvailableSlots(this.slug, dateStr, serviceIds).subscribe({
+        this.bookingApi.getAvailableSlots(this.slug, dateStr, serviceIds, this.selectedProfessional?.id).subscribe({
             next: (slots) => {
                 this.availableSlots = slots;
                 this.loadingSlots = false;
@@ -187,7 +234,8 @@ export class BookingComponent implements OnInit {
             clientName: this.clientForm.value.name,
             phoneNumber: this.clientForm.value.phone,
             serviceIds: this.selectedServices.map(s => s.id),
-            dateTime: this.selectedSlot.dateTime
+            dateTime: this.selectedSlot.dateTime,
+            professionalId: this.selectedProfessional?.id
         };
 
         this.bookingApi.createBooking(this.slug, booking).subscribe({

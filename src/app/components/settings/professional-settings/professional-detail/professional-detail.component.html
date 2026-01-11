@@ -1,0 +1,76 @@
+<div class="dialog-container">
+    <div class="header">
+        <h2>{{ data ? 'Editar Profissional' : 'Novo Profissional' }}</h2>
+        <button class="btn-close" (click)="close()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <form [formGroup]="professionalForm" (ngSubmit)="save()">
+        <div class="form-content">
+            <div class="photo-section">
+                <div class="photo-preview" *ngIf="photoPreview">
+                    <img [src]="photoPreview" alt="Foto do profissional">
+                    <button type="button" class="btn-remove-photo" (click)="removePhoto()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <div class="photo-placeholder" *ngIf="!photoPreview" (click)="fileInput.click()">
+                    <mat-icon>add_a_photo</mat-icon>
+                    <span>Adicionar Foto</span>
+                </div>
+                <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" hidden>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-field full">
+                    <label>Nome Completo *</label>
+                    <input type="text" formControlName="name" placeholder="Ex: João Silva">
+                </div>
+
+                <div class="form-field">
+                    <label>Usuário (Login) *</label>
+                    <input type="text" formControlName="username" placeholder="Ex: joao.silva">
+                </div>
+
+                <div class="form-field">
+                    <label>Senha *</label>
+                    <input type="text" formControlName="password" placeholder="Senha de acesso">
+                </div>
+            </div>
+
+            <div class="toggle-field">
+                <label class="switch">
+                    <input type="checkbox" formControlName="showInAgenda">
+                    <span class="slider round"></span>
+                </label>
+                <div class="toggle-info">
+                    <span class="title">Mostrar na Agenda Pública</span>
+                    <span class="desc">Permitir que clientes selecionem este profissional no agendamento.</span>
+                </div>
+            </div>
+
+            <div class="offerings-section">
+                <label>Serviços que este profissional <strong>NÃO</strong> realiza:</label>
+                <p class="subtitle">Selecione os serviços que devem ser ocultados para este profissional.</p>
+                <div class="offerings-grid">
+                    <div class="offering-item" *ngFor="let offering of allOfferings">
+                        <label class="checkbox-container">
+                            <input type="checkbox" [checked]="isExcluded(offering.id)"
+                                (change)="toggleExclusion(offering.id)">
+                            <span class="checkmark"></span>
+                            <span class="offering-name">{{ offering.name }}</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dialog-actions">
+            <button type="button" class="btn-cancel" (click)="close()">Cancelar</button>
+            <button type="submit" class="btn-save" [disabled]="professionalForm.invalid">
+                {{ data ? 'Salvar Alterações' : 'Cadastrar Profissional' }}
+            </button>
+        </div>
+    </form>
+</div>

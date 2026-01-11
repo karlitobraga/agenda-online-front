@@ -1,0 +1,60 @@
+<div class="settings-container">
+    <button class="btn-back" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header">
+        <div class="header-content">
+            <mat-icon class="header-icon">badge</mat-icon>
+            <h2>Gerenciar Profissionais</h2>
+            <p class="subtitle">Adicione, edite ou remova os profissionais de sua equipe.</p>
+        </div>
+    </div>
+
+    <div class="content">
+        <button class="btn-add" (click)="openDetail()">
+            <mat-icon>add_circle</mat-icon>
+            <span>Adicionar Novo Profissional</span>
+        </button>
+
+        <div class="professionals-list" *ngIf="professionals.length > 0">
+            <div class="professional-card" *ngFor="let professional of professionals">
+                <div class="professional-info">
+                    <div class="professional-photo" *ngIf="professional.photoBase64">
+                        <img [src]="'data:image/png;base64,' + professional.photoBase64" [alt]="professional.name">
+                    </div>
+                    <div class="professional-no-photo" *ngIf="!professional.photoBase64">
+                        <mat-icon>person</mat-icon>
+                    </div>
+                    <div class="details">
+                        <div class="professional-name">{{ professional.name }}</div>
+                        <div class="professional-username">@{{ professional.username }}</div>
+                        <div class="professional-status" [class.hidden]="!professional.showInAgenda">
+                             {{ professional.showInAgenda ? 'Visível na Agenda' : 'Oculto na Agenda' }}
+                        </div>
+                    </div>
+                </div>
+                <div class="professional-actions">
+                    <button class="btn-icon edit" (click)="openDetail(professional)" title="Editar">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button class="btn-icon delete" (click)="deleteProfessional(professional)"
+                        title="Excluir">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="empty-state" *ngIf="professionals.length === 0">
+            <mat-icon>group_off</mat-icon>
+            <h3>Nenhum profissional cadastrado</h3>
+            <p>Adicione seu primeiro profissional para organizar sua agenda por equipe.</p>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="btn-secondary" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon> Voltar
+        </button>
+    </div>
+</div>

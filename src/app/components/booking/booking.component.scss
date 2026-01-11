@@ -270,6 +270,83 @@
     }
 }
 
+// Professionals Grid
+.professionals-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+
+    .professional-card-select {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+
+        &:hover {
+            border-color: var(--primary-color);
+            background: #f8fafc;
+            transform: translateX(4px);
+        }
+
+        .prof-photo,
+        .prof-photo-placeholder {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            mat-icon {
+                font-size: 28px;
+                width: 28px;
+                height: 28px;
+                color: #94a3b8;
+            }
+        }
+
+        .prof-info {
+            flex: 1;
+
+            h3 {
+                margin: 0;
+                font-size: 1.1rem;
+                color: #1e293b;
+            }
+
+            p {
+                margin: 2px 0 0;
+                font-size: 0.9rem;
+                color: #64748b;
+            }
+        }
+
+        .arrow {
+            color: #cbd5e1;
+            transition: color 0.3s;
+        }
+
+        &:hover .arrow {
+            color: var(--primary-color);
+        }
+    }
+}
+
 // Step Card
 .step-card {
     background: white;

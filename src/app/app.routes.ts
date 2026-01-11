@@ -85,6 +85,10 @@ export const routes: Routes = [
         loadComponent: () => import('./components/settings/services-settings/services-settings.component').then(m => m.ServicesSettingsComponent)
       },
       {
+        path: 'settings/professional-settings',
+        loadComponent: () => import('./components/settings/professional-settings/professional-settings.component').then(m => m.ProfessionalSettingsComponent)
+      },
+      {
         path: 'settings/account',
         loadComponent: () => import('./components/settings/account-settings/account-settings.component').then(m => m.AccountSettingsComponent)
       },

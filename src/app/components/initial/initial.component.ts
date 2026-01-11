@@ -175,6 +175,18 @@ export class InitialComponent implements OnInit {
     this.loadSchedules();
   }
 
+  goToAccount(): void {
+    this.router.navigate(['/settings/account']);
+  }
+
+  goToProfessionals(): void {
+    this.router.navigate(['/settings/professional-settings']);
+  }
+
+  goToServices(): void {
+    this.router.navigate(['/settings/services-settings']);
+  }
+
   goToConfiguration() {
     this.router.navigate(['/setup']);
   }

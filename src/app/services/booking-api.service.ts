@@ -29,6 +29,7 @@ export interface BookingRequest {
     phoneNumber: string;
     serviceIds: string[];
     dateTime: string;
+    professionalId?: string;
 }
 
 @Injectable({
@@ -47,9 +48,9 @@ export class BookingApiService {
         return this.http.get<ServicePublic[]>(`${this.apiUrl}/Booking/${slug}/services`);
     }
 
-    getAvailableSlots(slug: string, date: string, serviceIds: string[]): Observable<TimeSlot[]> {
+    getAvailableSlots(slug: string, date: string, serviceIds: string[], professionalId?: string): Observable<TimeSlot[]> {
         return this.http.get<TimeSlot[]>(`${this.apiUrl}/Booking/${slug}/slots`, {
-            params: { date, serviceIds }
+            params: { date, serviceIds, professionalId: professionalId ?? '' }
         });
     }
 
