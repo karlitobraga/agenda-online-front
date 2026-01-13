@@ -13,6 +13,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { BookingApiService, TenantPublic, ServicePublic, TimeSlot } from '../../services/booking-api.service';
+import { NgxMaskDirective } from 'ngx-mask';
 
 enum BookingStep {
     ClientInfo = 1,
@@ -37,7 +38,8 @@ enum BookingStep {
         MatDatepickerModule,
         MatNativeDateModule,
         MatProgressSpinnerModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        NgxMaskDirective
     ],
     templateUrl: './booking.component.html',
     styleUrls: ['./booking.component.scss']
@@ -200,8 +202,9 @@ export class BookingComponent implements OnInit {
         if (!this.selectedProfessional) return this.services;
 
         // Filter out excluded services for the selected professional
+        const excludedIds = this.selectedProfessional.excludedOfferingIds || [];
         return this.services.filter(s =>
-            !this.selectedProfessional.excludedOfferingIds.includes(s.id)
+            !excludedIds.includes(s.id)
         );
     }
 
@@ -221,7 +224,6 @@ export class BookingComponent implements OnInit {
             this.loadAvailableSlots();
         }
     }
-
     // Step 3: DateTime Selection
     onDateChange(event: any) {
         this.selectedDate = event.value;
