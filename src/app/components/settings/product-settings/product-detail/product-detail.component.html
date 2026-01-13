@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Editar Produto' : 'Novo Produto' }}</h2>
+<mat-dialog-content>
+    <form [formGroup]="form" class="product-form">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nome do Produto</mat-label>
+            <input matInput formControlName="name" placeholder="Ex: Shampoo Antipulgas">
+            <mat-error *ngIf="form.get('name')?.hasError('required')">Nome é obrigatório</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descrição</mat-label>
+            <textarea matInput formControlName="description" rows="3"></textarea>
+        </mat-form-field>
+
+        <div class="row">
+            <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Preço de Venda</mat-label>
+                <input matInput type="number" formControlName="price" prefix="R$ ">
+                <mat-error *ngIf="form.get('price')?.hasError('required')">Obrigatório</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Custo do Produto</mat-label>
+                <input matInput type="number" formControlName="cost">
+                <mat-error *ngIf="form.get('cost')?.hasError('required')">Obrigatório</mat-error>
+            </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Quantidade em Estoque</mat-label>
+            <input matInput type="number" formControlName="stock">
+            <mat-error *ngIf="form.get('stock')?.hasError('required')">Obrigatório</mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="save()" color="primary" [disabled]="form.invalid">Salvar</button>
+    <button mat-button mat-dialog-close>Cancelar</button>
+</mat-dialog-actions>

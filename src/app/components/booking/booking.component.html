@@ -107,11 +107,11 @@
 
                     <mat-form-field appearance="outline" class="full-width">
                         <mat-label>WhatsApp</mat-label>
-                        <input matInput formControlName="phone" placeholder="11999999999" type="tel">
+                        <input matInput formControlName="phone" placeholder="(11) 99999-9999" type="tel"
+                            mask="(00) 00000-0000">
                         <mat-error *ngIf="clientForm.get('phone')?.hasError('required')">WhatsApp é
                             obrigatório</mat-error>
-                        <mat-error *ngIf="clientForm.get('phone')?.hasError('pattern')">Número inválido (somente
-                            números)</mat-error>
+                        <mat-error *ngIf="clientForm.get('phone')?.hasError('mask')">Número inválido</mat-error>
                     </mat-form-field>
 
                     <button mat-flat-button color="primary" type="submit" [disabled]="clientForm.invalid"
@@ -178,6 +178,17 @@
                     </div>
                 </div>
 
+                <div class="pet-info-fields" *ngIf="tenant?.businessType === 'Pet Shop'">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Nome do Animal</mat-label>
+                        <input matInput [(ngModel)]="currentPetName" placeholder="Ex: Thor">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Raça (Opcional)</mat-label>
+                        <input matInput [(ngModel)]="currentPetBreed" placeholder="Ex: Golden Retriever">
+                    </mat-form-field>
+                </div>
+
                 <div class="services-grid">
                     <div class="service-card" *ngFor="let service of getAvailableServices()"
                         [class.selected]="isServiceSelected(service)" (click)="toggleService(service)">
@@ -196,15 +207,24 @@
                     </div>
                 </div>
 
-                <div class="selection-summary" *ngIf="selectedServices.length > 0">
-                    <span>{{ selectedServices.length }} serviço(s) selecionado(s)</span>
+                <div class="selection-summary" *ngIf="selectedServices.length > 0 || pets.length > 0">
+                    <span *ngIf="pets.length > 0">{{ pets.length + (selectedServices.length > 0 ? 1 : 0) }} animal(is)
+                        selecionado(s)</span>
+                    <span *ngIf="pets.length === 0">{{ selectedServices.length }} serviço(s) selecionado(s)</span>
                     <span class="total">Total: {{ formatPrice(getTotalPrice()) }}</span>
                 </div>
 
-                <button mat-flat-button color="primary" (click)="confirmServices()"
-                    [disabled]="selectedServices.length === 0" class="next-btn">
-                    Continuar <mat-icon>arrow_forward</mat-icon>
-                </button>
+                <div class="actions-row">
+                    <button mat-stroked-button color="primary" (click)="addAnotherPet()"
+                        *ngIf="tenant?.businessType === 'Pet Shop' && (selectedServices.length > 0 || pets.length > 0)"
+                        class="add-pet-btn">
+                        <mat-icon>add</mat-icon> Outro Animal
+                    </button>
+                    <button mat-flat-button color="primary" (click)="confirmServices()"
+                        [disabled]="selectedServices.length === 0 && pets.length === 0" class="next-btn">
+                        Continuar <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -279,16 +299,20 @@
                         </p>
                         <p *ngIf="!selectedProfessional && professionals && professionals.length > 0">
                             <strong>Profissional:</strong> Sem
-                            preferência</p>
+                            preferência
+                        </p>
                     </div>
 
                     <div class="detail-group">
                         <h4>Serviços</h4>
-                        <ul>
-                            <li *ngFor="let service of selectedServices">
-                                {{ service.name }} - {{ formatPrice(service.price) }}
-                            </li>
-                        </ul>
+                        <div *ngFor="let pet of pets" class="pet-summary">
+                            <p><strong>{{ pet.name }}</strong> <span *ngIf="pet.breed">({{ pet.breed }})</span></p>
+                            <ul>
+                                <li *ngFor="let service of pet.services">
+                                    {{ service.name }} - {{ formatPrice(service.price) }}
+                                </li>
+                            </ul>
+                        </div>
                         <p class="total-price"><strong>Total:</strong> {{ formatPrice(getTotalPrice()) }}</p>
                     </div>
 

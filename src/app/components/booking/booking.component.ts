@@ -66,6 +66,11 @@ export class BookingComponent implements OnInit {
 
     minDate: Date = new Date();
 
+    // Pet specific
+    pets: { name: string, breed?: string, serviceIds: string[], services: ServicePublic[] }[] = [];
+    currentPetName: string = '';
+    currentPetBreed: string = '';
+
     constructor(
         private route: ActivatedRoute,
         private bookingApi: BookingApiService,
@@ -137,11 +142,32 @@ export class BookingComponent implements OnInit {
     // Step 1: Client Info
     submitClientInfo() {
         if (this.clientForm.valid) {
+            // Check if name has animals (optional improvement)
             if (this.professionals.length > 0) {
                 this.currentStep = BookingStep.SelectProfessional;
             } else {
                 this.currentStep = BookingStep.SelectService;
             }
+        }
+    }
+
+    addAnotherPet() {
+        if (this.selectedServices.length > 0) {
+            this.pets.push({
+                name: this.currentPetName || `Animal ${this.pets.length + 1}`,
+                breed: this.currentPetBreed,
+                serviceIds: this.selectedServices.map(s => s.id),
+                services: [...this.selectedServices]
+            });
+
+            // Reset for next pet
+            this.currentPetName = '';
+            this.currentPetBreed = '';
+            this.selectedServices = [];
+
+            this.snackBar.open('Animal adicionado! Selecione os serviços para o próximo.', 'Fechar', {
+                duration: 3000
+            });
         }
     }
 
@@ -180,7 +206,17 @@ export class BookingComponent implements OnInit {
     }
 
     confirmServices() {
-        if (this.selectedServices.length > 0) {
+        if (this.selectedServices.length > 0 || this.pets.length > 0) {
+            // Add current pet if not empty
+            if (this.selectedServices.length > 0) {
+                this.pets.push({
+                    name: this.currentPetName || (this.tenant?.businessType === 'Pet Shop' ? `Animal ${this.pets.length + 1}` : 'Serviços'),
+                    breed: this.currentPetBreed,
+                    serviceIds: this.selectedServices.map(s => s.id),
+                    services: [...this.selectedServices]
+                });
+            }
+
             this.currentStep = BookingStep.SelectDateTime;
             this.loadAvailableSlots();
         }
@@ -198,10 +234,11 @@ export class BookingComponent implements OnInit {
 
         this.loadingSlots = true;
         const dateStr = this.formatDate(this.selectedDate);
-        // Calculate total duration for multi-service booking
-        const totalDuration = this.getTotalDuration();
+        // Calculate total duration for all pets
+        const totalDuration = this.pets.reduce((acc, pet) =>
+            acc + pet.services.reduce((sAcc, s) => sAcc + s.durationMinutes, 0), 0);
 
-        const serviceIds = this.selectedServices.map(s => s.id);
+        const serviceIds = this.pets.flatMap(p => p.serviceIds);
 
         this.bookingApi.getAvailableSlots(this.slug, dateStr, serviceIds, this.selectedProfessional?.id).subscribe({
             next: (slots) => {
@@ -230,12 +267,17 @@ export class BookingComponent implements OnInit {
         if (!this.selectedSlot || this.selectedServices.length === 0) return;
 
         this.loading = true;
+
         const booking = {
             clientName: this.clientForm.value.name,
             phoneNumber: this.clientForm.value.phone,
-            serviceIds: this.selectedServices.map(s => s.id),
             dateTime: this.selectedSlot.dateTime,
-            professionalId: this.selectedProfessional?.id
+            professionalId: this.selectedProfessional?.id,
+            petItems: this.pets.map(p => ({
+                name: p.name,
+                breed: p.breed,
+                serviceIds: p.serviceIds
+            }))
         };
 
         this.bookingApi.createBooking(this.slug, booking).subscribe({
@@ -274,16 +316,12 @@ export class BookingComponent implements OnInit {
         }).format(price);
     }
 
-    getTotalPrice(): number {
-        return this.selectedServices.reduce((sum, s) => sum + s.price, 0);
-    }
-
-    getTotalDuration(): number {
-        return this.selectedServices.reduce((sum, s) => sum + s.durationMinutes, 0);
-    }
-
     getSelectedServicesNames(): string {
-        return this.selectedServices.map(s => s.name).join(', ');
+        return this.pets.flatMap(p => p.services.map(s => s.name)).join(', ');
+    }
+
+    getTotalPrice(): number {
+        return this.pets.reduce((sum, p) => sum + p.services.reduce((sSum, s) => sSum + s.price, 0), 0);
     }
 
     private applyTheme() {

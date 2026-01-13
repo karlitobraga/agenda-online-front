@@ -23,6 +23,14 @@
                 <mat-icon matListItemIcon>event_busy</mat-icon>
                 <span matListItemTitle>Dias Especiais</span>
             </a>
+            <a mat-list-item routerLink="/settings/products" (click)="drawer.close()">
+                <mat-icon matListItemIcon>inventory_2</mat-icon>
+                <span matListItemTitle>Produtos</span>
+            </a>
+            <a mat-list-item routerLink="/settings/sales" (click)="drawer.close()">
+                <mat-icon matListItemIcon>point_of_sale</mat-icon>
+                <span matListItemTitle>Vendas (PDV)</span>
+            </a>
             <a mat-list-item routerLink="/settings/reports" (click)="drawer.close()">
                 <mat-icon matListItemIcon>bar_chart</mat-icon>
                 <span matListItemTitle>Relatórios</span>

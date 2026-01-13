@@ -9,6 +9,7 @@ export interface TenantPublic {
     slug: string;
     themeColor?: string;
     logoBase64?: string;
+    businessType?: string;
 }
 
 export interface ServicePublic {
@@ -27,9 +28,10 @@ export interface TimeSlot {
 export interface BookingRequest {
     clientName: string;
     phoneNumber: string;
-    serviceIds: string[];
     dateTime: string;
     professionalId?: string;
+    serviceIds?: string[];
+    petItems?: { name: string; breed?: string; serviceIds: string[] }[];
 }
 
 @Injectable({

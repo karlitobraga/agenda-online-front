@@ -96,6 +96,14 @@ export const routes: Routes = [
         path: 'settings/reports',
         loadComponent: () => import('./components/settings/reports/reports.component').then(m => m.ReportsComponent)
       },
+      {
+        path: 'settings/products',
+        loadComponent: () => import('./components/settings/product-settings/product-settings.component').then(m => m.ProductSettingsComponent)
+      },
+      {
+        path: 'settings/sales',
+        loadComponent: () => import('./components/settings/sales/sales.component').then(m => m.SalesComponent)
+      },
       // Keep offering route for backwards compatibility but redirect to setup
       {
         path: 'offering',

@@ -1,0 +1,61 @@
+<div class="pos-container">
+    <div class="products-section">
+        <div class="search-bar">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Pesquisar Produto</mat-label>
+                <input matInput [(ngModel)]="searchTerm" (input)="filterProducts()"
+                    placeholder="Digite o nome do produto...">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </div>
+
+        <div class="products-grid">
+            <mat-card *ngFor="let product of filteredProducts" class="product-card" (click)="addToCart(product)">
+                <div class="product-info">
+                    <span class="product-name">{{ product.name }}</span>
+                    <span class="product-price">{{ product.price | currency:'BRL' }}</span>
+                </div>
+                <div class="product-stock">Estoque: {{ product.stock }}</div>
+                <button mat-icon-button color="primary" class="add-btn">
+                    <mat-icon>add_shopping_cart</mat-icon>
+                </button>
+            </mat-card>
+        </div>
+    </div>
+
+    <div class="cart-section">
+        <h2>Carrinho</h2>
+        <div class="cart-items">
+            <div *ngIf="cart.length === 0" class="empty-cart">
+                <mat-icon>shopping_cart</mat-icon>
+                <p>Carrinho vazio</p>
+            </div>
+
+            <div *ngFor="let item of cart" class="cart-item">
+                <div class="item-details">
+                    <span class="item-name">{{ item.product.name }}</span>
+                    <span class="item-price">{{ item.product.price | currency:'BRL' }}</span>
+                </div>
+                <div class="item-actions">
+                    <button mat-icon-button
+                        (click)="updateQuantity(item, -1)"><mat-icon>remove_circle_outline</mat-icon></button>
+                    <span class="quantity">{{ item.quantity }}</span>
+                    <button mat-icon-button
+                        (click)="updateQuantity(item, 1)"><mat-icon>add_circle_outline</mat-icon></button>
+                    <button mat-icon-button color="warn"
+                        (click)="removeFromCart(item)"><mat-icon>delete_outline</mat-icon></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="cart-footer" *ngIf="cart.length > 0">
+            <div class="total-row">
+                <span>Total:</span>
+                <span class="total-amount">{{ getTotal() | currency:'BRL' }}</span>
+            </div>
+            <button mat-flat-button color="primary" class="finalize-btn" (click)="finalizeSale()">
+                Finalizar Venda
+            </button>
+        </div>
+    </div>
+</div>

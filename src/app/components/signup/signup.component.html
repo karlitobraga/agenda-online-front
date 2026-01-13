@@ -8,7 +8,7 @@
                 type="text"
                 [ngClass]="{'is-invalid': formGroup.get('phoneNumber')?.touched && formGroup.get('phoneNumber')?.invalid }">
             <div class="error" *ngIf="formGroup.get('phoneNumber')?.touched && formGroup.get('phoneNumber')?.invalid">
-                Número de celular inválido (10 ou 11 dígitos).</div>
+                Número de celular inválido.</div>
         </div>
 
         <div class="input-container">
@@ -30,6 +30,17 @@
                 [ngClass]="{'error': formGroup.get('businessName')?.touched && formGroup.get('businessName')?.invalid}">
                 O nome do estabelecimento é obrigatório.
             </div>
+        </div>
+
+        <div class="input-container">
+            <label for="businessType">Tipo de Negócio</label>
+            <select id="businessType" formControlName="businessType" class="custom-select">
+                <option value="Outros">Outros</option>
+                <option value="Pet Shop">Pet Shop</option>
+                <option value="Cabelos">Cabelos</option>
+                <option value="Unhas">Unhas</option>
+                <option value="Cílios">Cílios</option>
+            </select>
         </div>
 
         <button [disabled]="formGroup.invalid" [ngClass]="{'invalid': formGroup.invalid}" type="submit">Cadastrar

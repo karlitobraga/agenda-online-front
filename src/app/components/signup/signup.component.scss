@@ -20,12 +20,19 @@ h2 {
     color: $color-text-primary;
 }
 
-input {
+input,
+select {
     border-radius: 5px;
     padding: 5px;
     border: 1px solid $color-accent;
     outline: none;
     font-size: 13px;
+    background-color: white;
+}
+
+.custom-select {
+    cursor: pointer;
+    height: 32px;
 }
 
 .input-container {
@@ -58,12 +65,12 @@ button {
     color: white;
     cursor: pointer;
     font-size: 15px;
-   &:hover {
-    background-color: $color-secondary;
-   }
 
-   &.invalid {
-    background-color: $color-text-secondary;
-   }
+    &:hover {
+        background-color: $color-secondary;
+    }
+
+    &.invalid {
+        background-color: $color-text-secondary;
+    }
 }
-

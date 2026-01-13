@@ -49,10 +49,12 @@ export interface ITenant {
   specialDays: ISpecialDay[];
   completedConfiguration: boolean;
   subscriptionExpiryDate?: Date;
+  businessType?: string;
 }
 
 export interface ITenantCreateRequest {
   phoneNumber: string;
   password: string;
   businessName: string;
+  businessType: string;
 }

@@ -26,7 +26,8 @@ export class SignupComponent {
     this.formGroup = fb.group({
       phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10,11}$/)]],
       password: ['', [Validators.required, Validators.minLength(5)]],
-      businessName: ['', [Validators.required]]
+      businessName: ['', [Validators.required]],
+      businessType: ['Outros', [Validators.required]]
     });
   }
 
@@ -35,7 +36,8 @@ export class SignupComponent {
       let request: ITenantCreateRequest = {
         phoneNumber: this.formGroup.get('phoneNumber')?.value,
         password: this.formGroup.get('password')?.value,
-        businessName: this.formGroup.get('businessName')?.value
+        businessName: this.formGroup.get('businessName')?.value,
+        businessType: this.formGroup.get('businessType')?.value
       }
 
       this.signupService.createTenant(request)
