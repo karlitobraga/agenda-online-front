@@ -140,8 +140,30 @@
 
     .item-main {
         flex: 1;
-        .item-title { font-weight: 600; color: #1e293b; }
-        .item-sub { font-size: 0.8rem; color: #94a3b8; }
+        .item-title { 
+            font-weight: 700; 
+            color: #1e293b; 
+            font-size: 1.05rem;
+            margin-bottom: 4px;
+        }
+        .item-sub { 
+            font-size: 0.85rem; 
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+
+            .divider { color: #cbd5e1; }
+            .payment-badge {
+                background: #f1f5f9;
+                padding: 2px 8px;
+                border-radius: 4px;
+                color: #475569;
+                font-weight: 600;
+                font-size: 0.75rem;
+            }
+        }
     }
 
     .item-amount {

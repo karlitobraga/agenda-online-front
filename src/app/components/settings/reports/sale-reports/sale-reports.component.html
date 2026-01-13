@@ -76,8 +76,14 @@
                     <mat-icon>shopping_cart</mat-icon>
                 </div>
                 <div class="item-main">
-                    <div class="item-title">{{ item.description }}</div>
-                    <div class="item-sub">{{ item.date | date:'dd/MM/yyyy HH:mm' }} • {{ item.clientName }}</div>
+                    <div class="item-title">{{ item.clientName }}</div> <!-- This is the products list now -->
+                    <div class="item-sub">
+                        <span>{{ item.date | date:'dd/MM/yyyy HH:mm' }}</span>
+                        <span class="divider"> • </span>
+                        <span>{{ item.description }}</span>
+                        <span class="divider"> • </span>
+                        <span class="payment-badge">{{ item.professionalName }}</span>
+                    </div>
                 </div>
                 <div class="item-amount">
                     {{ item.value | currency:'BRL' }}
