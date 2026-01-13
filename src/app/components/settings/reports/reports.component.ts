@@ -44,62 +44,20 @@ interface ReportResponse {
         MatInputModule,
         MatButtonModule,
         MatIconModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatCardModule,
-        MatProgressSpinnerModule
+        MatCardModule
     ],
-    providers: [DatePipe, CurrencyPipe],
     templateUrl: './reports.component.html',
     styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
-    public startDate: Date = new Date();
-    public endDate: Date = new Date();
-    public report: ReportItem[] = [];
-    public summary: ReportSummary | null = null;
-    public loading = false;
-    public tenantId: string = '';
-
     constructor(
-        private http: HttpClient,
-        private router: Router,
-        private datePipe: DatePipe
-    ) {
-        this.tenantId = localStorage.getItem('tenantId') ?? '';
-        // Default to current month
-        const now = new Date();
-        this.startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-        this.endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-    }
+        private router: Router
+    ) { }
 
-    ngOnInit(): void {
-        this.loadReport();
-    }
+    ngOnInit(): void { }
 
-    loadReport(): void {
-        if (!this.tenantId) return;
-
-        this.loading = true;
-        const start = this.formatDate(this.startDate);
-        const end = this.formatDate(this.endDate);
-
-        this.http.get<ReportResponse>(`${environment.apiUrl}/Reports/${this.tenantId}/billing?startDate=${start}&endDate=${end}`)
-            .subscribe({
-                next: (res) => {
-                    this.report = res.report;
-                    this.summary = res.summary;
-                    this.loading = false;
-                },
-                error: (err) => {
-                    console.error('Erro ao carregar relatório', err);
-                    this.loading = false;
-                }
-            });
-    }
-
-    private formatDate(date: Date): string {
-        return this.datePipe.transform(date, 'yyyy-MM-dd') ?? '';
+    navigateTo(type: string): void {
+        this.router.navigate([`/settings/reports/${type}`]);
     }
 
     goBack(): void {

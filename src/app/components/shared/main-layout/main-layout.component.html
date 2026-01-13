@@ -32,8 +32,16 @@
                 <span matListItemTitle>Vendas (PDV)</span>
             </a>
             <a mat-list-item routerLink="/settings/reports" (click)="drawer.close()">
-                <mat-icon matListItemIcon>bar_chart</mat-icon>
-                <span matListItemTitle>Relatórios</span>
+                <mat-icon matListItemIcon>analytics</mat-icon>
+                <span matListItemTitle>Dashboard de Relatórios</span>
+            </a>
+            <a mat-list-item routerLink="/settings/reports/appointments" (click)="drawer.close()" class="submenu-item">
+                <mat-icon matListItemIcon>event_note</mat-icon>
+                <span matListItemTitle>Relat. Atendimentos</span>
+            </a>
+            <a mat-list-item routerLink="/settings/reports/sales" (click)="drawer.close()" class="submenu-item">
+                <mat-icon matListItemIcon>shopping_bag</mat-icon>
+                <span matListItemTitle>Relat. Vendas</span>
             </a>
             <a mat-list-item routerLink="/settings/account" (click)="drawer.close()">
                 <mat-icon matListItemIcon>person</mat-icon>

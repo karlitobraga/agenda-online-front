@@ -30,8 +30,16 @@
                     <span>Conta</span>
                 </button>
                 <button mat-menu-item (click)="goToSettings('reports')">
-                    <mat-icon>bar_chart</mat-icon>
+                    <mat-icon>analytics</mat-icon>
                     <span>Relatórios</span>
+                </button>
+                <button mat-menu-item (click)="goToSettings('reports/appointments')" class="menu-sub">
+                    <mat-icon>event_note</mat-icon>
+                    <span style="font-size: 0.9em; opacity: 0.8;">• Atendimentos</span>
+                </button>
+                <button mat-menu-item (click)="goToSettings('reports/sales')" class="menu-sub">
+                    <mat-icon>shopping_bag</mat-icon>
+                    <span style="font-size: 0.9em; opacity: 0.8;">• Vendas</span>
                 </button>
                 <mat-divider></mat-divider>
                 <button mat-menu-item (click)="copyBookingLink()">

@@ -1,0 +1,98 @@
+<div class="settings-container">
+    <div class="header">
+        <button mat-icon-button (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div class="header-content">
+            <mat-icon class="header-icon">event_note</mat-icon>
+            <h2>Relatório de Atendimentos</h2>
+            <p class="subtitle">Análise detalhada de agendamentos e performance.</p>
+        </div>
+    </div>
+
+    <div class="filters-card">
+        <div class="date-filters">
+            <mat-form-field appearance="outline">
+                <mat-label>Data Inicial</mat-label>
+                <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate">
+                <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <input style="display:none" [matDatepicker]="startPicker">
+                <mat-datepicker #startPicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Data Final</mat-label>
+                <input matInput [matDatepicker]="endPicker" [(ngModel)]="endDate">
+                <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker #endPicker></mat-datepicker>
+            </mat-form-field>
+
+            <button mat-flat-button color="primary" (click)="loadReport()" [disabled]="loading">
+                <mat-icon>search</mat-icon> Atualizar
+            </button>
+        </div>
+    </div>
+
+    <div class="loading" *ngIf="loading">
+        <mat-spinner diameter="40"></mat-spinner>
+        <span>Compilando dados...</span>
+    </div>
+
+    <div class="content" *ngIf="!loading && summary">
+        <div class="summary-grid">
+            <mat-card class="stat-card">
+                <div class="icon-circle"><mat-icon>category</mat-icon></div>
+                <div class="stat-info">
+                    <span class="value">{{ report.length }}</span>
+                    <span class="label">Concluídos</span>
+                </div>
+            </mat-card>
+
+            <mat-card class="stat-card primary">
+                <div class="icon-circle"><mat-icon>payments</mat-icon></div>
+                <div class="stat-info">
+                    <span class="value">{{ summary.serviceRevenue | currency:'BRL' }}</span>
+                    <span class="label">Receita de Serviços</span>
+                </div>
+            </mat-card>
+        </div>
+
+        <div class="chart-section" *ngIf="report.length > 0">
+            <h3>Visualização de Performance</h3>
+            <div class="visual-bar-chart">
+                 <!-- Placeholder for visual bars while no library is present -->
+                 <div class="bar-item" *ngFor="let item of report.slice(0, 10)">
+                    <div class="bar-label">{{ item.clientName }}</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" [style.width.%]="(item.value / summary.serviceRevenue) * 1000"></div>
+                    </div>
+                    <div class="bar-value">{{ item.value | currency:'BRL' }}</div>
+                 </div>
+            </div>
+        </div>
+
+        <h3 class="section-title">Histórico de Atendimentos</h3>
+        <div class="reports-grid">
+            <div class="report-card" *ngFor="let item of report">
+                <div class="card-date">
+                    <span class="day">{{ item.date | date:'dd' }}</span>
+                    <span class="month">{{ item.date | date:'MMM' }}</span>
+                </div>
+                <div class="card-details">
+                    <div class="client">{{ item.clientName }}</div>
+                    <div class="pro">Profissional: <strong>{{ item.professionalName }}</strong></div>
+                    <div class="desc">{{ item.description }}</div>
+                </div>
+                <div class="card-value">
+                    {{ item.value | currency:'BRL' }}
+                </div>
+            </div>
+        </div>
+
+        <div class="empty-state" *ngIf="report.length === 0">
+            <mat-icon>event_busy</mat-icon>
+            <h3>Nenhum dado encontrado</h3>
+            <p>Não há atendimentos concluídos neste período.</p>
+        </div>
+    </div>
+</div>
