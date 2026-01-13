@@ -280,6 +280,104 @@
                 }
             }
         }
+
+        .hours-section {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px dashed #e2e8f0;
+
+            label {
+                display: block;
+                font-size: 1rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin-bottom: 4px;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+                color: #64748b;
+                margin-bottom: 24px;
+            }
+
+            .days-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+
+                .day-row {
+                    background: white;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 12px;
+                    padding: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    transition: all 0.2s;
+
+                    &:hover {
+                        border-color: #cbd5e1;
+                        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+                    }
+
+                    .day-info {
+                        display: flex;
+                        align-items: center;
+                        gap: 20px;
+                        flex: 1;
+
+                        .day-name {
+                            font-weight: 600;
+                            min-width: 100px;
+                            color: #334155;
+                        }
+                    }
+
+                    .day-times {
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        color: #64748b;
+                        font-weight: 500;
+
+                        input {
+                            height: 38px;
+                            padding: 0 10px;
+                            border: 1px solid #e2e8f0;
+                            border-radius: 8px;
+                            font-family: 'Outfit', sans-serif;
+                            font-size: 0.95rem;
+                            background: #f8fafc;
+                            color: #1e293b;
+
+                            &:focus {
+                                border-color: #6366f1;
+                                outline: none;
+                                background: white;
+                            }
+                        }
+                    }
+
+                    .day-off-label {
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        color: #ef4444;
+                        font-size: 0.9rem;
+                        font-weight: 600;
+                        background: #fef2f2;
+                        padding: 6px 12px;
+                        border-radius: 8px;
+
+                        mat-icon {
+                            font-size: 18px;
+                            width: 18px;
+                            height: 18px;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     .dialog-actions {

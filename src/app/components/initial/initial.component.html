@@ -4,50 +4,8 @@
         <div class="header-left">
             <h1 class="app-title">agende<span class="highlight">hora</span></h1>
         </div>
-        <div class="header-actions">
-            <button mat-icon-button [matMenuTriggerFor]="settingsMenu" title="Configurações">
-                <mat-icon>settings</mat-icon>
-            </button>
-            <mat-menu #settingsMenu="matMenu">
-                <button mat-menu-item (click)="goToSettings('services')">
-                    <mat-icon>list_alt</mat-icon>
-                    <span>Serviços</span>
-                </button>
-                <button mat-menu-item (click)="goToSettings('professionals')">
-                    <mat-icon>badge</mat-icon>
-                    <span>Profissionais</span>
-                </button>
-                <button mat-menu-item (click)="goToSettings('hours')">
-                    <mat-icon>schedule</mat-icon>
-                    <span>Horários</span>
-                </button>
-                <button mat-menu-item (click)="goToSettings('holidays')">
-                    <mat-icon>event_busy</mat-icon>
-                    <span>Feriados</span>
-                </button>
-                <button mat-menu-item (click)="goToSettings('account')">
-                    <mat-icon>person</mat-icon>
-                    <span>Conta</span>
-                </button>
-                <button mat-menu-item (click)="goToSettings('reports/appointments')">
-                    <mat-icon>event_note</mat-icon>
-                    <span>Relat. Atendimentos</span>
-                </button>
-                <button mat-menu-item (click)="goToSettings('reports/sales')">
-                    <mat-icon>shopping_bag</mat-icon>
-                    <span>Relat. Vendas</span>
-                </button>
-                <mat-divider></mat-divider>
-                <button mat-menu-item (click)="copyBookingLink()">
-                    <mat-icon>link</mat-icon>
-                    <span>Copiar Link de Agendamento</span>
-                </button>
-                <mat-divider></mat-divider>
-                <button mat-menu-item (click)="logout()">
-                    <mat-icon>logout</mat-icon>
-                    <span>Sair</span>
-                </button>
-            </mat-menu>
+        <div class="header-left">
+            <h1 class="app-title">agende<span class="highlight">hora</span></h1>
         </div>
     </div>
 

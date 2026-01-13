@@ -1,0 +1,53 @@
+<div class="setup-professionals">
+    <div class="professionals-card">
+        <div class="card-header">
+            <div class="header-info">
+                <mat-icon>group</mat-icon>
+                <h3>Seus Profissionais</h3>
+            </div>
+            <button class="btn-add" (click)="openDetail()">
+                <mat-icon>add</mat-icon>
+                Novo Profissional
+            </button>
+        </div>
+
+        <div class="professionals-list">
+            <div class="professional-item" *ngFor="let professional of professionals">
+                <div class="item-info">
+                    <div class="photo">
+                        <img *ngIf="professional.photoBase64"
+                            [src]="'data:image/png;base64,' + professional.photoBase64" alt="Foto">
+                        <mat-icon *ngIf="!professional.photoBase64">person</mat-icon>
+                    </div>
+                    <div class="details">
+                        <span class="name">{{ professional.name }}</span>
+                        <span class="username">{{ professional.username | mask: '(00) 00000-0000' }}</span>
+                    </div>
+                </div>
+                <div class="item-actions">
+                    <button class="btn-edit" (click)="openDetail(professional)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button class="btn-delete" (click)="deleteProfessional(professional)"
+                        [disabled]="professionals.length <= 1">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div class="empty-state" *ngIf="professionals.length === 0">
+                <p>Nenhum profissional cadastrado.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="setup-actions">
+        <button class="btn-back" (click)="onBack()" *ngIf="showBackButton">
+            <mat-icon>arrow_back</mat-icon> Voltar
+        </button>
+        <div class="spacer"></div>
+        <button class="btn-continue" (click)="onContinue()" [disabled]="!canContinue">
+            Próximo Passo <mat-icon>arrow_forward</mat-icon>
+        </button>
+    </div>
+</div>

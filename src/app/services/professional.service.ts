@@ -3,6 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+export interface IDayWeek {
+    id?: string;
+    tenantId: string;
+    day: string;
+    start: string;
+    end: string;
+    dayOff: boolean;
+    professionalId?: string;
+}
+
 export interface Professional {
     id: string;
     tenantId: string;
@@ -12,6 +22,7 @@ export interface Professional {
     password?: string;
     showInAgenda: boolean;
     excludedOfferingIds: string[];
+    daysWeek?: IDayWeek[];
 }
 
 @Injectable({

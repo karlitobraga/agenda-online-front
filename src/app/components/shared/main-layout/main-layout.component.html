@@ -7,39 +7,35 @@
                 <mat-icon matListItemIcon>dashboard</mat-icon>
                 <span matListItemTitle>Início</span>
             </a>
-            <a mat-list-item routerLink="/settings/services" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/services" (click)="drawer.close()">
                 <mat-icon matListItemIcon>list_alt</mat-icon>
                 <span matListItemTitle>Serviços</span>
             </a>
-            <a mat-list-item routerLink="/settings/professionals" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/professionals" (click)="drawer.close()">
                 <mat-icon matListItemIcon>badge</mat-icon>
                 <span matListItemTitle>Profissionais</span>
             </a>
-            <a mat-list-item routerLink="/settings/hours" (click)="drawer.close()">
-                <mat-icon matListItemIcon>schedule</mat-icon>
-                <span matListItemTitle>Horários</span>
-            </a>
-            <a mat-list-item routerLink="/settings/holidays" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/holidays" (click)="drawer.close()">
                 <mat-icon matListItemIcon>event_busy</mat-icon>
                 <span matListItemTitle>Dias Especiais</span>
             </a>
-            <a mat-list-item routerLink="/settings/products" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/products" (click)="drawer.close()">
                 <mat-icon matListItemIcon>inventory_2</mat-icon>
                 <span matListItemTitle>Produtos</span>
             </a>
-            <a mat-list-item routerLink="/settings/sales" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/sales" (click)="drawer.close()">
                 <mat-icon matListItemIcon>point_of_sale</mat-icon>
                 <span matListItemTitle>Vendas (PDV)</span>
             </a>
-            <a mat-list-item routerLink="/settings/reports/appointments" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/reports/appointments" (click)="drawer.close()">
                 <mat-icon matListItemIcon>event_note</mat-icon>
                 <span matListItemTitle>Relat. Atendimentos</span>
             </a>
-            <a mat-list-item routerLink="/settings/reports/sales" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/reports/sales" (click)="drawer.close()">
                 <mat-icon matListItemIcon>shopping_bag</mat-icon>
                 <span matListItemTitle>Relat. Vendas</span>
             </a>
-            <a mat-list-item routerLink="/settings/account" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/account" (click)="drawer.close()">
                 <mat-icon matListItemIcon>person</mat-icon>
                 <span matListItemTitle>Conta</span>
             </a>
@@ -51,11 +47,13 @@
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-        <mat-toolbar color="primary">
-            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
-                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-            </button>
-            <span>Minha Agenda</span> <!-- Generic Name -->
+        <mat-toolbar color="primary" class="main-toolbar">
+            <div class="toolbar-content">
+                <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+                    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+                </button>
+                <span class="toolbar-title">Minha Agenda</span>
+            </div>
         </mat-toolbar>
 
         <div class="content-body">

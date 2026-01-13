@@ -2,17 +2,19 @@ import { CanActivateFn, Router } from '@angular/router';
 import { inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { OfferingService } from '../../offering/offering.service';
-import { of } from 'rxjs';
+import { ProfessionalService } from '../../../services/professional.service';
+import { of, forkJoin } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 /**
- * Guard that checks if the initial setup (Services) is complete.
- * If services are missing, redirects to /welcome.
+ * Guard that checks if the initial setup (Services and Professionals) is complete.
+ * If something is missing, redirects to /welcome.
  */
 export const SetupGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
     const platformId = inject(PLATFORM_ID);
     const offeringService = inject(OfferingService);
+    const professionalService = inject(ProfessionalService);
 
     if (!isPlatformBrowser(platformId)) {
         return false;
@@ -26,12 +28,17 @@ export const SetupGuard: CanActivateFn = (route, state) => {
         return false;
     }
 
-    // Only check for services now (WhatsApp/Evolution API removed)
-    return offeringService.GetAll(tenantId).pipe(
-        map(offerings => {
+    // Check for services AND professionals
+    return forkJoin({
+        offerings: offeringService.GetAll(tenantId),
+        professionals: professionalService.getByTenantId(tenantId)
+    }).pipe(
+        map(({ offerings, professionals }) => {
             const hasServices = offerings && offerings.length > 0;
-            if (!hasServices) {
-                // Services missing - redirect to welcome
+            const hasProfessionals = professionals && professionals.length > 0;
+
+            if (!hasServices || !hasProfessionals) {
+                // Setup incomplete - redirect to welcome
                 router.navigate(['/welcome']);
                 return false;
             }

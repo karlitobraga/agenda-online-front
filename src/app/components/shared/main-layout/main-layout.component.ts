@@ -36,11 +36,31 @@ export class MainLayoutComponent {
             shareReplay()
         );
 
-    constructor(private router: Router, private breakpointObserver: BreakpointObserver) { }
+    isAdmin: boolean = false;
+
+    constructor(private router: Router, private breakpointObserver: BreakpointObserver) {
+        this.checkRole();
+    }
+
+    private checkRole() {
+        if (typeof window !== 'undefined') {
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    const role = payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+                    this.isAdmin = role === 'Admin';
+                } catch (e) {
+                    this.isAdmin = false;
+                }
+            }
+        }
+    }
 
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('tenantId');
+        localStorage.removeItem('professionalId');
         this.router.navigate(['/login']);
     }
 }

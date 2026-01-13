@@ -65,6 +65,33 @@
                     </div>
                 </div>
             </div>
+
+            <div class="hours-section" formArrayName="daysWeek">
+                <label>Horários de Atendimento:</label>
+                <p class="subtitle">Configure os horários específicos deste profissional.</p>
+
+                <div class="days-grid">
+                    <div class="day-row" *ngFor="let control of daysWeek.controls; let i = index" [formGroupName]="i">
+                        <div class="day-info">
+                            <span class="day-name">{{ control.get('day')?.value }}</span>
+                            <mat-slide-toggle formControlName="dayOff" color="warn">
+                                {{ control.get('dayOff')?.value ? 'Folga' : 'Ativo' }}
+                            </mat-slide-toggle>
+                        </div>
+
+                        <div class="day-times" *ngIf="!control.get('dayOff')?.value">
+                            <input type="time" formControlName="start">
+                            <span>às</span>
+                            <input type="time" formControlName="end">
+                        </div>
+
+                        <div class="day-off-label" *ngIf="control.get('dayOff')?.value">
+                            <mat-icon>event_busy</mat-icon>
+                            <span>Dia de folga</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="dialog-actions">

@@ -1,36 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { ProfessionalService, Professional } from '../../../services/professional.service';
-import { InfoDialogService } from '../../shared/info-dialog/info-dialog.service';
-import { ProfessionalDetailComponent } from './professional-detail/professional-detail.component';
+import { ProfessionalDetailComponent } from '../../settings/professional-settings/professional-detail/professional-detail.component';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 @Component({
-    selector: 'app-professional-settings',
+    selector: 'app-setup-professionals',
     standalone: true,
     imports: [
         CommonModule,
-        MatButtonModule,
         MatIconModule,
-        MatDialogModule,
+        MatButtonModule,
         NgxMaskDirective,
         NgxMaskPipe
     ],
-    templateUrl: './professional-settings.component.html',
-    styleUrls: ['./professional-settings.component.scss']
+    templateUrl: './setup-professionals.component.html',
+    styleUrls: ['./setup-professionals.component.scss']
 })
-export class ProfessionalSettingsComponent implements OnInit {
+export class SetupProfessionalsComponent implements OnInit {
+    @Input() showBackButton: boolean = true;
+    @Output() completed = new EventEmitter<void>();
+    @Output() back = new EventEmitter<void>();
+
     public professionals: Professional[] = [];
 
     constructor(
         private professionalService: ProfessionalService,
-        private dialog: MatDialog,
-        private router: Router,
-        private dialogService: InfoDialogService
+        private dialog: MatDialog
     ) { }
 
     ngOnInit(): void {
@@ -57,16 +56,25 @@ export class ProfessionalSettingsComponent implements OnInit {
     }
 
     deleteProfessional(professional: Professional): void {
-        this.professionalService.delete(professional.id).subscribe({
-            next: () => {
-                this.loadProfessionals();
-                this.dialogService.showMessage('Profissional removido!', true);
-            },
-            error: () => this.dialogService.showMessage('Erro ao remover profissional', false)
-        });
+        if (this.professionals.length > 1) {
+            this.professionalService.delete(professional.id).subscribe({
+                next: () => this.loadProfessionals(),
+                error: (err) => console.error('Erro ao excluir profissional', err)
+            });
+        }
     }
 
-    goBack(): void {
-        this.router.navigate(['/inicio']);
+    get canContinue(): boolean {
+        return this.professionals.length > 0;
+    }
+
+    onContinue(): void {
+        if (this.canContinue) {
+            this.completed.emit();
+        }
+    }
+
+    onBack(): void {
+        this.back.emit();
     }
 }

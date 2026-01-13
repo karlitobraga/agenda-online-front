@@ -211,20 +211,9 @@ export class InitialComponent implements OnInit {
   }
 
   openBookingModal() {
-    const dialogRef = this.dialog.open(ManualBookingComponent, {
-      width: '600px', // Increased width for better slot display
-      data: {
-        tenantId: this.tenantId,
-        slug: this.tenantSlug
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadSchedules();
-        this.dialogService.showMessage('Agendamento criado com sucesso!', true);
-      }
-    });
+    if (this.bookingUrl) {
+      window.open(this.bookingUrl, '_blank');
+    }
   }
 
   deleteSchedule(schedule: ISchedule) {
