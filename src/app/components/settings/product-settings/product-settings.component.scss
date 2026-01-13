@@ -51,15 +51,23 @@
     }
 }
 
-@media (max-width: 600px) {
-    .settings-container {
-        padding: 16px;
+    .table-container {
+        overflow-x: auto;
+        
+        table {
+            min-width: 600px;
+        }
     }
 
     .header {
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
+        margin-bottom: 24px;
+
+        h1 {
+            font-size: 1.5rem;
+        }
 
         button {
             width: 100%;
