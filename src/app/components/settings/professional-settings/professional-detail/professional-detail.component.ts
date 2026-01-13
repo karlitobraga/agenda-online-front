@@ -7,6 +7,7 @@ import { ProfessionalService, Professional } from '../../../../services/professi
 import { OfferingService } from '../../../offering/offering.service';
 import { IOfferingResponse } from '../../../offering/offering.interface';
 import { InfoDialogService } from '../../../shared/info-dialog/info-dialog.service';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
     selector: 'app-professional-detail',
@@ -16,7 +17,8 @@ import { InfoDialogService } from '../../../shared/info-dialog/info-dialog.servi
         FormsModule,
         ReactiveFormsModule,
         MatIconModule,
-        MatDialogModule
+        MatDialogModule,
+        NgxMaskDirective
     ],
     templateUrl: './professional-detail.component.html',
     styleUrls: ['./professional-detail.component.scss']
@@ -37,7 +39,7 @@ export class ProfessionalDetailComponent implements OnInit {
     ) {
         this.professionalForm = this.fb.group({
             name: ['', Validators.required],
-            username: ['', Validators.required],
+            username: ['', [Validators.required, Validators.pattern(/^\d{10,11}$/)]],
             password: ['', Validators.required],
             showInAgenda: [true]
         });

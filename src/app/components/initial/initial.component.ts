@@ -273,4 +273,15 @@ export class InitialComponent implements OnInit {
     const cleanNumber = phoneNumber.replace(/\D/g, '');
     window.open(`https://wa.me/55${cleanNumber}`, '_blank');
   }
+
+  formatPhone(phoneNumber: string | undefined): string {
+    if (!phoneNumber) return '';
+    const cleaned = phoneNumber.replace(/\D/g, '');
+    if (cleaned.length === 11) {
+      return `(${cleaned.substring(0, 2)}) ${cleaned.substring(2, 7)}-${cleaned.substring(7)}`;
+    } else if (cleaned.length === 10) {
+      return `(${cleaned.substring(0, 2)}) ${cleaned.substring(2, 6)}-${cleaned.substring(6)}`;
+    }
+    return phoneNumber;
+  }
 }

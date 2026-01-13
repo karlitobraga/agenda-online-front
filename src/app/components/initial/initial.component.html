@@ -129,7 +129,7 @@
 
                     <div class="contact-row" *ngIf="schedule.phoneNumber">
                         <p class="phone-number">
-                            <mat-icon>phone</mat-icon> {{ schedule.phoneNumber }}
+                            <mat-icon>phone</mat-icon> {{ formatPhone(schedule.phoneNumber) }}
                         </p>
                         <button mat-icon-button class="btn-whatsapp" (click)="openWhatsApp(schedule.phoneNumber)"
                             title="Abrir WhatsApp">

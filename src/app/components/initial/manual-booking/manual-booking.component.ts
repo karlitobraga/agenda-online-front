@@ -15,6 +15,7 @@ import { IOfferingResponse } from '../../offering/offering.interface';
 import { ScheduleService } from '../../../services/schedule.service';
 import { InfoDialogService } from '../../shared/info-dialog/info-dialog.service';
 import { BookingApiService, TimeSlot } from '../../../services/booking-api.service';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-manual-booking',
@@ -30,7 +31,8 @@ import { BookingApiService, TimeSlot } from '../../../services/booking-api.servi
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    NgxMaskDirective
   ],
   providers: [DatePipe],
   template: `
@@ -45,7 +47,7 @@ import { BookingApiService, TimeSlot } from '../../../services/booking-api.servi
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Telefone (Opcional)</mat-label>
-          <input matInput formControlName="phoneNumber" placeholder="(11) 99999-9999">
+          <input matInput formControlName="phoneNumber" placeholder="(11) 99999-9999" mask="(00) 00000-0000">
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
@@ -192,7 +194,7 @@ export class ManualBookingComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       clientName: ['', Validators.required],
-      phoneNumber: [''], // Optional
+      phoneNumber: ['', [Validators.pattern(/^\d{10,11}$/)]], // Optional but must be valid if present
       offeringId: ['', Validators.required],
       date: [new Date(), Validators.required]
     });

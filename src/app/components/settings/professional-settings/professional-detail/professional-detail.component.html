@@ -29,8 +29,9 @@
                 </div>
 
                 <div class="form-field">
-                    <label>Usuário (Login) *</label>
-                    <input type="text" formControlName="username" placeholder="Ex: joao.silva">
+                    <label>Celular (Login) *</label>
+                    <input type="text" formControlName="username" mask="(00) 00000-0000" placeholder="(00) 00000-0000"
+                        [ngClass]="{'is-invalid': professionalForm.get('username')?.touched && professionalForm.get('username')?.invalid }">
                 </div>
 
                 <div class="form-field">
