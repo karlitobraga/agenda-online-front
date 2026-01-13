@@ -17,6 +17,7 @@ interface ReportItem {
     id: string;
     date: string;
     clientName: string;
+    professionalName: string;
     description: string;
     value: number;
     type: string;
