@@ -1,6 +1,6 @@
 <app-loader></app-loader>
 
-@if (pwaService.showInstallButton()) {
+@if (showInstallButton()) {
 <button class="install-button" (click)="pwaService.installPwa()">
     Instalar App
 </button>
