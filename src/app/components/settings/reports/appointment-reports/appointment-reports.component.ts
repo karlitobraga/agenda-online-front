@@ -93,6 +93,6 @@ export class AppointmentReportsComponent implements OnInit {
     }
 
     goBack(): void {
-        this.router.navigate(['/settings/reports']);
+        this.router.navigate(['/inicio']);
     }
 }
