@@ -1,2 +1,9 @@
 <app-loader></app-loader>
+
+@if (pwaService.showInstallButton()) {
+<button class="install-button" (click)="pwaService.installPwa()">
+    Instalar App
+</button>
+}
+
 <router-outlet />

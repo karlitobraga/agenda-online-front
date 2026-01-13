@@ -21,9 +21,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptors([appInterceptor])),
     provideAnimationsAsync(),
     { provide: LOCALE_ID, useValue: 'pt-BR' },
-    provideServiceWorker('ngsw-worker.js', {
+    provideServiceWorker('/ngsw-worker.js', {
       enabled: !isDevMode(),
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerImmediately'
     })
   ]
 };
