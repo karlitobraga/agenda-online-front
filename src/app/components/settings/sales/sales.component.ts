@@ -7,7 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { ProductService, IProduct } from '../../../services/product.service';
+import { SaleService, ISale } from '../../../services/sale.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
 
 interface CartItem {
     product: IProduct;
@@ -17,7 +19,7 @@ interface CartItem {
 @Component({
     selector: 'app-sales',
     standalone: true,
-    imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, FormsModule, MatSnackBarModule],
+    imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, FormsModule, MatSnackBarModule, MatSelectModule],
     templateUrl: './sales.component.html',
     styleUrl: './sales.component.scss'
 })
@@ -26,9 +28,12 @@ export class SalesComponent implements OnInit {
     filteredProducts: IProduct[] = [];
     cart: CartItem[] = [];
     searchTerm: string = '';
+    paymentMethod: string = 'Dinheiro';
+    paymentMethods: string[] = ['Dinheiro', 'Cartão de Crédito', 'Cartão de Débito', 'Pix'];
 
     constructor(
         private productService: ProductService,
+        private saleService: SaleService,
         private snackBar: MatSnackBar
     ) { }
 
@@ -79,8 +84,26 @@ export class SalesComponent implements OnInit {
     finalizeSale() {
         if (this.cart.length === 0) return;
 
-        // TODO: Call SaleService to register sale on backend
-        this.snackBar.open('Venda finalizada com sucesso! (Funcionalidade de backend em breve)', 'Fechar', { duration: 3000 });
-        this.cart = [];
+        const sale: ISale = {
+            totalAmount: this.getTotal(),
+            paymentMethod: this.paymentMethod,
+            items: this.cart.map(item => ({
+                productId: item.product.id!,
+                quantity: item.quantity,
+                unitPrice: item.product.price
+            }))
+        };
+
+        this.saleService.create(sale).subscribe({
+            next: () => {
+                this.snackBar.open('Venda finalizada com sucesso!', 'Fechar', { duration: 3000 });
+                this.cart = [];
+                this.loadProducts(); // Refresh stock
+            },
+            error: (err) => {
+                const message = err.error || 'Erro ao finalizar venda.';
+                this.snackBar.open(message, 'Fechar', { duration: 5000 });
+            }
+        });
     }
 }
