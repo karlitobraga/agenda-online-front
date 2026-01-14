@@ -184,70 +184,72 @@
                     </div>
                 </div>
 
-                <!-- Added Pets List -->
-                <div class="added-pets" *ngIf="pets.length > 0">
-                    <h3>Animais Adicionados:</h3>
-                    <div class="pet-card" *ngFor="let pet of pets; let i = index">
-                        <div class="pet-card-info">
-                            <strong>{{ pet.name }}</strong> ({{ pet.breed }})
-                            <span class="pet-services-summary">
-                                {{ pet.services.length }} serviços
-                            </span>
+                <div class="pet-info-fields" *ngIf="tenant?.businessType === 'Pet Shop'">
+                    <div class="pet-form-section">
+                        <div class="form-title">
+                            <mat-icon>pets</mat-icon>
+                            <span>Novo Animal</span>
                         </div>
-                        <button mat-icon-button color="warn" (click)="removePet(i)">
-                            <mat-icon>delete</mat-icon>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Raça do Animal</mat-label>
+                            <input matInput [(ngModel)]="currentPetBreed" placeholder="Ex: Poodle, Persa...">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Nome do Animal (Opcional)</mat-label>
+                            <input matInput [(ngModel)]="currentPetName" placeholder="Ex: Thor">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="services-grid">
+                    <div class="service-card" *ngFor="let service of getAvailableServices()"
+                        [class.selected]="isServiceSelected(service)" (click)="toggleService(service)">
+                        <div class="service-check">
+                            <mat-icon *ngIf="isServiceSelected(service)">check_circle</mat-icon>
+                            <mat-icon *ngIf="!isServiceSelected(service)">radio_button_unchecked</mat-icon>
+                        </div>
+                        <div class="service-info">
+                            <h3>{{ service.name }}</h3>
+                            <p *ngIf="service.description">{{ service.description }}</p>
+                            <div class="service-meta">
+                                <span class="price">{{ formatPrice(service.price) }}</span>
+                                <span class="duration">{{ service.durationMinutes }} min</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Added Pets List -->
+                <div class="added-pets-list" *ngIf="pets.length > 0">
+                    <div class="section-title">Animais Adicionados ({{ pets.length }})</div>
+                    <div class="pet-item" *ngFor="let pet of pets; let i = index">
+                        <div class="pet-details">
+                            <strong>{{ pet.name }}</strong>
+                            <span>{{ pet.breed ? pet.breed + ' • ' : '' }}{{ pet.services.length }} serviços</span>
+                        </div>
+                        <button mat-icon-button class="remove-btn" (click)="removePet(i)">
+                            <mat-icon>delete_outline</mat-icon>
                         </button>
                     </div>
                 </div>
 
-                <div class="pet-info-fields" *ngIf="tenant?.businessType === 'Pet Shop'">
-                    <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Raça do Animal</mat-label>
-                        <input matInput [(ngModel)]="currentPetBreed" placeholder="Ex: Poodle, Persa...">
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Nome do Animal (Opcional)</mat-label>
-                        <input matInput [(ngModel)]="currentPetName" placeholder="Ex: Thor">
-                    </mat-form-field>
-                </div>
-
-                <div class="services-grid">
-                    <mat-card *ngFor="let service of getAvailableServices()" class="service-card"
-                        [class.selected]="isServiceSelected(service)" (click)="toggleService(service)">
-                        <div class="service-content">
-                            <div class="service-header">
-                                <h3>{{ service.name }}</h3>
-                                <mat-icon *ngIf="isServiceSelected(service)" class="check-icon">check_circle</mat-icon>
-                            </div>
-                            <p class="price">{{ formatPrice(service.price) }}</p>
-                            <p class="duration">{{ service.durationMinutes }} min</p>
-                        </div>
-                    </mat-card>
+                <div class="selection-summary" *ngIf="selectedServices.length > 0 || pets.length > 0">
+                    <span *ngIf="pets.length > 0">{{ pets.length + (selectedServices.length > 0 ? 1 : 0) }} item(s)
+                        total</span>
+                    <span *ngIf="pets.length === 0">{{ selectedServices.length }} serviço(s) selecionado(s)</span>
+                    <span class="total">Total Aprox: {{ formatPrice(getTotalPrice() + (selectedServices.length > 0 ? 0 :
+                        0)) }}</span>
                 </div>
 
                 <div class="actions-row">
-                    <button mat-stroked-button color="primary" (click)="addAnotherPet()"
-                        *ngIf="tenant?.businessType === 'Pet Shop' && selectedServices.length > 0" class="add-pet-btn">
+                    <button *ngIf="tenant?.businessType === 'Pet Shop'" mat-stroked-button class="add-btn"
+                        (click)="addCurrentPet()" [disabled]="selectedServices.length === 0">
                         <mat-icon>add</mat-icon> Adicionar Outro Animal
                     </button>
 
-                    <button mat-flat-button color="primary" (click)="confirmServices()"
-                        [disabled]="pets.length === 0 && selectedServices.length === 0" class="next-btn">
-                        Continuar <mat-icon>arrow_forward</mat-icon>
-                    </button>
-                </div>
-
-                <div class="selection-summary" *ngIf="selectedServices.length > 0 || pets.length > 0">
-                    <span *ngIf="pets.length > 0">{{ pets.length + (selectedServices.length > 0 ? 1 : 0) }} animal(is)
-                        selecionado(s)</span>
-                    <span *ngIf="pets.length === 0">{{ selectedServices.length }} serviço(s) selecionado(s)</span>
-                    <span class="total">Total: {{ formatPrice(getTotalPrice()) }}</span>
-                </div>
-
-                <div class="actions-row">
-                    <button mat-flat-button color="primary" (click)="confirmServices()"
-                        [disabled]="selectedServices.length === 0 && pets.length === 0" class="next-btn">
+                    <button mat-flat-button class="next-btn" (click)="confirmServices()"
+                        [disabled]="selectedServices.length === 0 && pets.length === 0">
                         Continuar <mat-icon>arrow_forward</mat-icon>
                     </button>
                 </div>
@@ -321,7 +323,8 @@
                         <h4>Seus Dados</h4>
                         <p><strong>Nome:</strong> {{ clientForm.value.name }}</p>
                         <p><strong>WhatsApp:</strong> {{ clientForm.value.phone }}</p>
-                        <p *ngIf="selectedProfessional"><strong>Profissional:</strong> {{ selectedProfessional.name }}
+                        <p *ngIf="selectedProfessional"><strong>Profissional:</strong> {{
+                            selectedProfessional.name }}
                         </p>
                         <p *ngIf="!selectedProfessional && professionals && professionals.length > 0">
                             <strong>Profissional:</strong> Sem

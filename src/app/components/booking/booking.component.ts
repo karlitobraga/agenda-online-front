@@ -16,7 +16,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { BookingApiService, TenantPublic, ServicePublic, TimeSlot } from '../../services/booking-api.service';
 import { NgxMaskDirective } from 'ngx-mask';
-import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 
 enum BookingStep {
     ClientInfo = 1,
@@ -161,12 +160,12 @@ export class BookingComponent implements OnInit {
         }
     }
 
-    addAnotherPet() {
+    addCurrentPet() {
         if (this.selectedServices.length > 0) {
             this.pets.push({
-                name: this.currentPetName || (this.tenant?.businessType === 'Pet Shop' ? `Animal ${this.pets.length + 1}` : 'Serviços'),
+                name: this.currentPetName || (this.tenant?.businessType === 'Pet Shop' ? `Animal ${this.pets.length + 1}` : 'Agendamento'),
                 breed: this.currentPetBreed,
-                quantity: 1,
+                quantity: this.currentPetQuantity || 1,
                 serviceIds: this.selectedServices.map(s => s.id),
                 services: [...this.selectedServices]
             });
@@ -176,7 +175,7 @@ export class BookingComponent implements OnInit {
             this.currentPetBreed = '';
             this.selectedServices = [];
 
-            this.snackBar.open('Animal adicionado! Selecione os serviços para o próximo.', 'Fechar', {
+            this.snackBar.open('Adicionado! Você pode incluir mais ou continuar.', 'Fechar', {
                 duration: 3000
             });
         }
@@ -222,19 +221,9 @@ export class BookingComponent implements OnInit {
     }
 
     confirmServices() {
-        // If there is a current selection, add it as a pet/service item before proceeding
+        // If there are selected services not yet added to pets list, add them now
         if (this.selectedServices.length > 0) {
-            this.pets.push({
-                name: this.currentPetName || (this.tenant?.businessType === 'Pet Shop' ? `Animal ${this.pets.length + 1}` : 'Serviços'),
-                breed: this.currentPetBreed,
-                quantity: 1,
-                serviceIds: this.selectedServices.map(s => s.id),
-                services: [...this.selectedServices]
-            });
-            // Clear current selection to avoid duplicates if they go back
-            this.currentPetName = '';
-            this.currentPetBreed = '';
-            this.selectedServices = [];
+            this.addCurrentPet();
         }
 
         if (this.pets.length > 0) {
