@@ -96,7 +96,7 @@ export class InitialComponent implements OnInit {
       next: response => {
         if (response && response.slug) {
           this.tenantSlug = response.slug;
-          this.businessType = response.businessType;
+          this.businessType = response.businessType || '';
           this.bookingUrl = `${window.location.origin}/agendar/${this.tenantSlug}`;
 
           // Calculate live subscription status
