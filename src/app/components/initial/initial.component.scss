@@ -15,11 +15,6 @@
     margin-bottom: 32px;
     padding-bottom: 20px;
     border-bottom: 1px solid #e2e8f0;
-    background-color: #f8fafc;
-    /* Match container background or white */
-    position: sticky;
-    top: 0;
-    z-index: 10;
 
     .header-left {
       display: flex;
@@ -98,6 +93,7 @@
     }
   }
 
+  /* Booking Link Card */
   .booking-link-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 16px;
