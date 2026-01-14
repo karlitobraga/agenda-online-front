@@ -18,10 +18,6 @@
         </button>
     </div>
 
-    <div class="loading" *ngIf="loading">
-        <mat-spinner diameter="40"></mat-spinner>
-        <span>Carregando fiados...</span>
-    </div>
 
     <div class="credits-list" *ngIf="!loading">
         <div class="credit-card" *ngFor="let credit of credits" [class.paid-off]="credit.isPaidOff">

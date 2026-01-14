@@ -35,8 +35,8 @@ export class ConclusionDialogComponent implements OnInit {
     public allOfferings: any[] = [];
     public selectedOfferings: any[] = [];
     public newOfferingId: string = '';
-    public paymentMethod: string = 'Dinheiro';
-    public paymentMethods: string[] = ['Dinheiro', 'Cartão Débito', 'Cartão Crédito', 'Pix', 'Fiado'];
+    public paymentMethod: string = 'À Vista';
+    public paymentMethods: string[] = ['À Vista', 'Fiado'];
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: { schedule: ISchedule, tenantId: string },
@@ -119,8 +119,12 @@ export class ConclusionDialogComponent implements OnInit {
         this.creditService.create(creditDto).subscribe({
             next: () => this.dialogRef.close(true),
             error: (err: any) => {
-                console.error('Erro ao criar fiado', err);
-                this.dialogRef.close(true); // Still close, schedule was completed
+                console.error('Erro detalhado ao criar fiado:', err);
+                const errorMessage = err.error || err.message || 'Erro desconhecido';
+                const innerError = err.error?.innerException || '';
+                alert(`Erro ao criar fiado (400): ${errorMessage}\n${innerError}`);
+                // Don't close so user can see or retry? 
+                // Actually, the user asked to identify and modify to show error.
             }
         });
     }

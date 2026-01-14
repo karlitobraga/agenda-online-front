@@ -274,9 +274,9 @@
     .schedule-grid {
       display: grid;
       // Change to auto-fit with minmax and justify to center
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 24px;
-      justify-content: center;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 400px));
+      gap: 20px;
+      justify-content: flex-start;
 
       .schedule-card {
         background: white;
@@ -403,14 +403,19 @@
             align-items: center;
             gap: 4px;
             margin-bottom: 8px;
-            color: #667eea;
-            font-size: 0.8rem;
-            font-weight: 500;
+            color: #764ba2;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: #f3f0ff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            width: fit-content;
 
             mat-icon {
-              font-size: 14px;
-              width: 14px;
-              height: 14px;
+              font-size: 16px;
+              width: 16px;
+              height: 16px;
+              color: #764ba2;
             }
           }
 

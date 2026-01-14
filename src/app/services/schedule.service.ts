@@ -21,7 +21,7 @@ export interface ISchedule {
     end?: string;
     completed: boolean;
     isCancelled: boolean;
-    professionalName?: string;
+    professional?: { name: string };
     price?: number;
     note?: string;
     petItems?: Array<{

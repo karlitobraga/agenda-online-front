@@ -74,9 +74,9 @@
                     </div>
                     <div class="cancelled-badge" *ngIf="schedule.isCancelled">Cancelado</div>
                     <h3>{{ schedule.clientName || 'Cliente sem nome' }}</h3>
-                    <div class="professional-badge" *ngIf="schedule.professionalName">
+                    <div class="professional-badge" *ngIf="schedule.professional?.name">
                         <mat-icon>person</mat-icon>
-                        <span>{{ schedule.professionalName }}</span>
+                        <span>{{ schedule.professional?.name }}</span>
                     </div>
 
                     <!-- List all offerings or pet items if they exist -->

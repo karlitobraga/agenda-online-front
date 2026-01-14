@@ -90,10 +90,6 @@ import { NgxMaskDirective } from 'ngx-mask';
         <div class="slots-container" *ngIf="form.get('offeringId')?.value && form.get('date')?.value">
             <h3 class="slots-title">Horários Disponíveis</h3>
             
-            <div class="loading-slots" *ngIf="loadingSlots">
-                <mat-spinner diameter="30"></mat-spinner>
-                <span>Buscando horários...</span>
-            </div>
 
             <div class="empty-slots" *ngIf="!loadingSlots && availableSlots.length === 0">
                 <mat-icon>event_busy</mat-icon>
