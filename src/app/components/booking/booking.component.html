@@ -181,10 +181,7 @@
                 <div class="pet-info-fields" *ngIf="tenant?.businessType === 'Pet Shop'">
                     <mat-form-field appearance="outline" class="full-width">
                         <mat-label>Raça do Animal</mat-label>
-                        <mat-select [(ngModel)]="currentPetBreed">
-                            <mat-option value="Cachorro">Cachorro</mat-option>
-                            <mat-option value="Gato">Gato</mat-option>
-                        </mat-select>
+                        <input matInput [(ngModel)]="currentPetBreed" placeholder="Ex: Poodle, Persa...">
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" class="full-width">

@@ -48,9 +48,18 @@ export class MainLayoutComponent {
             if (token) {
                 try {
                     const payload = JSON.parse(atob(token.split('.')[1]));
-                    const role = payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-                    this.isAdmin = role === 'Admin';
+                    // Try multiple possible role claim names
+                    const role = payload['role'] ||
+                        payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ||
+                        payload['roles'];
+
+                    if (Array.isArray(role)) {
+                        this.isAdmin = role.includes('Admin');
+                    } else {
+                        this.isAdmin = role === 'Admin';
+                    }
                 } catch (e) {
+                    console.error('Error decoding token', e);
                     this.isAdmin = false;
                 }
             }
