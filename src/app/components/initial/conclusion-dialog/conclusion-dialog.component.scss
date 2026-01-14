@@ -70,6 +70,47 @@
     }
 }
 
+.payment-method-section {
+    margin-top: 16px;
+    padding: 16px 0;
+
+    .section-label {
+        font-weight: 600;
+        color: #334155;
+        display: block;
+        margin-bottom: 12px;
+    }
+
+    .payment-radio-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+
+        mat-radio-button {
+            font-size: 0.9rem;
+        }
+    }
+
+    .fiado-warning {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+        padding: 8px 12px;
+        background: #fef3cd;
+        border-radius: 8px;
+        color: #856404;
+        font-size: 0.85rem;
+
+        mat-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+            color: #f59e0b;
+        }
+    }
+}
+
 mat-dialog-actions {
     padding: 24px 0 0 0;
 }

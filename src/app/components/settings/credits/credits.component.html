@@ -1,0 +1,78 @@
+<div class="settings-container">
+    <div class="header">
+        <button mat-icon-button (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div class="header-content">
+            <mat-icon class="header-icon">account_balance_wallet</mat-icon>
+            <h2>Fiados</h2>
+            <p class="subtitle">Controle de valores pendentes de clientes.</p>
+        </div>
+    </div>
+
+    <div class="summary-card" *ngIf="!loading">
+        <div class="summary-label">Total Pendente</div>
+        <div class="summary-value">R$ {{ getTotalPending() | number:'1.2-2' }}</div>
+        <button mat-stroked-button (click)="toggleShowPaidOff()">
+            {{ showPaidOff ? 'Mostrar Apenas Pendentes' : 'Mostrar Quitados' }}
+        </button>
+    </div>
+
+    <div class="loading" *ngIf="loading">
+        <mat-spinner diameter="40"></mat-spinner>
+        <span>Carregando fiados...</span>
+    </div>
+
+    <div class="credits-list" *ngIf="!loading">
+        <div class="credit-card" *ngFor="let credit of credits" [class.paid-off]="credit.isPaidOff">
+            <div class="credit-header">
+                <div class="client-info">
+                    <span class="client-name">{{ credit.clientName }}</span>
+                    <span class="client-phone" *ngIf="credit.phoneNumber">
+                        {{ formatPhone(credit.phoneNumber) }}
+                    </span>
+                </div>
+                <div class="status-badge" [class.pending]="!credit.isPaidOff" [class.paid]="credit.isPaidOff">
+                    {{ credit.isPaidOff ? 'Quitado' : 'Pendente' }}
+                </div>
+            </div>
+
+            <div class="credit-details">
+                <div class="detail-row">
+                    <span class="label">Data:</span>
+                    <span>{{ formatDate(credit.createdAt) }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Valor Original:</span>
+                    <span>R$ {{ credit.originalAmount | number:'1.2-2' }}</span>
+                </div>
+                <div class="detail-row highlight" *ngIf="!credit.isPaidOff">
+                    <span class="label">Saldo Devedor:</span>
+                    <span class="remaining">R$ {{ credit.remainingAmount | number:'1.2-2' }}</span>
+                </div>
+            </div>
+
+            <div class="payments-section" *ngIf="credit.payments && credit.payments.length > 0">
+                <div class="payments-title">Pagamentos:</div>
+                <div class="payment-item" *ngFor="let payment of credit.payments">
+                    <span class="payment-date">{{ formatDate(payment.paidAt) }}</span>
+                    <span class="payment-amount">R$ {{ payment.amount | number:'1.2-2' }}</span>
+                    <span class="payment-method" *ngIf="payment.paymentMethod">{{ payment.paymentMethod }}</span>
+                </div>
+            </div>
+
+            <div class="credit-actions" *ngIf="!credit.isPaidOff">
+                <button mat-flat-button color="primary" (click)="addPayment(credit)">
+                    <mat-icon>payment</mat-icon>
+                    Registrar Pagamento
+                </button>
+            </div>
+        </div>
+
+        <div class="empty-state" *ngIf="credits.length === 0">
+            <mat-icon>account_balance_wallet</mat-icon>
+            <h3>Nenhum fiado encontrado</h3>
+            <p>Os fiados registrados ao concluir atendimentos aparecerão aqui.</p>
+        </div>
+    </div>
+</div>

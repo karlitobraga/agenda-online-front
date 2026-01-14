@@ -1,0 +1,30 @@
+.remaining-info {
+    background: #f8fafc;
+    padding: 12px 16px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .label {
+        color: #64748b;
+    }
+
+    .value {
+        font-weight: 700;
+        color: #dc3545;
+    }
+}
+
+.full-width {
+    width: 100%;
+}
+
+.full-amount-btn {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+mat-dialog-actions {
+    padding: 24px 0 0 0;
+}

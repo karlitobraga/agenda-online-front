@@ -54,18 +54,26 @@
                     <span class="label">Receita de Produtos</span>
                 </div>
             </mat-card>
+
+            <mat-card class="stat-card profit">
+                <div class="icon-circle"><mat-icon>paid</mat-icon></div>
+                <div class="stat-info">
+                    <span class="value">{{ summary.productProfit | currency:'BRL' }}</span>
+                    <span class="label">Lucro Total</span>
+                </div>
+            </mat-card>
         </div>
 
         <div class="chart-section" *ngIf="report.length > 0">
             <h3>Distribuição de Vendas por Período</h3>
             <div class="visual-bar-chart">
-                 <div class="bar-item" *ngFor="let item of report.slice(0, 10)">
+                <div class="bar-item" *ngFor="let item of report.slice(0, 10)">
                     <div class="bar-label">{{ item.date | date:'dd/MM HH:mm' }}</div>
                     <div class="bar-container">
                         <div class="bar-fill" [style.width.%]="(item.value / summary.productRevenue) * 500"></div>
                     </div>
                     <div class="bar-value">{{ item.value | currency:'BRL' }}</div>
-                 </div>
+                </div>
             </div>
         </div>
 
@@ -86,7 +94,10 @@
                     </div>
                 </div>
                 <div class="item-amount">
-                    {{ item.value | currency:'BRL' }}
+                    <div class="amount-value">{{ item.value | currency:'BRL' }}</div>
+                    <div class="amount-profit" *ngIf="item.profit > 0">
+                        Lucro: {{ item.profit | currency:'BRL' }}
+                    </div>
                 </div>
             </div>
         </div>

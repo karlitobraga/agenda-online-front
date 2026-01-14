@@ -20,6 +20,8 @@ interface ReportItem {
     professionalName: string;
     description: string;
     value: number;
+    cost: number;
+    profit: number;
     type: string;
 }
 

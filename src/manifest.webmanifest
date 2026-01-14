@@ -1,6 +1,6 @@
 {
-  "name": "Minha Agenda",
-  "short_name": "Minha Agenda",
+  "name": "AgendeHora",
+  "short_name": "AgendeHora",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",

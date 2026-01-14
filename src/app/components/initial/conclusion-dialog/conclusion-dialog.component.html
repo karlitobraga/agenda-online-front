@@ -33,6 +33,21 @@
         </button>
     </div>
 
+    <mat-divider></mat-divider>
+
+    <div class="payment-method-section">
+        <span class="section-label">Forma de Pagamento:</span>
+        <mat-radio-group [(ngModel)]="paymentMethod" class="payment-radio-group">
+            <mat-radio-button *ngFor="let method of paymentMethods" [value]="method">
+                {{ method }}
+            </mat-radio-button>
+        </mat-radio-group>
+        <div class="fiado-warning" *ngIf="paymentMethod === 'Fiado'">
+            <mat-icon>info</mat-icon>
+            <span>O valor será registrado como fiado para cobrança posterior.</span>
+        </div>
+    </div>
+
     <div class="total-section">
         <span class="total-label">Total:</span>
         <span class="total-value">R$ {{ getTotalPrice() | number:'1.2-2' }}</span>

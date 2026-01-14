@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>Registrar Pagamento</h2>
+<mat-dialog-content>
+    <p>Registrar pagamento para <strong>{{ data.credit.clientName }}</strong></p>
+
+    <div class="remaining-info">
+        <span class="label">Saldo Devedor:</span>
+        <span class="value">R$ {{ data.credit.remainingAmount | number:'1.2-2' }}</span>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Valor do Pagamento</mat-label>
+        <input matInput type="number" [(ngModel)]="amount" [max]="data.credit.remainingAmount" min="0.01" step="0.01">
+        <span matTextPrefix>R$&nbsp;</span>
+    </mat-form-field>
+
+    <button mat-stroked-button type="button" (click)="setFullAmount()" class="full-amount-btn">
+        Quitar Valor Total
+    </button>
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Forma de Pagamento</mat-label>
+        <mat-select [(ngModel)]="paymentMethod">
+            <mat-option *ngFor="let method of paymentMethods" [value]="method">
+                {{ method }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()">Cancelar</button>
+    <button mat-flat-button color="primary" (click)="confirm()"
+        [disabled]="amount <= 0 || amount > data.credit.remainingAmount">
+        Confirmar Pagamento
+    </button>
+</mat-dialog-actions>

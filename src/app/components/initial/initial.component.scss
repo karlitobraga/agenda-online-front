@@ -15,6 +15,11 @@
     margin-bottom: 32px;
     padding-bottom: 20px;
     border-bottom: 1px solid #e2e8f0;
+    background-color: #f8fafc;
+    /* Match container background or white */
+    position: sticky;
+    top: 0;
+    z-index: 10;
 
     .header-left {
       display: flex;
@@ -93,7 +98,6 @@
     }
   }
 
-  /* Booking Link Card */
   .booking-link-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 16px;
@@ -392,6 +396,22 @@
             margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+          }
+
+          .professional-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 8px;
+            color: #667eea;
+            font-size: 0.8rem;
+            font-weight: 500;
+
+            mat-icon {
+              font-size: 14px;
+              width: 14px;
+              height: 14px;
+            }
           }
 
           h3 {

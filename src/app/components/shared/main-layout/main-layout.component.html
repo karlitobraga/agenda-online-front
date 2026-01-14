@@ -27,6 +27,10 @@
                 <mat-icon matListItemIcon>point_of_sale</mat-icon>
                 <span matListItemTitle>Vendas (PDV)</span>
             </a>
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/credits" (click)="drawer.close()">
+                <mat-icon matListItemIcon>account_balance_wallet</mat-icon>
+                <span matListItemTitle>Fiados</span>
+            </a>
             <a *ngIf="isAdmin" mat-list-item routerLink="/settings/reports/appointments" (click)="drawer.close()">
                 <mat-icon matListItemIcon>event_note</mat-icon>
                 <span matListItemTitle>Relat. Atendimentos</span>
@@ -52,7 +56,7 @@
                 <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
                     <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
                 </button>
-                <span class="toolbar-title">Minha Agenda</span>
+                <span class="toolbar-title">AgendeHora</span>
             </div>
         </mat-toolbar>
 

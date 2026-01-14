@@ -9,7 +9,9 @@ import { OfferingService } from '../../offering/offering.service';
 import { ISchedule, ScheduleService } from '../../../services/schedule.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { CreditService } from '../../../services/credit.service';
 
 @Component({
     selector: 'app-conclusion-dialog',
@@ -23,6 +25,7 @@ import { FormsModule } from '@angular/forms';
         MatDividerModule,
         MatFormFieldModule,
         MatSelectModule,
+        MatRadioModule,
         FormsModule
     ],
     templateUrl: './conclusion-dialog.component.html',
@@ -32,12 +35,15 @@ export class ConclusionDialogComponent implements OnInit {
     public allOfferings: any[] = [];
     public selectedOfferings: any[] = [];
     public newOfferingId: string = '';
+    public paymentMethod: string = 'Dinheiro';
+    public paymentMethods: string[] = ['Dinheiro', 'Cartão Débito', 'Cartão Crédito', 'Pix', 'Fiado'];
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: { schedule: ISchedule, tenantId: string },
         private dialogRef: MatDialogRef<ConclusionDialogComponent>,
         private offeringService: OfferingService,
-        private scheduleService: ScheduleService
+        private scheduleService: ScheduleService,
+        private creditService: CreditService
     ) {
         // Clone offerings to avoid direct mutation
         this.selectedOfferings = [...(data.schedule.offerings || [])];
@@ -86,7 +92,14 @@ export class ConclusionDialogComponent implements OnInit {
         this.scheduleService.update(this.data.schedule.id, updateDto).subscribe({
             next: () => {
                 this.scheduleService.markAsCompleted(this.data.schedule.id).subscribe({
-                    next: () => this.dialogRef.close(true),
+                    next: () => {
+                        // If payment is Fiado, create a credit
+                        if (this.paymentMethod === 'Fiado') {
+                            this.createCredit();
+                        } else {
+                            this.dialogRef.close(true);
+                        }
+                    },
                     error: (err: any) => console.error('Erro ao concluir agendamento', err)
                 });
             },
@@ -94,7 +107,26 @@ export class ConclusionDialogComponent implements OnInit {
         });
     }
 
+    private createCredit() {
+        const creditDto = {
+            clientName: this.data.schedule.clientName,
+            phoneNumber: this.data.schedule.phoneNumber,
+            scheduleId: this.data.schedule.id,
+            originalAmount: this.getTotalPrice(),
+            description: 'Fiado gerado ao concluir agendamento'
+        };
+
+        this.creditService.create(creditDto).subscribe({
+            next: () => this.dialogRef.close(true),
+            error: (err: any) => {
+                console.error('Erro ao criar fiado', err);
+                this.dialogRef.close(true); // Still close, schedule was completed
+            }
+        });
+    }
+
     cancel() {
         this.dialogRef.close(false);
     }
 }
+
