@@ -114,7 +114,7 @@
                         <mat-error *ngIf="clientForm.get('phone')?.hasError('mask')">Número inválido</mat-error>
                     </mat-form-field>
 
-                    <mat-form-field appearance="outline" class="full-width">
+                    <mat-form-field appearance="outline" class="full-width" *ngIf="false">
                         <mat-label>Observação (Opcional)</mat-label>
                         <textarea matInput formControlName="note"
                             placeholder="Ex: Informações adicionais sobre o atendimento..." rows="3"></textarea>
