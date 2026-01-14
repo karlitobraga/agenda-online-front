@@ -40,6 +40,11 @@ export class LoginComponent {
           next: (response) => {
             localStorage.setItem('token', response.token.toString());
             localStorage.setItem('tenantId', response.tenantId);
+            if (response.professionalId) {
+              localStorage.setItem('professionalId', response.professionalId);
+            } else {
+              localStorage.removeItem('professionalId');
+            }
             this.router.navigate(['/inicio']);
           },
           error: (error) => {

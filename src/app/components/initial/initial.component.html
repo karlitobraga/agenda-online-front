@@ -108,6 +108,11 @@
                         </button>
                     </div>
 
+                    <div class="note-row" *ngIf="schedule.note">
+                        <mat-icon>notes</mat-icon>
+                        <p class="schedule-note">{{ schedule.note }}</p>
+                    </div>
+
                     <!-- Total duration -->
                     <p class="service-duration">
                         <mat-icon>timer</mat-icon> {{ getScheduleDuration(schedule) }} min

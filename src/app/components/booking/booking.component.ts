@@ -13,8 +13,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { BookingApiService, TenantPublic, ServicePublic, TimeSlot } from '../../services/booking-api.service';
 import { NgxMaskDirective } from 'ngx-mask';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 
 enum BookingStep {
     ClientInfo = 1,
@@ -41,6 +43,7 @@ enum BookingStep {
         MatProgressSpinnerModule,
         MatSnackBarModule,
         MatSelectModule,
+        MatDialogModule,
         NgxMaskDirective
     ],
     templateUrl: './booking.component.html',
@@ -81,11 +84,13 @@ export class BookingComponent implements OnInit {
         private bookingApi: BookingApiService,
         private professionalService: ProfessionalService,
         private fb: FormBuilder,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
+        private dialog: MatDialog
     ) {
         this.clientForm = this.fb.group({
             name: ['', [Validators.required, Validators.minLength(2)]],
-            phone: ['', [Validators.required, Validators.pattern(/^\d{10,11}$/)]]
+            phone: ['', [Validators.required, Validators.pattern(/^\d{10,11}$/)]],
+            note: ['']
         });
 
         // Set min date to today
@@ -215,19 +220,65 @@ export class BookingComponent implements OnInit {
 
     confirmServices() {
         if (this.selectedServices.length > 0 || this.pets.length > 0) {
-            // Add current pet if not empty
-            if (this.selectedServices.length > 0) {
-                this.pets.push({
-                    name: this.currentPetName || (this.tenant?.businessType === 'Pet Shop' ? `Animal ${this.pets.length + 1}` : 'Serviços'),
-                    breed: this.currentPetBreed,
-                    quantity: this.currentPetQuantity || 1,
-                    serviceIds: this.selectedServices.map(s => s.id),
-                    services: [...this.selectedServices]
+            // Check if we should ask for another animal (Pet Shop only)
+            if (this.tenant?.businessType === 'Pet Shop' && this.selectedServices.length > 0) {
+                const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+                    width: '400px',
+                    data: {
+                        title: 'Outro Animal?',
+                        message: 'Deseja cadastrar outro animal para este mesmo agendamento?',
+                        confirmText: 'Sim, adicionar outro',
+                        cancelText: 'Não, finalizar seleção',
+                        confirmColor: 'primary'
+                    }
                 });
-            }
 
-            this.currentStep = BookingStep.SelectDateTime;
-            this.loadAvailableSlots();
+                dialogRef.afterClosed().subscribe(result => {
+                    if (result) {
+                        // User wants to add another animal
+                        this.pets.push({
+                            name: this.currentPetName || `Animal ${this.pets.length + 1}`,
+                            breed: this.currentPetBreed,
+                            quantity: 1, // Fixed to 1 as requested
+                            serviceIds: this.selectedServices.map(s => s.id),
+                            services: [...this.selectedServices]
+                        });
+
+                        // Reset for next pet
+                        this.currentPetName = '';
+                        this.currentPetBreed = '';
+                        this.selectedServices = [];
+
+                        this.snackBar.open('Animal adicionado! Selecione os serviços para o próximo.', 'Fechar', {
+                            duration: 3000
+                        });
+                    } else {
+                        // User wants to finish
+                        this.pets.push({
+                            name: this.currentPetName || `Animal ${this.pets.length + 1}`,
+                            breed: this.currentPetBreed,
+                            quantity: 1,
+                            serviceIds: this.selectedServices.map(s => s.id),
+                            services: [...this.selectedServices]
+                        });
+                        this.currentStep = BookingStep.SelectDateTime;
+                        this.loadAvailableSlots();
+                    }
+                });
+            } else {
+                // Not a pet shop or no services selected for current pet (but pets exist)
+                if (this.selectedServices.length > 0) {
+                    this.pets.push({
+                        name: this.currentPetName || (this.tenant?.businessType === 'Pet Shop' ? `Animal ${this.pets.length + 1}` : 'Serviços'),
+                        breed: this.currentPetBreed,
+                        quantity: 1,
+                        serviceIds: this.selectedServices.map(s => s.id),
+                        services: [...this.selectedServices]
+                    });
+                }
+                this.currentStep = BookingStep.SelectDateTime;
+                this.loadAvailableSlots();
+            }
         }
     }
     // Step 3: DateTime Selection

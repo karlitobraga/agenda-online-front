@@ -114,6 +114,12 @@
                         <mat-error *ngIf="clientForm.get('phone')?.hasError('mask')">Número inválido</mat-error>
                     </mat-form-field>
 
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Observação (Opcional)</mat-label>
+                        <textarea matInput formControlName="note"
+                            placeholder="Ex: Informações adicionais sobre o atendimento..." rows="3"></textarea>
+                    </mat-form-field>
+
                     <button mat-flat-button color="primary" type="submit" [disabled]="clientForm.invalid"
                         class="next-btn">
                         Continuar <mat-icon>arrow_forward</mat-icon>
@@ -182,11 +188,6 @@
                     <mat-form-field appearance="outline" class="full-width">
                         <mat-label>Raça do Animal</mat-label>
                         <input matInput [(ngModel)]="currentPetBreed" placeholder="Ex: Poodle, Persa...">
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Quantidade de Animais</mat-label>
-                        <input matInput type="number" [(ngModel)]="currentPetQuantity" min="1" max="10">
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" class="full-width">
