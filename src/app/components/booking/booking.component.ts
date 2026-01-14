@@ -166,7 +166,7 @@ export class BookingComponent implements OnInit {
             this.pets.push({
                 name: this.currentPetName || (this.tenant?.businessType === 'Pet Shop' ? `Animal ${this.pets.length + 1}` : 'Serviços'),
                 breed: this.currentPetBreed,
-                quantity: this.currentPetQuantity || 1,
+                quantity: 1,
                 serviceIds: this.selectedServices.map(s => s.id),
                 services: [...this.selectedServices]
             });
@@ -174,13 +174,16 @@ export class BookingComponent implements OnInit {
             // Reset for next pet
             this.currentPetName = '';
             this.currentPetBreed = '';
-            this.currentPetQuantity = 1;
             this.selectedServices = [];
 
             this.snackBar.open('Animal adicionado! Selecione os serviços para o próximo.', 'Fechar', {
                 duration: 3000
             });
         }
+    }
+
+    removePet(index: number) {
+        this.pets.splice(index, 1);
     }
 
     // Step 2: Professional Selection
@@ -219,66 +222,24 @@ export class BookingComponent implements OnInit {
     }
 
     confirmServices() {
-        if (this.selectedServices.length > 0 || this.pets.length > 0) {
-            // Check if we should ask for another animal (Pet Shop only)
-            if (this.tenant?.businessType === 'Pet Shop' && this.selectedServices.length > 0) {
-                const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-                    width: '400px',
-                    data: {
-                        title: 'Outro Animal?',
-                        message: 'Deseja cadastrar outro animal para este mesmo agendamento?',
-                        confirmText: 'Sim, adicionar outro',
-                        cancelText: 'Não, finalizar seleção',
-                        confirmColor: 'primary'
-                    }
-                });
+        // If there is a current selection, add it as a pet/service item before proceeding
+        if (this.selectedServices.length > 0) {
+            this.pets.push({
+                name: this.currentPetName || (this.tenant?.businessType === 'Pet Shop' ? `Animal ${this.pets.length + 1}` : 'Serviços'),
+                breed: this.currentPetBreed,
+                quantity: 1,
+                serviceIds: this.selectedServices.map(s => s.id),
+                services: [...this.selectedServices]
+            });
+            // Clear current selection to avoid duplicates if they go back
+            this.currentPetName = '';
+            this.currentPetBreed = '';
+            this.selectedServices = [];
+        }
 
-                dialogRef.afterClosed().subscribe(result => {
-                    if (result) {
-                        // User wants to add another animal
-                        this.pets.push({
-                            name: this.currentPetName || `Animal ${this.pets.length + 1}`,
-                            breed: this.currentPetBreed,
-                            quantity: 1, // Fixed to 1 as requested
-                            serviceIds: this.selectedServices.map(s => s.id),
-                            services: [...this.selectedServices]
-                        });
-
-                        // Reset for next pet
-                        this.currentPetName = '';
-                        this.currentPetBreed = '';
-                        this.selectedServices = [];
-
-                        this.snackBar.open('Animal adicionado! Selecione os serviços para o próximo.', 'Fechar', {
-                            duration: 3000
-                        });
-                    } else {
-                        // User wants to finish
-                        this.pets.push({
-                            name: this.currentPetName || `Animal ${this.pets.length + 1}`,
-                            breed: this.currentPetBreed,
-                            quantity: 1,
-                            serviceIds: this.selectedServices.map(s => s.id),
-                            services: [...this.selectedServices]
-                        });
-                        this.currentStep = BookingStep.SelectDateTime;
-                        this.loadAvailableSlots();
-                    }
-                });
-            } else {
-                // Not a pet shop or no services selected for current pet (but pets exist)
-                if (this.selectedServices.length > 0) {
-                    this.pets.push({
-                        name: this.currentPetName || (this.tenant?.businessType === 'Pet Shop' ? `Animal ${this.pets.length + 1}` : 'Serviços'),
-                        breed: this.currentPetBreed,
-                        quantity: 1,
-                        serviceIds: this.selectedServices.map(s => s.id),
-                        services: [...this.selectedServices]
-                    });
-                }
-                this.currentStep = BookingStep.SelectDateTime;
-                this.loadAvailableSlots();
-            }
+        if (this.pets.length > 0) {
+            this.currentStep = BookingStep.SelectDateTime;
+            this.loadAvailableSlots();
         }
     }
     // Step 3: DateTime Selection

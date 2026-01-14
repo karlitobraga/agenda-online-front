@@ -184,6 +184,22 @@
                     </div>
                 </div>
 
+                <!-- Added Pets List -->
+                <div class="added-pets" *ngIf="pets.length > 0">
+                    <h3>Animais Adicionados:</h3>
+                    <div class="pet-card" *ngFor="let pet of pets; let i = index">
+                        <div class="pet-card-info">
+                            <strong>{{ pet.name }}</strong> ({{ pet.breed }})
+                            <span class="pet-services-summary">
+                                {{ pet.services.length }} serviços
+                            </span>
+                        </div>
+                        <button mat-icon-button color="warn" (click)="removePet(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="pet-info-fields" *ngIf="tenant?.businessType === 'Pet Shop'">
                     <mat-form-field appearance="outline" class="full-width">
                         <mat-label>Raça do Animal</mat-label>
@@ -197,21 +213,29 @@
                 </div>
 
                 <div class="services-grid">
-                    <div class="service-card" *ngFor="let service of getAvailableServices()"
+                    <mat-card *ngFor="let service of getAvailableServices()" class="service-card"
                         [class.selected]="isServiceSelected(service)" (click)="toggleService(service)">
-                        <div class="service-check">
-                            <mat-icon *ngIf="isServiceSelected(service)">check_circle</mat-icon>
-                            <mat-icon *ngIf="!isServiceSelected(service)">radio_button_unchecked</mat-icon>
-                        </div>
-                        <div class="service-info">
-                            <h3>{{ service.name }}</h3>
-                            <p *ngIf="service.description">{{ service.description }}</p>
-                            <div class="service-meta">
-                                <span class="price">{{ formatPrice(service.price) }}</span>
-                                <span class="duration">{{ service.durationMinutes }} min</span>
+                        <div class="service-content">
+                            <div class="service-header">
+                                <h3>{{ service.name }}</h3>
+                                <mat-icon *ngIf="isServiceSelected(service)" class="check-icon">check_circle</mat-icon>
                             </div>
+                            <p class="price">{{ formatPrice(service.price) }}</p>
+                            <p class="duration">{{ service.durationMinutes }} min</p>
                         </div>
-                    </div>
+                    </mat-card>
+                </div>
+
+                <div class="actions-row">
+                    <button mat-stroked-button color="primary" (click)="addAnotherPet()"
+                        *ngIf="tenant?.businessType === 'Pet Shop' && selectedServices.length > 0" class="add-pet-btn">
+                        <mat-icon>add</mat-icon> Adicionar Outro Animal
+                    </button>
+
+                    <button mat-flat-button color="primary" (click)="confirmServices()"
+                        [disabled]="pets.length === 0 && selectedServices.length === 0" class="next-btn">
+                        Continuar <mat-icon>arrow_forward</mat-icon>
+                    </button>
                 </div>
 
                 <div class="selection-summary" *ngIf="selectedServices.length > 0 || pets.length > 0">
