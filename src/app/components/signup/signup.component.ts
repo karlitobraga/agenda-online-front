@@ -56,7 +56,7 @@ export class SignupComponent {
             }
           },
           error: (error) => {
-            const errorMsg = error?.error?.value || 'Ocorreu um erro desconhecido';
+            const errorMsg = error?.error?.message || error?.error || 'Ocorreu um erro desconhecido';
             this.infoDialogService.showMessage(errorMsg.toString(), false)
           }
         });
