@@ -3,8 +3,8 @@
     <p>{{ data.message }}</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close class="btn-cancel">Cancelar</button>
-    <button mat-flat-button [color]="data.confirmColor || 'primary'" [mat-dialog-close]="true" class="btn-confirm">
-        {{ data.confirmText || 'Confirmar' }}
+    <button mat-button mat-dialog-close class="btn-confirm">Não</button>
+    <button mat-flat-button [color]="data.confirmColor || 'primary'" [mat-dialog-close]="true" class="btn-cancel">
+        Sim
     </button>
 </mat-dialog-actions>

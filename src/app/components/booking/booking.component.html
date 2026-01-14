@@ -222,11 +222,6 @@
                 </div>
 
                 <div class="actions-row">
-                    <button mat-stroked-button color="primary" (click)="addAnotherPet()"
-                        *ngIf="tenant?.businessType === 'Pet Shop' && (selectedServices.length > 0 || pets.length > 0)"
-                        class="add-pet-btn">
-                        <mat-icon>add</mat-icon> Outro Animal
-                    </button>
                     <button mat-flat-button color="primary" (click)="confirmServices()"
                         [disabled]="selectedServices.length === 0 && pets.length === 0" class="next-btn">
                         Continuar <mat-icon>arrow_forward</mat-icon>
