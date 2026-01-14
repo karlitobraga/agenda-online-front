@@ -239,7 +239,7 @@ export class BookingComponent implements OnInit {
     }
 
     loadAvailableSlots() {
-        if (this.selectedServices.length === 0) return;
+        if (this.pets.length === 0 && this.selectedServices.length === 0) return;
 
         this.loadingSlots = true;
         const dateStr = this.formatDate(this.selectedDate);
@@ -251,6 +251,11 @@ export class BookingComponent implements OnInit {
                 serviceIds.push(...pet.serviceIds);
             }
         });
+
+        // Also add currently selected services if they weren't added to pets yet (though confirmServices should handle this)
+        if (this.selectedServices.length > 0) {
+            this.selectedServices.forEach(s => serviceIds.push(s.id));
+        }
 
         this.bookingApi.getAvailableSlots(this.slug, dateStr, serviceIds, this.selectedProfessional?.id).subscribe({
             next: (slots) => {
@@ -276,7 +281,7 @@ export class BookingComponent implements OnInit {
 
     // Step 4: Confirmation
     confirmBooking() {
-        if (!this.selectedSlot || this.selectedServices.length === 0) return;
+        if (!this.selectedSlot || (this.pets.length === 0 && this.selectedServices.length === 0)) return;
 
         this.loading = true;
 
