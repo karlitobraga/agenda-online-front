@@ -93,13 +93,14 @@
     }
   }
 
-  /* Booking Link Card */
-  .booking-link-card {
+    .booking-link-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 16px;
     padding: 20px 24px;
     margin-bottom: 32px;
     box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    position: relative;
+    z-index: 1;
 
     .link-content {
       display: flex;

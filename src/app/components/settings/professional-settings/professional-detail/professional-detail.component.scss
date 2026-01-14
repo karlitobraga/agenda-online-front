@@ -511,4 +511,25 @@ input:checked+.slider:before {
     .offerings-grid {
         grid-template-columns: 1fr !important;
     }
+
+    .days-grid .day-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+
+        .day-info {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .day-times {
+            width: 100%;
+            justify-content: space-between;
+            margin-top: 4px;
+
+            input {
+                flex: 1;
+            }
+        }
+    }
 }

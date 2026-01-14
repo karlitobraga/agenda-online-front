@@ -175,7 +175,11 @@ export class BookingComponent implements OnInit {
             this.currentPetBreed = '';
             this.selectedServices = [];
 
-            this.snackBar.open('Adicionado! Você pode incluir mais ou continuar.', 'Fechar', {
+            const message = this.tenant?.businessType === 'Pet Shop'
+                ? 'Adicionado! Você pode incluir mais ou continuar.'
+                : 'Serviço adicionado com sucesso!';
+
+            this.snackBar.open(message, 'Fechar', {
                 duration: 3000
             });
         }

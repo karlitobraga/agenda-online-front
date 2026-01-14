@@ -76,13 +76,15 @@
                     <h3>{{ schedule.clientName || 'Cliente sem nome' }}</h3>
 
                     <!-- List all offerings or pet items if they exist -->
-                    <div class="services-list" *ngIf="!schedule.petItems || schedule.petItems.length === 0">
+                    <div class="services-list"
+                        *ngIf="(!schedule.petItems || schedule.petItems.length === 0) || businessType !== 'Pet Shop'">
                         <p class="service-name" *ngFor="let offering of schedule.offerings">
                             {{ offering.name }}
                         </p>
                     </div>
 
-                    <div class="pet-items-list" *ngIf="schedule.petItems && schedule.petItems.length > 0">
+                    <div class="pet-items-list"
+                        *ngIf="businessType === 'Pet Shop' && schedule.petItems && schedule.petItems.length > 0">
                         <div class="pet-item-row" *ngFor="let pet of schedule.petItems">
                             <p class="pet-info">
                                 <mat-icon>pets</mat-icon>
