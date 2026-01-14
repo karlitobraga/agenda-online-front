@@ -63,6 +63,21 @@ import { NgxMaskDirective } from 'ngx-mask';
           <mat-error *ngIf="form.get('offeringId')?.hasError('required')">Obrigatório</mat-error>
         </mat-form-field>
 
+        <div class="pet-fields" *ngIf="data.businessType === 'Pet Shop'">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Raça</mat-label>
+            <mat-select formControlName="breed">
+              <mat-option value="Cachorro">Cachorro</mat-option>
+              <mat-option value="Gato">Gato</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Quantidade</mat-label>
+            <input matInput type="number" formControlName="quantity" min="1">
+          </mat-form-field>
+        </div>
+
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Data</mat-label>
           <input matInput [matDatepicker]="picker" formControlName="date" (dateChange)="onServiceOrDateChange()">
@@ -189,14 +204,16 @@ export class ManualBookingComponent implements OnInit {
     private scheduleService: ScheduleService,
     private bookingApi: BookingApiService,
     private dialogRef: MatDialogRef<ManualBookingComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { tenantId: string, slug: string },
+    @Inject(MAT_DIALOG_DATA) public data: { tenantId: string, slug: string, businessType?: string },
     private dialogService: InfoDialogService
   ) {
     this.form = this.fb.group({
       clientName: ['', Validators.required],
-      phoneNumber: ['', [Validators.pattern(/^\d{10,11}$/)]], // Optional but must be valid if present
+      phoneNumber: ['', [Validators.pattern(/^\d{10,11}$/)]],
       offeringId: ['', Validators.required],
-      date: [new Date(), Validators.required]
+      date: [new Date(), Validators.required],
+      breed: [''],
+      quantity: [1]
     });
   }
 
@@ -232,7 +249,18 @@ export class ManualBookingComponent implements OnInit {
     this.selectedSlot = null; // Clear selection
     const dateStr = this.formatDate(date);
 
-    this.bookingApi.getAvailableSlots(this.data.slug, dateStr, serviceIds).subscribe({
+    // If Pet Shop and multiple quantity, we need to repeat services for duration calculation
+    const effectiveServiceIds: string[] = [];
+    if (this.data.businessType === 'Pet Shop' && this.form.get('quantity')?.value > 1) {
+      const qty = this.form.get('quantity')?.value;
+      for (let i = 0; i < qty; i++) {
+        effectiveServiceIds.push(...serviceIds);
+      }
+    } else {
+      effectiveServiceIds.push(...serviceIds);
+    }
+
+    this.bookingApi.getAvailableSlots(this.data.slug, dateStr, effectiveServiceIds).subscribe({
       next: (slots) => {
         this.availableSlots = slots;
         this.loadingSlots = false;
@@ -255,13 +283,22 @@ export class ManualBookingComponent implements OnInit {
     this.loading = true;
     const val = this.form.value;
 
-    const payload = {
+    const payload: any = {
       tenantId: this.data.tenantId,
       clientName: val.clientName,
       phoneNumber: val.phoneNumber || null,
-      offeringIds: val.offeringId, // This is an array now
+      offeringIds: val.offeringId,
       date: this.selectedSlot.dateTime
     };
+
+    if (this.data.businessType === 'Pet Shop') {
+      payload.petItems = [{
+        name: val.clientName, // Default to client name for manual
+        breed: val.breed || 'Cachorro',
+        quantity: val.quantity || 1,
+        serviceIds: val.offeringId
+      }];
+    }
 
     // Use scheduleService directly like before, but now with confirmed slot
     this.scheduleService.add(payload).subscribe({

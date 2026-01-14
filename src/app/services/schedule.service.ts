@@ -22,6 +22,16 @@ export interface ISchedule {
     completed: boolean;
     isCancelled: boolean;
     price?: number;
+    petItems?: Array<{
+        name: string;
+        breed?: string;
+        quantity: number;
+        offerings: Array<{
+            name: string;
+            price: number;
+            executionTime: number;
+        }>;
+    }>;
 }
 
 @Injectable({

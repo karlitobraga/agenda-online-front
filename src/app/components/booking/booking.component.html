@@ -180,12 +180,21 @@
 
                 <div class="pet-info-fields" *ngIf="tenant?.businessType === 'Pet Shop'">
                     <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Nome do Animal</mat-label>
-                        <input matInput [(ngModel)]="currentPetName" placeholder="Ex: Thor">
+                        <mat-label>Raça do Animal</mat-label>
+                        <mat-select [(ngModel)]="currentPetBreed">
+                            <mat-option value="Cachorro">Cachorro</mat-option>
+                            <mat-option value="Gato">Gato</mat-option>
+                        </mat-select>
                     </mat-form-field>
+
                     <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Raça (Opcional)</mat-label>
-                        <input matInput [(ngModel)]="currentPetBreed" placeholder="Ex: Golden Retriever">
+                        <mat-label>Quantidade de Animais</mat-label>
+                        <input matInput type="number" [(ngModel)]="currentPetQuantity" min="1" max="10">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Nome do Animal (Opcional)</mat-label>
+                        <input matInput [(ngModel)]="currentPetName" placeholder="Ex: Thor">
                     </mat-form-field>
                 </div>
 
@@ -306,7 +315,14 @@
                     <div class="detail-group">
                         <h4>Serviços</h4>
                         <div *ngFor="let pet of pets" class="pet-summary">
-                            <p><strong>{{ pet.name }}</strong> <span *ngIf="pet.breed">({{ pet.breed }})</span></p>
+                            <p>
+                                <strong>{{ pet.name }}</strong>
+                                <span *ngIf="pet.breed">({{ pet.breed }})</span>
+                                <span *ngIf="pet.quantity > 1"
+                                    style="margin-left: 8px; color: var(--primary-color); font-weight: bold;">
+                                    x{{ pet.quantity }}
+                                </span>
+                            </p>
                             <ul>
                                 <li *ngFor="let service of pet.services">
                                     {{ service.name }} - {{ formatPrice(service.price) }}

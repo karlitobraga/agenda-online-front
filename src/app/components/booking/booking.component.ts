@@ -12,6 +12,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
 import { BookingApiService, TenantPublic, ServicePublic, TimeSlot } from '../../services/booking-api.service';
 import { NgxMaskDirective } from 'ngx-mask';
 
@@ -39,6 +40,7 @@ enum BookingStep {
         MatNativeDateModule,
         MatProgressSpinnerModule,
         MatSnackBarModule,
+        MatSelectModule,
         NgxMaskDirective
     ],
     templateUrl: './booking.component.html',
@@ -69,9 +71,10 @@ export class BookingComponent implements OnInit {
     minDate: Date = new Date();
 
     // Pet specific
-    pets: { name: string, breed?: string, serviceIds: string[], services: ServicePublic[] }[] = [];
+    pets: { name: string, breed?: string, quantity: number, serviceIds: string[], services: ServicePublic[] }[] = [];
     currentPetName: string = '';
     currentPetBreed: string = '';
+    currentPetQuantity: number = 1;
 
     constructor(
         private route: ActivatedRoute,
@@ -156,8 +159,9 @@ export class BookingComponent implements OnInit {
     addAnotherPet() {
         if (this.selectedServices.length > 0) {
             this.pets.push({
-                name: this.currentPetName || `Animal ${this.pets.length + 1}`,
+                name: this.currentPetName || (this.tenant?.businessType === 'Pet Shop' ? `Animal ${this.pets.length + 1}` : 'Serviços'),
                 breed: this.currentPetBreed,
+                quantity: this.currentPetQuantity || 1,
                 serviceIds: this.selectedServices.map(s => s.id),
                 services: [...this.selectedServices]
             });
@@ -165,6 +169,7 @@ export class BookingComponent implements OnInit {
             // Reset for next pet
             this.currentPetName = '';
             this.currentPetBreed = '';
+            this.currentPetQuantity = 1;
             this.selectedServices = [];
 
             this.snackBar.open('Animal adicionado! Selecione os serviços para o próximo.', 'Fechar', {
@@ -215,6 +220,7 @@ export class BookingComponent implements OnInit {
                 this.pets.push({
                     name: this.currentPetName || (this.tenant?.businessType === 'Pet Shop' ? `Animal ${this.pets.length + 1}` : 'Serviços'),
                     breed: this.currentPetBreed,
+                    quantity: this.currentPetQuantity || 1,
                     serviceIds: this.selectedServices.map(s => s.id),
                     services: [...this.selectedServices]
                 });
@@ -236,11 +242,14 @@ export class BookingComponent implements OnInit {
 
         this.loadingSlots = true;
         const dateStr = this.formatDate(this.selectedDate);
-        // Calculate total duration for all pets
-        const totalDuration = this.pets.reduce((acc, pet) =>
-            acc + pet.services.reduce((sAcc, s) => sAcc + s.durationMinutes, 0), 0);
 
-        const serviceIds = this.pets.flatMap(p => p.serviceIds);
+        // Prepare service IDs, including duplicates for quantity
+        const serviceIds: string[] = [];
+        this.pets.forEach(pet => {
+            for (let i = 0; i < pet.quantity; i++) {
+                serviceIds.push(...pet.serviceIds);
+            }
+        });
 
         this.bookingApi.getAvailableSlots(this.slug, dateStr, serviceIds, this.selectedProfessional?.id).subscribe({
             next: (slots) => {
@@ -278,6 +287,7 @@ export class BookingComponent implements OnInit {
             petItems: this.pets.map(p => ({
                 name: p.name,
                 breed: p.breed,
+                quantity: p.quantity,
                 serviceIds: p.serviceIds
             }))
         };
@@ -323,7 +333,7 @@ export class BookingComponent implements OnInit {
     }
 
     getTotalPrice(): number {
-        return this.pets.reduce((sum, p) => sum + p.services.reduce((sSum, s) => sSum + s.price, 0), 0);
+        return this.pets.reduce((sum, p) => sum + (p.services.reduce((sSum, s) => sSum + s.price, 0) * p.quantity), 0);
     }
 
     private applyTheme() {

@@ -47,6 +47,7 @@ export class InitialComponent implements OnInit {
   public selectedDate: Date = new Date();
   public tenantId: string = '';
   public tenantSlug: string = '';
+  public businessType: string = '';
   public bookingUrl: string = '';
 
   public showConfigWarning: boolean = false;
@@ -95,6 +96,7 @@ export class InitialComponent implements OnInit {
       next: response => {
         if (response && response.slug) {
           this.tenantSlug = response.slug;
+          this.businessType = response.businessType;
           this.bookingUrl = `${window.location.origin}/agendar/${this.tenantSlug}`;
 
           // Calculate live subscription status
@@ -163,11 +165,21 @@ export class InitialComponent implements OnInit {
 
   // Calculate total price for a schedule
   getSchedulePrice(schedule: ISchedule): number {
+    if (schedule.petItems && schedule.petItems.length > 0) {
+      return schedule.petItems.reduce((sum, pet) =>
+        sum + (pet.offerings?.reduce((sSum, off) => sSum + (off.price || 0), 0) ?? 0) * (pet.quantity || 1)
+        , 0);
+    }
     return schedule.offerings?.reduce((sum, off) => sum + (off.price || 0), 0) ?? 0;
   }
 
   // Calculate total duration for a schedule
   getScheduleDuration(schedule: ISchedule): number {
+    if (schedule.petItems && schedule.petItems.length > 0) {
+      return schedule.petItems.reduce((sum, pet) =>
+        sum + (pet.offerings?.reduce((sSum, off) => sSum + (off.executionTime || 0), 0) ?? 0) * (pet.quantity || 1)
+        , 0);
+    }
     return schedule.offerings?.reduce((sum, off) => sum + (off.executionTime || 0), 0) ?? 0;
   }
 
@@ -211,9 +223,18 @@ export class InitialComponent implements OnInit {
   }
 
   openBookingModal() {
-    if (this.bookingUrl) {
-      window.open(this.bookingUrl, '_blank');
-    }
+    this.dialog.open(ManualBookingComponent, {
+      width: '500px',
+      data: {
+        tenantId: this.tenantId,
+        slug: this.tenantSlug,
+        businessType: this.businessType
+      }
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        this.loadSchedules();
+      }
+    });
   }
 
   deleteSchedule(schedule: ISchedule) {
