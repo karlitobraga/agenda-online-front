@@ -17,13 +17,7 @@ export class SignupService {
   }
 
   public createTenant(request: ITenantCreateRequest): Observable<ILoginResponse> {
-    // Map frontend property names to backend expected names
-    const backendRequest = {
-      phoneNumber: request.phoneNumber,
-      password: request.password,
-      petShop: request.businessName
-    };
-    return this.http.post<ILoginResponse>(this.tenantUrl, backendRequest)
+    return this.http.post<ILoginResponse>(this.tenantUrl, request)
   }
 
   public updateTenant(id: string, completed: boolean) {
