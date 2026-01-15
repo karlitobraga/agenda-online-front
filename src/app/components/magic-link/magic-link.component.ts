@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 @Component({
-    selector: 'app-magic-link',
-    standalone: true,
-    imports: [CommonModule, MatProgressSpinnerModule, MatIconModule],
-    template: `
+  selector: 'app-magic-link',
+  standalone: true,
+  imports: [CommonModule, MatProgressSpinnerModule, MatIconModule],
+  template: `
     <div class="magic-link-container">
       <div class="content" *ngIf="loading">
         <mat-spinner diameter="48"></mat-spinner>
@@ -25,7 +25,7 @@ import { environment } from '../../../environments/environment';
       </div>
     </div>
   `,
-    styles: [`
+  styles: [`
     .magic-link-container {
       min-height: 100vh;
       display: flex;
@@ -71,34 +71,36 @@ import { environment } from '../../../environments/environment';
   `]
 })
 export class MagicLinkComponent implements OnInit {
-    loading = true;
-    error = '';
+  loading = true;
+  error = '';
 
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private http: HttpClient
-    ) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private http: HttpClient
+  ) { }
 
-    ngOnInit(): void {
-        const token = this.route.snapshot.paramMap.get('token');
-        if (!token) {
-            this.error = 'Token não fornecido.';
-            this.loading = false;
-            return;
-        }
-
-        this.http.post<any>(`${environment.apiUrl}/Auth/MagicLink/validate`, { token })
-            .subscribe({
-                next: (response) => {
-                    localStorage.setItem('token', response.token);
-                    localStorage.setItem('tenantId', response.tenantId);
-                    this.router.navigate(['/inicio']);
-                },
-                error: (err) => {
-                    this.error = err.error?.message || 'Link inválido ou expirado.';
-                    this.loading = false;
-                }
-            });
+  ngOnInit(): void {
+    const token = this.route.snapshot.paramMap.get('token');
+    if (!token) {
+      this.error = 'Token não fornecido.';
+      this.loading = false;
+      return;
     }
+
+    this.http.post<any>(`${environment.apiUrl}/Auth/MagicLink/validate`, { token }, {
+      headers: new HttpHeaders({ 'X-Skip-Loader': 'true' })
+    })
+      .subscribe({
+        next: (response) => {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('tenantId', response.tenantId);
+          this.router.navigate(['/inicio']);
+        },
+        error: (err) => {
+          this.error = err.error?.message || 'Link inválido ou expirado.';
+          this.loading = false;
+        }
+      });
+  }
 }

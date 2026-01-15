@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../environments/environment';
@@ -50,11 +50,11 @@ export class MagicLinkComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const token = this.route.snapshot.paramMap.get('token');
-    
+
     if (!token) {
       this.router.navigate(['/login']);
       return;
@@ -64,7 +64,9 @@ export class MagicLinkComponent implements OnInit {
   }
 
   validateToken(token: string) {
-    this.http.post<LoginResponse>(`${environment.apiUrl}/Auth/MagicLink/validate`, { token })
+    this.http.post<LoginResponse>(`${environment.apiUrl}/Auth/MagicLink/validate`, { token }, {
+      headers: new HttpHeaders({ 'X-Skip-Loader': 'true' })
+    })
       .subscribe({
         next: (res) => {
           localStorage.setItem('token', res.token);
