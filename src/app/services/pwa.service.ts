@@ -7,9 +7,24 @@ import { isPlatformBrowser } from '@angular/common';
 export class PwaService {
     private deferredPrompt: any;
     showInstallButton = signal(false);
+    isIos = signal(false);
+    showIosTutorial = signal(false);
 
     constructor(@Inject(PLATFORM_ID) private platformId: Object) {
         if (isPlatformBrowser(this.platformId)) {
+            // Detect iOS
+            const userAgent = window.navigator.userAgent.toLowerCase();
+            const ios = /iphone|ipad|ipod/.test(userAgent);
+            this.isIos.set(ios);
+
+            // Detect if already in standalone mode (installed)
+            const isStandalone = ('standalone' in window.navigator && (window.navigator as any).standalone) ||
+                window.matchMedia('(display-mode: standalone)').matches;
+
+            if (ios && !isStandalone) {
+                this.showIosTutorial.set(true);
+            }
+
             window.addEventListener('beforeinstallprompt', (e) => {
                 // Prevent the mini-infobar from appearing on mobile
                 e.preventDefault();

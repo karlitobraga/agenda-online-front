@@ -1,10 +1,4 @@
 <div class="booking-container">
-    <!-- Loading State -->
-    <div class="loading-state" *ngIf="loading && !tenant">
-        <mat-spinner diameter="48"></mat-spinner>
-        <p>Carregando...</p>
-    </div>
-
     <!-- Error State -->
     <div class="error-state" *ngIf="error">
         <mat-icon>error_outline</mat-icon>
@@ -281,7 +275,7 @@
                     <h3>Horários Disponíveis</h3>
 
                     <div class="loading-slots" *ngIf="loadingSlots">
-                        <mat-spinner diameter="32"></mat-spinner>
+                        <p>Carregando horários...</p>
                     </div>
 
                     <div class="no-slots" *ngIf="!loadingSlots && availableSlots.length === 0">
@@ -361,8 +355,7 @@
 
                 <button mat-flat-button color="primary" (click)="confirmBooking()" [disabled]="loading"
                     class="confirm-btn">
-                    <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
-                    <span *ngIf="!loading">Confirmar Agendamento</span>
+                    <span>Confirmar Agendamento</span>
                 </button>
             </div>
         </div>

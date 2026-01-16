@@ -34,7 +34,6 @@
     </div>
 
     <div class="loading" *ngIf="loading">
-        <mat-spinner diameter="40"></mat-spinner>
         <span>Compilando dados...</span>
     </div>
 
@@ -60,14 +59,14 @@
         <div class="chart-section" *ngIf="report.length > 0">
             <h3>Visualização de Performance</h3>
             <div class="visual-bar-chart">
-                 <!-- Placeholder for visual bars while no library is present -->
-                 <div class="bar-item" *ngFor="let item of report.slice(0, 10)">
+                <!-- Placeholder for visual bars while no library is present -->
+                <div class="bar-item" *ngFor="let item of report.slice(0, 10)">
                     <div class="bar-label">{{ item.clientName }}</div>
                     <div class="bar-container">
                         <div class="bar-fill" [style.width.%]="(item.value / summary.serviceRevenue) * 1000"></div>
                     </div>
                     <div class="bar-value">{{ item.value | currency:'BRL' }}</div>
-                 </div>
+                </div>
             </div>
         </div>
 

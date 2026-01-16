@@ -1,5 +1,9 @@
 <app-loader></app-loader>
 
+@if (showIosTutorial()) {
+    <app-ios-install-tutorial></app-ios-install-tutorial>
+}
+
 @if (showInstallButton()) {
 <button class="install-button" (click)="pwaService.installPwa()">
     Instalar App

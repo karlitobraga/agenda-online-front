@@ -21,8 +21,7 @@
                     <mat-error *ngIf="nameForm.get('name')?.hasError('required')">Nome é obrigatório</mat-error>
                 </mat-form-field>
                 <button mat-flat-button color="primary" type="submit" [disabled]="nameForm.invalid || savingName">
-                    <mat-spinner diameter="20" *ngIf="savingName"></mat-spinner>
-                    <span *ngIf="!savingName">Salvar Nome</span>
+                    <span>Salvar Nome</span>
                 </button>
             </form>
         </mat-card-content>
@@ -65,8 +64,7 @@
                 </div>
 
                 <button mat-flat-button color="primary" type="submit" [disabled]="savingTheme">
-                    <mat-spinner diameter="20" *ngIf="savingTheme"></mat-spinner>
-                    <span *ngIf="!savingTheme">Salvar Personalização</span>
+                    <span>Salvar Personalização</span>
                 </button>
             </form>
         </mat-card-content>
@@ -101,8 +99,7 @@
 
                 <button mat-flat-button color="primary" type="submit"
                     [disabled]="passwordForm.invalid || savingPassword">
-                    <mat-spinner diameter="20" *ngIf="savingPassword"></mat-spinner>
-                    <span *ngIf="!savingPassword">Alterar Senha</span>
+                    <span>Alterar Senha</span>
                 </button>
             </form>
         </mat-card-content>
