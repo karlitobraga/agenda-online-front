@@ -1,322 +1,101 @@
+@import '../../../../styles/colors.scss';
+
 .settings-container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 30px;
+    padding: 32px;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba($primary-gold, 0.1);
+    border: 1px solid rgba($primary-gold, 0.3);
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    cursor: pointer;
+    color: $primary-gold;
+    transition: all 0.3s;
+    margin-bottom: 24px;
+
+    &:hover {
+        background: rgba($primary-gold, 0.2);
+        transform: translateX(-4px);
+    }
 }
 
 .header {
-    display: flex;
-    align-items: flex-start;
-    gap: 15px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 
-    .btn-back {
-        width: 44px;
-        height: 44px;
-        min-width: 44px;
-        border-radius: 12px;
-        border: 1px solid #e0e0e0;
-        background: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        flex-shrink: 0;
-
-        mat-icon {
-            color: #666;
-        }
-
-        &:hover {
-            background: #f5f5f5;
-        }
+    .header-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        color: $primary-gold;
+        margin-bottom: 16px;
     }
 
-    .header-content {
-        flex: 1;
+    h2 {
+        font-family: 'Cinzel', serif;
+        font-size: 2.2rem;
+        color: $primary-gold;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin: 0;
+    }
 
-        .header-icon {
-            font-size: 40px;
-            width: 40px;
-            height: 40px;
-            color: #f44336; // Red color for holidays/busy
-            margin-bottom: 8px;
-        }
-
-        h2 {
-            font-size: 26px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin: 0 0 8px 0;
-        }
-
-        .subtitle {
-            color: #666;
-            font-size: 15px;
-            margin: 0;
-        }
+    .subtitle {
+        color: $text-muted;
+        margin-top: 10px;
     }
 }
 
-.content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.btn-add-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+.btn-add {
     width: 100%;
-    padding: 16px;
-    background: white;
-    color: #667eea;
-    border: 2px dashed #667eea;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
+    padding: 24px;
+    background: rgba($primary-gold, 0.05);
+    border: 2px dashed rgba($primary-gold, 0.3);
+    border-radius: 16px;
+    color: $primary-gold;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
-
-    mat-icon {
-        font-size: 24px;
-        width: 24px;
-        height: 24px;
-    }
+    margin-bottom: 32px;
+    text-transform: uppercase;
+    transition: all 0.3s;
 
     &:hover {
-        background: #f0f2ff;
-        transform: translateY(-2px);
-    }
-
-    &.active {
-        background: #ffebee;
-        color: #f44336;
-        border-color: #f44336;
+        background: rgba($primary-gold, 0.1);
+        border-color: $primary-gold;
     }
 }
 
-.add-form-card {
-    background: white;
+.special-day-card {
+    background: $premium-gray-dark;
     border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    border: 1px solid #eee;
-
-    .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-
-        .card-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-
-            mat-icon {
-                color: #667eea;
-            }
-
-            h3 {
-                margin: 0;
-                font-size: 18px;
-                font-weight: 600;
-            }
-        }
-    }
-
-    .card-content {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-
-        .date-field {
-            width: 100%;
-        }
-
-        .time-inputs {
-            display: flex;
-            gap: 15px;
-
-            .time-field {
-                flex: 1;
-            }
-        }
-
-        .btn-save-day {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-
-            &:disabled {
-                opacity: 0.6;
-                cursor: not-allowed;
-            }
-        }
-    }
-}
-
-.services-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.service-card {
-    background: white;
-    border-radius: 12px;
-    padding: 16px 20px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border: 1px solid rgba($primary-gold, 0.1);
+    box-shadow: $shadow-card;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    border: 1px solid #f0f0f0;
-    transition: all 0.2s ease;
 
-    &:hover {
-        border-color: #667eea;
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
-    }
-
-    .service-info {
-        .service-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1a1a2e;
-            margin-bottom: 4px;
+    .day-info {
+        .day-date {
+            color: $primary-gold;
+            font-weight: 700;
+            font-size: 1.1rem;
         }
 
-        .service-details {
-            display: flex;
-            gap: 15px;
-
-            .detail-item {
-                display: flex;
-                align-items: center;
-                gap: 5px;
-                font-size: 13px;
-                color: #666;
-
-                mat-icon {
-                    font-size: 16px;
-                    width: 16px;
-                    height: 16px;
-                }
-
-                &.closed {
-                    color: #f44336;
-                }
-            }
+        .day-reason {
+            color: $text-white;
+            margin-top: 4px;
         }
     }
 
-    .service-actions {
-        display: flex;
-        gap: 8px;
-
-        .btn-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: #f8f9fa;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            cursor: pointer;
-            transition: all 0.2s ease;
-
-            &:hover {
-                background: #f0f0f0;
-                color: #1a1a2e;
-            }
-
-            &.delete:hover {
-                background: #ffebee;
-                color: #f44336;
-            }
-
-            mat-icon {
-                font-size: 20px;
-                width: 20px;
-                height: 20px;
-            }
-        }
-    }
-}
-
-.section-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #1a1a2e;
-    margin: 10px 0 0 0;
-}
-
-.time-error {
-    color: #f44336;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 8px 12px;
-    background: #ffebee;
-    border-radius: 8px;
-}
-
-.actions {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-
-    .btn-secondary {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 12px 24px;
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        color: #666;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-
-        &:hover {
-            background: #f8f9fa;
-        }
-    }
-}
-
-@media (max-width: 600px) {
-    .settings-container {
-        padding: 20px 15px;
-    }
-
-    .header {
-        .header-content {
-            h2 { font-size: 20px; }
-            .subtitle { font-size: 13px; }
-        }
-    }
-
-    .service-card {
-        padding: 12px 15px;
-        
-        .service-info .service-name {
-            font-size: 15px;
-        }
+    button {
+        color: $color-error;
     }
 }

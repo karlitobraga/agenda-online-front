@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,6 +18,7 @@ import { AsyncPipe } from '@angular/common';
         CommonModule,
         RouterOutlet,
         RouterLink,
+        RouterLinkActive,
         MatSidenavModule,
         MatListModule,
         MatIconModule,

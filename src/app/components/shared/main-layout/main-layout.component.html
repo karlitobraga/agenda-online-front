@@ -3,43 +3,53 @@
         [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
         <mat-toolbar>Menu</mat-toolbar>
         <mat-nav-list>
-            <a mat-list-item routerLink="/inicio" (click)="drawer.close()">
+            <a mat-list-item routerLink="/inicio" routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{exact: true}" (click)="drawer.close()">
                 <mat-icon matListItemIcon>dashboard</mat-icon>
                 <span matListItemTitle>Início</span>
             </a>
-            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/services" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/services" routerLinkActive="active-link"
+                (click)="drawer.close()">
                 <mat-icon matListItemIcon>list_alt</mat-icon>
                 <span matListItemTitle>Serviços</span>
             </a>
-            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/professionals" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/professionals" routerLinkActive="active-link"
+                (click)="drawer.close()">
                 <mat-icon matListItemIcon>badge</mat-icon>
                 <span matListItemTitle>Profissionais</span>
             </a>
-            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/holidays" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/holidays" routerLinkActive="active-link"
+                (click)="drawer.close()">
                 <mat-icon matListItemIcon>event_busy</mat-icon>
                 <span matListItemTitle>Dias Especiais</span>
             </a>
-            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/products" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/products" routerLinkActive="active-link"
+                (click)="drawer.close()">
                 <mat-icon matListItemIcon>inventory_2</mat-icon>
                 <span matListItemTitle>Produtos</span>
             </a>
-            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/sales" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/sales" routerLinkActive="active-link"
+                (click)="drawer.close()">
                 <mat-icon matListItemIcon>point_of_sale</mat-icon>
                 <span matListItemTitle>Vendas (PDV)</span>
             </a>
-            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/credits" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/credits" routerLinkActive="active-link"
+                (click)="drawer.close()">
                 <mat-icon matListItemIcon>account_balance_wallet</mat-icon>
                 <span matListItemTitle>Fiados</span>
             </a>
-            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/reports/appointments" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/reports/appointments" routerLinkActive="active-link"
+                (click)="drawer.close()">
                 <mat-icon matListItemIcon>event_note</mat-icon>
                 <span matListItemTitle>Relat. Atendimentos</span>
             </a>
-            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/reports/sales" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/reports/sales" routerLinkActive="active-link"
+                (click)="drawer.close()">
                 <mat-icon matListItemIcon>shopping_bag</mat-icon>
                 <span matListItemTitle>Relat. Vendas</span>
             </a>
-            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/account" (click)="drawer.close()">
+            <a *ngIf="isAdmin" mat-list-item routerLink="/settings/account" routerLinkActive="active-link"
+                (click)="drawer.close()">
                 <mat-icon matListItemIcon>person</mat-icon>
                 <span matListItemTitle>Conta</span>
             </a>

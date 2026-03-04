@@ -1,65 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import '../../../../styles/colors.scss';
 
 .settings-container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 24px;
-    font-family: 'Outfit', sans-serif;
+    padding: 32px;
 }
 
 .btn-back {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: white;
-    border: 1px solid #e2e8f0;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    background: rgba($primary-gold, 0.1);
+    border: 1px solid rgba($primary-gold, 0.3);
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
     cursor: pointer;
-    color: #64748b;
-    transition: all 0.2s;
-    margin-bottom: 16px;
+    color: $primary-gold;
+    transition: all 0.3s;
+    margin-bottom: 24px;
 
     &:hover {
-        background: #f1f5f9;
-        color: #334155;
+        background: rgba($primary-gold, 0.2);
         transform: translateX(-4px);
     }
 
     mat-icon {
-        font-size: 20px;
-        width: 20px;
-        height: 20px;
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
     }
 }
 
 .header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 32px;
-    gap: 16px;
+    margin-bottom: 40px;
 
     .header-content {
         .header-icon {
-            font-size: 40px;
-            width: 40px;
-            height: 40px;
-            color: #6366f1;
-            margin-bottom: 12px;
+            font-size: 48px;
+            width: 48px;
+            height: 48px;
+            color: $primary-gold;
+            margin-bottom: 16px;
+            filter: drop-shadow(0 0 10px rgba($primary-gold, 0.3));
         }
 
         h2 {
+            font-family: 'Cinzel', serif;
             margin: 0;
-            font-size: 1.8rem;
-            color: #1e293b;
+            font-size: 2.2rem;
+            color: $primary-gold;
             font-weight: 700;
-            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .subtitle {
-            margin: 8px 0 0 0;
-            color: #64748b;
+            margin: 12px 0 0 0;
+            color: $text-muted;
             font-size: 1.1rem;
         }
     }
@@ -69,70 +67,70 @@
     .btn-add {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 12px;
         width: 100%;
-        padding: 16px;
-        background: white;
-        border: 2px dashed #cbd5e1;
-        border-radius: 12px;
-        color: #64748b;
-        font-weight: 600;
-        font-size: 1rem;
+        padding: 24px;
+        background: rgba($primary-gold, 0.05);
+        border: 2px dashed rgba($primary-gold, 0.3);
+        border-radius: 16px;
+        color: $primary-gold;
+        font-weight: 700;
+        font-size: 1.1rem;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.3s;
         justify-content: center;
-        margin-bottom: 24px;
-        font-family: 'Outfit', sans-serif;
+        margin-bottom: 32px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
 
         mat-icon {
-            color: #94a3b8;
+            color: $primary-gold;
+            font-size: 28px;
+            width: 28px;
+            height: 28px;
         }
 
         &:hover {
-            border-color: #6366f1;
-            color: #6366f1;
-            background: #eef2ff;
-
-            mat-icon {
-                color: #6366f1;
-            }
+            background: rgba($primary-gold, 0.1);
+            border-color: $primary-gold;
+            transform: translateY(-2px);
         }
     }
 
     .professionals-list {
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 20px;
     }
 
     .professional-card {
-        background: white;
-        border-radius: 16px;
-        padding: 20px;
+        background: $premium-gray-dark;
+        border-radius: 20px;
+        padding: 24px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        border: 1px solid #e2e8f0;
-        transition: all 0.2s;
+        box-shadow: $shadow-card;
+        border: 1px solid rgba($primary-gold, 0.15);
+        transition: all 0.3s;
 
         &:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
-            border-color: #cbd5e1;
+            transform: scale(1.02);
+            border-color: rgba($primary-gold, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
         }
 
         .professional-info {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 20px;
 
             .professional-photo {
-                width: 56px;
-                height: 56px;
-                border-radius: 50%;
+                width: 64px;
+                height: 64px;
+                border-radius: 16px;
                 overflow: hidden;
-                border: 2px solid #eef2ff;
+                border: 2px solid rgba($primary-gold, 0.3);
 
                 img {
                     width: 100%;
@@ -142,15 +140,15 @@
             }
 
             .professional-no-photo {
-                width: 56px;
-                height: 56px;
-                border-radius: 50%;
-                background: #f1f5f9;
+                width: 64px;
+                height: 64px;
+                border-radius: 16px;
+                background: $premium-gray;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                color: #94a3b8;
-                border: 2px dashed #cbd5e1;
+                color: $primary-gold;
+                border: 2px dashed rgba($primary-gold, 0.2);
 
                 mat-icon {
                     font-size: 32px;
@@ -161,38 +159,40 @@
 
             .details {
                 .professional-name {
-                    font-size: 1.1rem;
-                    font-weight: 600;
-                    color: #1e293b;
-                    margin-bottom: 4px;
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    color: $text-white;
+                    margin-bottom: 6px;
                 }
 
                 .professional-username {
-                    color: #64748b;
-                    font-size: 0.9rem;
+                    color: $text-muted;
+                    font-size: 0.95rem;
                     display: flex;
                     align-items: center;
-                    gap: 2px;
+                    gap: 4px;
 
                     span {
-                        color: #6366f1;
-                        font-weight: 500;
+                        color: $primary-gold;
+                        font-weight: 600;
                     }
                 }
 
                 .professional-status {
-                    font-size: 0.75rem;
-                    padding: 2px 10px;
+                    font-size: 0.8rem;
+                    padding: 4px 12px;
                     border-radius: 50px;
-                    background: #ecfdf5;
-                    color: #059669;
+                    background: rgba($color-success, 0.1);
+                    color: $color-success;
                     display: inline-block;
-                    margin-top: 6px;
-                    font-weight: 500;
+                    margin-top: 10px;
+                    font-weight: 600;
+                    border: 1px solid rgba($color-success, 0.2);
 
                     &.hidden {
-                        background: #f1f5f9;
-                        color: #64748b;
+                        background: rgba($text-muted, 0.1);
+                        color: $text-muted;
+                        border-color: rgba($text-muted, 0.2);
                     }
                 }
             }
@@ -200,15 +200,15 @@
 
         .professional-actions {
             display: flex;
-            gap: 8px;
+            gap: 12px;
 
             .btn-icon {
-                width: 36px;
-                height: 36px;
-                border-radius: 8px;
+                width: 44px;
+                height: 44px;
+                border-radius: 12px;
                 border: none;
-                background: transparent;
-                color: #94a3b8;
+                background: rgba($premium-gray, 0.6);
+                color: $text-muted;
                 cursor: pointer;
                 display: flex;
                 align-items: center;
@@ -216,18 +216,18 @@
                 transition: all 0.2s;
 
                 &:hover {
-                    background: #f1f5f9;
-                    color: #475569;
+                    background: $premium-gray;
+                    color: $text-white;
                 }
 
                 &.edit:hover {
-                    background: #eff6ff;
-                    color: #3b82f6;
+                    background: rgba($primary-gold, 0.15);
+                    color: $primary-gold;
                 }
 
                 &.delete:hover {
-                    background: #fef2f2;
-                    color: #ef4444;
+                    background: rgba($color-error, 0.15);
+                    color: $color-error;
                 }
             }
         }
@@ -235,83 +235,73 @@
 
     .empty-state {
         text-align: center;
-        padding: 48px 24px;
-        color: #94a3b8;
+        padding: 80px 40px;
+        color: $text-muted;
 
         mat-icon {
-            font-size: 48px;
-            width: 48px;
-            height: 48px;
-            margin-bottom: 16px;
-            opacity: 0.5;
+            font-size: 64px;
+            width: 64px;
+            height: 64px;
+            margin-bottom: 24px;
+            opacity: 0.2;
+            color: $primary-gold;
         }
 
         h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #475569;
-            margin: 0 0 8px 0;
-        }
-
-        p {
-            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: $text-gold;
+            margin: 0 0 12px 0;
+            font-family: 'Cinzel', serif;
         }
     }
 }
 
 .actions {
-    margin-top: 32px;
-    padding-top: 24px;
-    border-top: 1px solid #e2e8f0;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid rgba($primary-gold, 0.15);
     display: flex;
     justify-content: flex-end;
 
     .btn-secondary {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 10px 20px;
+        gap: 10px;
+        padding: 14px 28px;
         border-radius: 50px;
-        border: 1px solid #cbd5e1;
-        background: white;
-        color: #475569;
-        font-weight: 600;
+        border: 1px solid rgba($text-white, 0.2);
+        background: transparent;
+        color: $text-muted;
+        font-weight: 700;
         cursor: pointer;
-        transition: all 0.2s;
-        font-family: 'Outfit', sans-serif;
+        transition: all 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
 
         &:hover {
-            background: #f8fafc;
-            border-color: #94a3b8;
-            color: #1e293b;
-        }
-    }
-
-    @media (max-width: 600px) {
-        justify-content: center;
-
-        .btn-secondary {
-            width: 100%;
-            justify-content: center;
+            border-color: $text-white;
+            color: $text-white;
+            background: rgba($text-white, 0.05);
         }
     }
 }
 
-@media (max-width: 600px) {
-    .settings-container {
-        padding: 16px;
-    }
-
+@media (max-width: 768px) {
+    .settings-container { padding: 20px; }
+    .header h2 { font-size: 1.8rem; }
+    
     .professional-card {
         flex-direction: column;
         align-items: flex-start;
-        gap: 16px;
+        gap: 20px;
 
         .professional-actions {
             width: 100%;
             justify-content: flex-end;
-            padding-top: 16px;
-            border-top: 1px solid #f1f5f9;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
     }
 }
+

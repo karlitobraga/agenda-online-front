@@ -1,167 +1,73 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import '../../../../styles/colors.scss';
 
 .settings-container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 24px;
-    font-family: 'Outfit', sans-serif;
+    padding: 32px;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 32px;
+    margin-bottom: 40px;
 
-    h1 {
-        margin: 0;
-        font-size: 1.8rem;
-        color: #1e293b;
-        font-weight: 700;
+    h2 {
+        font-family: 'Cinzel', serif;
+        font-size: 2.2rem;
+        color: $primary-gold;
+        text-transform: uppercase;
+    }
+
+    .subtitle {
+        color: $text-muted;
     }
 }
 
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+.btn-add {
+    width: 100%;
+    padding: 20px;
+    background: rgba($primary-gold, 0.05);
+    border: 2px dashed rgba($primary-gold, 0.3);
+    border-radius: 16px;
+    color: $primary-gold;
+    font-weight: 700;
+    margin-bottom: 32px;
+    cursor: pointer;
+    text-transform: uppercase;
+
+    &:hover {
+        background: rgba($primary-gold, 0.1);
+        border-color: $primary-gold;
+    }
 }
 
 .product-card {
+    background: $premium-gray-dark;
     border-radius: 16px;
-    border: 1px solid #f1f5f9;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
+    padding: 24px;
+    margin-bottom: 16px;
+    border: 1px solid rgba($primary-gold, 0.15);
+    box-shadow: $shadow-card;
+    transition: all 0.3s;
 
     &:hover {
+        border-color: rgba($primary-gold, 0.4);
         transform: translateY(-4px);
-        box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.1);
-        border-color: #6366f1;
     }
 
-    mat-card-header {
-        margin-bottom: 16px;
+    .product-name {
+        color: $text-white;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
     }
 
-    .product-icon {
-        background: #f1f5f9;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #6366f1;
-        border-radius: 12px;
-    }
-
-    mat-card-title {
+    .product-price {
+        color: $primary-gold;
+        font-weight: 700;
         font-size: 1.1rem;
-        font-weight: 600;
-        color: #1e293b;
     }
 
-    mat-card-subtitle {
-        color: #64748b;
-        font-size: 0.85rem;
-    }
-
-    .stats-row {
-        display: flex;
-        justify-content: space-between;
-        background: #f8fafc;
-        padding: 12px;
-        border-radius: 12px;
-        margin: 8px 0 16px;
-
-        .stat {
-            display: flex;
-            flex-direction: column;
-
-            .label {
-                font-size: 0.7rem;
-                text-transform: uppercase;
-                color: #94a3b8;
-                letter-spacing: 0.05em;
-            }
-
-            .value {
-                font-size: 1rem;
-                font-weight: 700;
-                color: #6366f1;
-
-                &.secondary {
-                    color: #475569;
-                }
-            }
-        }
-    }
-
-    .stock-badge {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 12px;
-        background: #f1f5f9;
-        color: #475569;
-        border-radius: 8px;
+    .product-stock {
+        color: $text-muted;
         font-size: 0.9rem;
-
-        mat-icon {
-            font-size: 18px;
-            width: 18px;
-            height: 18px;
-        }
-
-        &.warning {
-            background: #fef3c7;
-            color: #d97706;
-        }
-
-        &.danger {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-    }
-}
-
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 48px;
-    color: #94a3b8;
-    background: white;
-    border-radius: 16px;
-    border: 2px dashed #e2e8f0;
-
-    mat-icon {
-        font-size: 64px;
-        width: 64px;
-        height: 64px;
-        margin-bottom: 16px;
-        opacity: 0.5;
-    }
-}
-
-@media (max-width: 600px) {
-    .settings-container {
-        padding: 16px;
-    }
-
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-        margin-bottom: 24px;
-
-        h1 {
-            font-size: 1.5rem;
-        }
-
-        button {
-            width: 100%;
-        }
-    }
-
-    .product-grid {
-        grid-template-columns: 1fr;
     }
 }
