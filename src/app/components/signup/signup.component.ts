@@ -27,7 +27,7 @@ export class SignupComponent {
       phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10,11}$/)]],
       password: ['', [Validators.required, Validators.minLength(5)]],
       businessName: ['', [Validators.required]],
-      businessType: ['Outros', [Validators.required]]
+      businessType: ['Barbearia', [Validators.required]]
     });
   }
 

@@ -63,20 +63,7 @@ import { NgxMaskDirective } from 'ngx-mask';
           <mat-error *ngIf="form.get('offeringId')?.hasError('required')">Obrigatório</mat-error>
         </mat-form-field>
 
-        <div class="pet-fields" *ngIf="data.businessType === 'Pet Shop'">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Raça</mat-label>
-            <mat-select formControlName="breed">
-              <mat-option value="Cachorro">Cachorro</mat-option>
-              <mat-option value="Gato">Gato</mat-option>
-            </mat-select>
-          </mat-form-field>
 
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Quantidade</mat-label>
-            <input matInput type="number" formControlName="quantity" min="1">
-          </mat-form-field>
-        </div>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Data</mat-label>
@@ -207,9 +194,7 @@ export class ManualBookingComponent implements OnInit {
       clientName: ['', Validators.required],
       phoneNumber: ['', [Validators.pattern(/^\d{10,11}$/)]],
       offeringId: ['', Validators.required],
-      date: [new Date(), Validators.required],
-      breed: [''],
-      quantity: [1]
+      date: [new Date(), Validators.required]
     });
   }
 
@@ -245,18 +230,7 @@ export class ManualBookingComponent implements OnInit {
     this.selectedSlot = null; // Clear selection
     const dateStr = this.formatDate(date);
 
-    // If Pet Shop and multiple quantity, we need to repeat services for duration calculation
-    const effectiveServiceIds: string[] = [];
-    if (this.data.businessType === 'Pet Shop' && this.form.get('quantity')?.value > 1) {
-      const qty = this.form.get('quantity')?.value;
-      for (let i = 0; i < qty; i++) {
-        effectiveServiceIds.push(...serviceIds);
-      }
-    } else {
-      effectiveServiceIds.push(...serviceIds);
-    }
-
-    this.bookingApi.getAvailableSlots(this.data.slug, dateStr, effectiveServiceIds).subscribe({
+    this.bookingApi.getAvailableSlots(this.data.slug, dateStr, serviceIds).subscribe({
       next: (slots) => {
         this.availableSlots = slots;
         this.loadingSlots = false;
@@ -286,15 +260,6 @@ export class ManualBookingComponent implements OnInit {
       offeringIds: val.offeringId,
       date: this.selectedSlot.dateTime
     };
-
-    if (this.data.businessType === 'Pet Shop') {
-      payload.petItems = [{
-        name: val.clientName, // Default to client name for manual
-        breed: val.breed || 'Cachorro',
-        quantity: val.quantity || 1,
-        serviceIds: val.offeringId
-      }];
-    }
 
     // Use scheduleService directly like before, but now with confirmed slot
     this.scheduleService.add(payload).subscribe({

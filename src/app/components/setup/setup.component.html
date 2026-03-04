@@ -2,7 +2,42 @@
     <!-- Header -->
     <div class="setup-header">
         <h1>Configuração Inicial</h1>
-        <p>Cadastre seus serviços para começar a receber agendamentos</p>
+        <p>Siga os passos abaixo para preparar sua barbearia</p>
+    </div>
+
+    <!-- Progress Stepper -->
+    <div class="progress-stepper">
+        <div class="step" [class.active]="currentStep === 'services'" [class.completed]="isStepCompleted('services')">
+            <div class="step-indicator">
+                <mat-icon>{{ isStepCompleted('services') ? 'check' : 'content_cut' }}</mat-icon>
+            </div>
+            <span class="step-label">Serviços</span>
+        </div>
+        <div class="step-connector" [class.completed]="isStepCompleted('services')"></div>
+
+        <div class="step" [class.active]="currentStep === 'professionals'"
+            [class.completed]="isStepCompleted('professionals')">
+            <div class="step-indicator">
+                <mat-icon>{{ isStepCompleted('professionals') ? 'check' : 'badge' }}</mat-icon>
+            </div>
+            <span class="step-label">Equipe</span>
+        </div>
+        <div class="step-connector" [class.completed]="isStepCompleted('professionals')"></div>
+
+        <div class="step" [class.active]="currentStep === 'whatsapp'" [class.completed]="isStepCompleted('whatsapp')">
+            <div class="step-indicator">
+                <mat-icon>{{ isStepCompleted('whatsapp') ? 'check' : 'qr_code_2' }}</mat-icon>
+            </div>
+            <span class="step-label">WhatsApp</span>
+        </div>
+        <div class="step-connector" [class.completed]="isStepCompleted('whatsapp')"></div>
+
+        <div class="step" [class.active]="currentStep === 'theme'" [class.completed]="isStepCompleted('theme')">
+            <div class="step-indicator">
+                <mat-icon>palette</mat-icon>
+            </div>
+            <span class="step-label">Estilo</span>
+        </div>
     </div>
 
     <!-- Step Content -->

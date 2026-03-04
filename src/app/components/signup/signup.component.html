@@ -32,16 +32,8 @@
             </div>
         </div>
 
-        <div class="input-container">
-            <label for="businessType">Tipo de Negócio</label>
-            <select id="businessType" formControlName="businessType" class="custom-select">
-                <option value="Outros">Outros</option>
-                <option value="Pet Shop">Pet Shop</option>
-                <option value="Cabelos">Cabelos</option>
-                <option value="Unhas">Unhas</option>
-                <option value="Cílios">Cílios</option>
-            </select>
-        </div>
+        <button [disabled]="formGroup.invalid" [ngClass]="{'invalid': formGroup.invalid}" type="submit">Cadastrar
+        </button>
 
         <button [disabled]="formGroup.invalid" [ngClass]="{'invalid': formGroup.invalid}" type="submit">Cadastrar
         </button>

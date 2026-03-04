@@ -34,6 +34,13 @@ export class SetupComponent implements OnInit {
 
     ngOnInit(): void { }
 
+    isStepCompleted(step: string): boolean {
+        const steps = ['services', 'professionals', 'whatsapp', 'theme'];
+        const currentIndex = steps.indexOf(this.currentStep);
+        const stepIndex = steps.indexOf(step);
+        return stepIndex < currentIndex;
+    }
+
     onServicesCompleted(): void {
         this.currentStep = 'professionals';
     }

@@ -72,11 +72,6 @@ export class BookingComponent implements OnInit {
 
     minDate: Date = new Date();
 
-    // Pet specific
-    pets: { name: string, breed?: string, quantity: number, serviceIds: string[], services: ServicePublic[] }[] = [];
-    currentPetName: string = '';
-    currentPetBreed: string = '';
-    currentPetQuantity: number = 1;
 
     constructor(
         private route: ActivatedRoute,
@@ -160,34 +155,6 @@ export class BookingComponent implements OnInit {
         }
     }
 
-    addCurrentPet() {
-        if (this.selectedServices.length > 0) {
-            this.pets.push({
-                name: this.currentPetName || (this.tenant?.businessType === 'Pet Shop' ? `Animal ${this.pets.length + 1}` : 'Agendamento'),
-                breed: this.currentPetBreed,
-                quantity: this.currentPetQuantity || 1,
-                serviceIds: this.selectedServices.map(s => s.id),
-                services: [...this.selectedServices]
-            });
-
-            // Reset for next pet
-            this.currentPetName = '';
-            this.currentPetBreed = '';
-            this.selectedServices = [];
-
-            const message = this.tenant?.businessType === 'Pet Shop'
-                ? 'Adicionado! Você pode incluir mais ou continuar.'
-                : 'Serviço adicionado com sucesso!';
-
-            this.snackBar.open(message, 'Fechar', {
-                duration: 3000
-            });
-        }
-    }
-
-    removePet(index: number) {
-        this.pets.splice(index, 1);
-    }
 
     // Step 2: Professional Selection
     selectProfessional(prof: any) {
@@ -225,12 +192,7 @@ export class BookingComponent implements OnInit {
     }
 
     confirmServices() {
-        // If there are selected services not yet added to pets list, add them now
         if (this.selectedServices.length > 0) {
-            this.addCurrentPet();
-        }
-
-        if (this.pets.length > 0) {
             this.currentStep = BookingStep.SelectDateTime;
             this.loadAvailableSlots();
         }
@@ -243,23 +205,11 @@ export class BookingComponent implements OnInit {
     }
 
     loadAvailableSlots() {
-        if (this.pets.length === 0 && this.selectedServices.length === 0) return;
+        if (this.selectedServices.length === 0) return;
 
         this.loadingSlots = true;
         const dateStr = this.formatDate(this.selectedDate);
-
-        // Prepare service IDs, including duplicates for quantity
-        const serviceIds: string[] = [];
-        this.pets.forEach(pet => {
-            for (let i = 0; i < pet.quantity; i++) {
-                serviceIds.push(...pet.serviceIds);
-            }
-        });
-
-        // Also add currently selected services if they weren't added to pets yet (though confirmServices should handle this)
-        if (this.selectedServices.length > 0) {
-            this.selectedServices.forEach(s => serviceIds.push(s.id));
-        }
+        const serviceIds = this.selectedServices.map(s => s.id);
 
         this.bookingApi.getAvailableSlots(this.slug, dateStr, serviceIds, this.selectedProfessional?.id).subscribe({
             next: (slots) => {
@@ -285,7 +235,7 @@ export class BookingComponent implements OnInit {
 
     // Step 4: Confirmation
     confirmBooking() {
-        if (!this.selectedSlot || (this.pets.length === 0 && this.selectedServices.length === 0)) return;
+        if (!this.selectedSlot || this.selectedServices.length === 0) return;
 
         this.loading = true;
 
@@ -294,12 +244,7 @@ export class BookingComponent implements OnInit {
             phoneNumber: this.clientForm.value.phone,
             dateTime: this.selectedSlot.dateTime,
             professionalId: this.selectedProfessional?.id,
-            petItems: this.pets.map(p => ({
-                name: p.name,
-                breed: p.breed,
-                quantity: p.quantity,
-                serviceIds: p.serviceIds
-            }))
+            serviceIds: this.selectedServices.map(p => p.id)
         };
 
         this.bookingApi.createBooking(this.slug, booking).subscribe({
@@ -307,7 +252,7 @@ export class BookingComponent implements OnInit {
                 this.bookingSuccess = true;
                 this.loading = false;
             },
-            error: (err) => {
+            error: (err: any) => {
                 this.snackBar.open(err.error?.message || 'Erro ao criar agendamento', 'Fechar', {
                     duration: 5000
                 });
@@ -339,11 +284,11 @@ export class BookingComponent implements OnInit {
     }
 
     getSelectedServicesNames(): string {
-        return this.pets.flatMap(p => p.services.map(s => s.name)).join(', ');
+        return this.selectedServices.map(s => s.name).join(', ');
     }
 
     getTotalPrice(): number {
-        return this.pets.reduce((sum, p) => sum + (p.services.reduce((sSum, s) => sSum + s.price, 0) * p.quantity), 0);
+        return this.selectedServices.reduce((sum, s) => sum + s.price, 0);
     }
 
     private applyTheme() {

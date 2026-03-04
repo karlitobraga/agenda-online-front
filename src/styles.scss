@@ -1,14 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import './styles/colors.scss';
 
 * {
     padding: 0;
-    background-color: none;
     margin: 0;
     text-decoration: none;
     list-style-type: none;
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     box-sizing: border-box;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+    background-color: $premium-black;
+    color: $text-white;
+}
+
+body {
+    margin: 0;
+}
+
+h1,
+h2,
+h3,
+.app-title,
+.premium-font {
+    font-family: "Cinzel", serif;
+    letter-spacing: 1px;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: $premium-black;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $premium-gray;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: $primary-gold;
+}

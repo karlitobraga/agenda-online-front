@@ -91,29 +91,11 @@
                         <span>{{ schedule.professional?.name }}</span>
                     </div>
 
-                    <!-- List all offerings or pet items if they exist -->
-                    <div class="services-list"
-                        *ngIf="(!schedule.petItems || schedule.petItems.length === 0) || businessType !== 'Pet Shop'">
+                    <!-- List all offerings -->
+                    <div class="services-list">
                         <p class="service-name" *ngFor="let offering of schedule.offerings">
                             {{ offering.name }}
                         </p>
-                    </div>
-
-                    <div class="pet-items-list"
-                        *ngIf="businessType === 'Pet Shop' && schedule.petItems && schedule.petItems.length > 0">
-                        <div class="pet-item-row" *ngFor="let pet of schedule.petItems">
-                            <p class="pet-info">
-                                <mat-icon>pets</mat-icon>
-                                <strong>{{ pet.breed }}</strong>
-                                <span *ngIf="pet.quantity > 1" class="pet-quantity"> (x{{ pet.quantity }})</span>
-                                <span *ngIf="pet.name" class="pet-name"> - {{ pet.name }}</span>
-                            </p>
-                            <div class="pet-services">
-                                <span *ngFor="let off of pet.offerings; let last = last">
-                                    {{ off.name }}{{ !last ? ', ' : '' }}
-                                </span>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="contact-row" *ngIf="schedule.phoneNumber">

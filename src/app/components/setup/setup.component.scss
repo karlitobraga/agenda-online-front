@@ -1,42 +1,44 @@
+@import '../../styles/colors.scss';
+
 .setup-container {
     min-height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-    padding: 30px 20px;
+    background: $premium-gradient;
+    padding: 40px 20px;
+    color: white;
 }
 
 .setup-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     padding: 0 20px;
 
     h1 {
-        font-size: 28px;
+        font-family: 'Cinzel', serif;
+        font-size: 2.2rem;
         font-weight: 700;
-        color: #1a1a2e;
+        color: $primary-gold;
         margin: 0 0 12px 0;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-shadow: 0 0 15px rgba($primary-gold, 0.3);
     }
 
     p {
-        font-size: 16px;
-        color: #666;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.1rem;
+        color: $text-gold;
+        opacity: 0.8;
         margin: 0;
         line-height: 1.5;
     }
 
     @media (max-width: 600px) {
-        margin-bottom: 20px;
-        padding: 0 10px;
-
         h1 {
-            font-size: 22px;
+            font-size: 1.6rem;
         }
 
         p {
-            font-size: 14px;
+            font-size: 0.9rem;
         }
     }
 }
@@ -45,28 +47,33 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 400px;
-    margin: 0 auto 40px auto;
-    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto 50px auto;
+    padding: 24px;
+    background: rgba($premium-gray, 0.5);
+    border-radius: 20px;
+    border: 1px solid rgba($primary-gold, 0.1);
 
     .step {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 8px;
+        gap: 12px;
+        flex: 1;
 
         .step-indicator {
-            width: 50px;
-            height: 50px;
+            width: 54px;
+            height: 54px;
             border-radius: 50%;
-            background: #e0e0e0;
+            background: $premium-gray;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba($primary-gold, 0.1);
 
             mat-icon {
-                color: #999;
+                color: $text-muted;
                 font-size: 24px;
                 width: 24px;
                 height: 24px;
@@ -74,69 +81,71 @@
         }
 
         .step-label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #888;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: $text-muted;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
             transition: all 0.3s ease;
         }
 
         &.active {
             .step-indicator {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+                background: $gold-gradient;
+                border-color: $primary-gold;
+                box-shadow: 0 0 20px rgba($primary-gold, 0.4);
 
                 mat-icon {
-                    color: white;
+                    color: $premium-black;
+                    font-weight: bold;
                 }
             }
 
             .step-label {
-                color: #667eea;
-                font-weight: 600;
+                color: $primary-gold;
+                text-shadow: 0 0 8px rgba($primary-gold, 0.3);
             }
         }
 
         &.completed {
             .step-indicator {
-                background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-                box-shadow: 0 4px 15px rgba(67, 233, 123, 0.3);
+                background: $premium-charcoal;
+                border-color: $primary-gold-dark;
 
                 mat-icon {
-                    color: white;
+                    color: $primary-gold;
                 }
             }
 
             .step-label {
-                color: #2e7d32;
-                font-weight: 600;
+                color: $text-gold;
             }
         }
     }
 
     .step-connector {
         flex: 1;
-        height: 4px;
-        background: #e0e0e0;
-        margin: 0 15px;
-        margin-bottom: 25px;
-        border-radius: 2px;
-        max-width: 80px;
+        height: 2px;
+        background: rgba($text-gold, 0.1);
+        margin: 0 10px;
+        margin-bottom: 30px;
         transition: all 0.3s ease;
 
         &.completed {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            background: $primary-gold;
         }
     }
 }
 
 .step-content {
-    animation: fadeIn 0.3s ease;
+    animation: premiumFadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-@keyframes fadeIn {
+@keyframes premiumFadeIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(20px);
     }
 
     to {
@@ -146,33 +155,20 @@
 }
 
 @media (max-width: 600px) {
-    .setup-container {
-        padding: 20px 10px;
-    }
-
     .progress-stepper {
-        padding: 15px;
-        margin-bottom: 25px;
-
-        .step .step-indicator {
-            width: 44px;
-            height: 44px;
-
-            mat-icon {
-                font-size: 20px;
-                width: 20px;
-                height: 20px;
-            }
-        }
+        padding: 16px;
 
         .step .step-label {
-            font-size: 12px;
+            display: none;
+        }
+
+        .step-indicator {
+            width: 48px;
+            height: 48px;
         }
 
         .step-connector {
-            max-width: 50px;
-            margin: 0 10px;
-            margin-bottom: 22px;
+            margin-bottom: 0;
         }
     }
 }
