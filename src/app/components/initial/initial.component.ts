@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { LoginService } from '../login/login.service';
 import { Router } from '@angular/router';
 import { InfoDialogService } from '../shared/info-dialog/info-dialog.service';
@@ -21,6 +22,7 @@ import { ManualBookingComponent } from './manual-booking/manual-booking.componen
 import { SubscriptionModalComponent } from '../shared/subscription-modal/subscription-modal.component';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { ConclusionDialogComponent } from './conclusion-dialog/conclusion-dialog.component';
+import { EvolutionService } from '../../services/evolution.service';
 
 @Component({
   selector: 'app-initial',
@@ -60,7 +62,8 @@ export class InitialComponent implements OnInit {
     private scheduleService: ScheduleService,
     private datePipe: DatePipe,
     private offeringService: OfferingService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private evolutionService: EvolutionService
   ) {
     this.tenantId = localStorage.getItem("tenantId") ?? '';
 
@@ -86,14 +89,14 @@ export class InitialComponent implements OnInit {
 
   checkSubscription() {
     const status = localStorage.getItem('subscriptionStatus');
-    if (status === 'EXPIRED') {
-      this.router.navigate(['/subscription']);
-    }
+    // if (status === 'EXPIRED') {
+    //   this.router.navigate(['/subscription']);
+    // }
   }
 
   loadTenantInfo() {
     this.loginService.getTenant(this.tenantId).subscribe({
-      next: response => {
+      next: (response: any) => {
         if (response && response.slug) {
           this.tenantSlug = response.slug;
           this.businessType = response.businessType || '';
@@ -111,25 +114,42 @@ export class InitialComponent implements OnInit {
           localStorage.setItem('subscriptionStatus', status);
 
           // Trigger subscription check with fresh data
-          if (status === 'EXPIRED') {
-            this.router.navigate(['/subscription']);
-          }
+          // if (status === 'EXPIRED') {
+          //   this.router.navigate(['/subscription']);
+          // }
         }
       }
     });
   }
 
   checkConfiguration() {
-    // Only check for services now (WhatsApp removed)
     this.offeringService.GetAll(this.tenantId).subscribe({
-      next: (offerings) => {
+      next: (offerings: any[]) => {
         const hasServices = offerings && offerings.length > 0;
-        if (!hasServices) {
-          this.missingServices = true;
-          this.showConfigWarning = true;
-          // Redirect to Welcome if services not configured
-          this.router.navigate(['/welcome']);
-        }
+
+        // Check WhatsApp status too (Non-blocking warning)
+        this.evolutionService.checkConnectionStatus(this.tenantId).subscribe({
+          next: (res) => {
+            const isConnected = res && res.connected;
+            if (!isConnected) {
+              console.warn('[INITIAL] WhatsApp not connected. Functionality may be limited.');
+              // We could set a separate 'missingWhatsApp' flag here if we wanted to show a banner
+            }
+
+            if (!hasServices) {
+              this.missingServices = true;
+              this.showConfigWarning = true;
+              this.router.navigate(['/welcome']);
+            }
+          },
+          error: () => {
+            if (!hasServices) {
+              this.missingServices = true;
+              this.showConfigWarning = true;
+              this.router.navigate(['/welcome']);
+            }
+          }
+        });
       },
       error: () => {
         this.missingServices = true;
@@ -142,7 +162,7 @@ export class InitialComponent implements OnInit {
     const formattedDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd') ?? '';
     const profId = localStorage.getItem('professionalId') ?? undefined;
     this.scheduleService.getByDate(this.tenantId, formattedDate, profId).subscribe({
-      next: (data) => {
+      next: (data: ISchedule[]) => {
         this.schedules = data;
         // Sort by status (active first, then completed, then cancelled) and then time
         this.schedules.sort((a, b) => {
@@ -183,8 +203,8 @@ export class InitialComponent implements OnInit {
     return schedule.offerings?.reduce((sum, off) => sum + (off.executionTime || 0), 0) ?? 0;
   }
 
-  onDateChange(event: any) {
-    this.selectedDate = event.value;
+  onDateChange(event: MatDatepickerInputEvent<Date>) {
+    this.selectedDate = event.value || new Date();
     this.loadSchedules();
   }
 
@@ -230,7 +250,7 @@ export class InitialComponent implements OnInit {
         slug: this.tenantSlug,
         businessType: this.businessType
       }
-    }).afterClosed().subscribe(result => {
+    }).afterClosed().subscribe((result: any) => {
       if (result) {
         this.loadSchedules();
       }
