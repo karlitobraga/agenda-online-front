@@ -31,19 +31,22 @@
 }
 
 .mat-toolbar.mat-primary {
-    background-color: $premium-gray-dark !important;
-    border-bottom: 1px solid rgba($primary-gold, 0.3);
+    background-color: $premium-black !important;
+    border-bottom: 1px solid rgba($primary-gold, 0.4);
     position: sticky;
     top: 0;
     z-index: 1000;
-    color: $text-white !important;
+    color: $primary-gold !important;
 }
 
 .sidenav {
     width: 260px;
     background-color: $premium-black;
     border-right: 1px solid rgba($primary-gold, 0.15);
-    color: $text-white;
+}
+
+.sidenav-content {
+    background-color: $premium-black;
 }
 
 .content-body {
