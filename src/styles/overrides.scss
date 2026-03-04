@@ -198,11 +198,7 @@
 
 
 .mat-toolbar.mat-toolbar-single-row{
-    --mat-toolbar-container-background-color:$premium-gray-dark;
-    --mat-toolbar-container-text-color: $text-white;
-
-    background: var(--mat-toolbar-container-background-color);
-    color: var(--mat-toolbar-container-text-color);
+    display: none;
 }
 
 .mdc-list-item__primary-text {
