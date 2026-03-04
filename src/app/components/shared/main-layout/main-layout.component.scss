@@ -32,10 +32,18 @@
 
 .mat-toolbar.mat-primary {
     background-color: $premium-gray-dark !important;
-    border-bottom: 1px solid rgba($primary-gold, 0.2);
+    border-bottom: 1px solid rgba($primary-gold, 0.3);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
+    color: $text-white !important;
+}
+
+.sidenav {
+    width: 260px;
+    background-color: $premium-black;
+    border-right: 1px solid rgba($primary-gold, 0.15);
+    color: $text-white;
 }
 
 .content-body {
@@ -80,9 +88,9 @@ mat-nav-list {
             background-color: rgba($primary-gold, 0.15);
             color: $text-white;
             border-left: 3px solid $primary-gold;
-            
+
             mat-icon {
-              color: $text-white;
+                color: $text-white;
             }
         }
     }
@@ -92,4 +100,3 @@ mat-divider {
     border-top-color: rgba($primary-gold, 0.15);
     margin: 8px 16px;
 }
-

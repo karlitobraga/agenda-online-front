@@ -33,6 +33,7 @@
     }
 
     .mdc-text-field--outlined:not(.mdc-text-field--disabled) {
+
         .mdc-notched-outline__leading,
         .mdc-notched-outline__notch,
         .mdc-notched-outline__trailing {
@@ -44,6 +45,44 @@
 .mat-mdc-input-element {
     color: $text-white !important;
     caret-color: $primary-gold !important;
+
+    &::placeholder {
+        color: rgba($text-white, 0.45) !important;
+    }
+}
+
+// Global Form Field Fixes
+.mat-mdc-form-field-subscript-wrapper {
+    display: none !important; // Removes the large gap below inputs
+}
+
+// Datepicker Overrides
+.mat-datepicker-content {
+    background-color: $premium-gray-dark !important;
+    border: 1px solid $primary-gold !important;
+    color: $text-white !important;
+
+    .mat-calendar-body-cell-content {
+        color: $text-white !important;
+    }
+
+    .mat-calendar-body-selected {
+        background-color: $primary-gold !important;
+        color: $premium-black !important;
+    }
+
+    .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+        border-color: $primary-gold !important;
+    }
+
+    .mat-calendar-arrow {
+        fill: $primary-gold !important;
+    }
+
+    .mat-calendar-next-button,
+    .mat-calendar-previous-button {
+        color: $primary-gold !important;
+    }
 }
 
 // Buttons
@@ -78,7 +117,8 @@
 }
 
 // Menus
-.mat-mdc-menu-panel, .mat-mdc-menu-content {
+.mat-mdc-menu-panel,
+.mat-mdc-menu-content {
     background-color: $premium-gray-dark !important;
 }
 
@@ -86,8 +126,12 @@
     border: 1px solid rgba($primary-gold, 0.3) !important;
 
     .mat-mdc-menu-item {
-        color: $text-white !important;
-        
+        color: rgba($text-white, 0.8) !important;
+
+        span {
+            font-size: 0.95rem; // Slightly more compact
+        }
+
         mat-icon {
             color: $primary-gold !important;
         }

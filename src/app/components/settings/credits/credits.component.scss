@@ -1,10 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import '../../../../styles/colors.scss';
 
 .settings-container {
     max-width: 900px;
     margin: 0 auto;
     padding: 24px;
-    font-family: 'Outfit', sans-serif;
+    background-color: $premium-black;
+    color: $text-white;
+    min-height: 100vh;
 }
 
 .header {
@@ -12,19 +14,24 @@
     align-items: center;
     gap: 16px;
     margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba($primary-gold, 0.2);
 
     .header-content {
         h2 {
             margin: 0;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            color: #1e293b;
+            color: $primary-gold;
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .subtitle {
             margin: 4px 0 0;
-            color: #64748b;
-            font-size: 0.95rem;
+            color: $text-muted;
+            font-size: 0.9rem;
         }
     }
 
@@ -32,51 +39,46 @@
         width: 48px;
         height: 48px;
         font-size: 48px;
-        color: #667eea;
-        opacity: 0.2;
+        color: $primary-gold;
+        opacity: 0.3;
     }
 }
 
 .summary-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: $gold-gradient;
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 32px;
-    color: white;
+    color: $premium-black;
     display: flex;
     align-items: center;
     gap: 24px;
     flex-wrap: wrap;
+    box-shadow: $shadow-card;
 
     .summary-label {
         font-size: 0.9rem;
-        opacity: 0.9;
+        font-weight: 700;
+        text-transform: uppercase;
+        opacity: 0.8;
     }
 
     .summary-value {
-        font-size: 2rem;
+        font-size: 1.8rem;
         font-weight: 800;
         flex: 1;
     }
 
     button {
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
-        border-color: rgba(255, 255, 255, 0.4);
+        background: rgba($premium-black, 0.1);
+        color: $premium-black;
+        border: 1px solid rgba($premium-black, 0.2);
+        font-weight: 700;
 
         &:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba($premium-black, 0.2);
         }
     }
-}
-
-.loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 60px;
-    gap: 16px;
-    color: #64748b;
 }
 
 .credits-list {
@@ -86,15 +88,15 @@
 }
 
 .credit-card {
-    background: white;
+    background: $premium-gray-dark;
     border-radius: 16px;
     padding: 20px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    border: 1px solid #f1f5f9;
+    box-shadow: $shadow-card;
+    border: 1px solid rgba($primary-gold, 0.1);
 
     &.paid-off {
-        opacity: 0.7;
-        background: #f8fafc;
+        opacity: 0.5;
+        filter: grayscale(0.5);
     }
 
     .credit-header {
@@ -107,31 +109,33 @@
             .client-name {
                 font-weight: 700;
                 font-size: 1.1rem;
-                color: #1e293b;
+                color: $text-white;
                 display: block;
             }
 
             .client-phone {
                 font-size: 0.85rem;
-                color: #64748b;
+                color: $text-muted;
             }
         }
 
         .status-badge {
             padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
+            font-size: 0.7rem;
+            font-weight: 800;
             text-transform: uppercase;
 
             &.pending {
-                background: #fef3cd;
-                color: #856404;
+                background: rgba($primary-gold, 0.1);
+                color: $primary-gold;
+                border: 1px solid rgba($primary-gold, 0.3);
             }
 
             &.paid {
-                background: #d4edda;
-                color: #155724;
+                background: rgba($color-success, 0.1);
+                color: $color-success;
+                border: 1px solid rgba($color-success, 0.3);
             }
         }
     }
@@ -146,52 +150,55 @@
             font-size: 0.9rem;
 
             .label {
-                color: #64748b;
+                color: $text-muted;
             }
 
             &.highlight {
-                background: #f8fafc;
-                padding: 8px 12px;
+                background: rgba($primary-gold, 0.05);
+                padding: 10px 14px;
                 border-radius: 8px;
                 margin-top: 8px;
 
                 .remaining {
                     font-weight: 700;
-                    color: #dc3545;
+                    color: $primary-gold;
                 }
             }
         }
     }
 
     .payments-section {
-        border-top: 1px dashed #e2e8f0;
+        border-top: 1px dashed rgba($primary-gold, 0.2);
         padding-top: 12px;
         margin-bottom: 16px;
 
         .payments-title {
-            font-weight: 600;
-            color: #334155;
-            font-size: 0.85rem;
+            font-weight: 700;
+            color: $text-gold;
+            font-size: 0.8rem;
             margin-bottom: 8px;
+            text-transform: uppercase;
         }
 
         .payment-item {
             display: flex;
             gap: 12px;
             font-size: 0.85rem;
-            color: #64748b;
+            color: $text-muted;
             padding: 4px 0;
 
             .payment-amount {
-                color: #10b981;
-                font-weight: 600;
+                color: $color-success;
+                font-weight: 700;
             }
 
             .payment-method {
-                background: #f1f5f9;
+                background: rgba($primary-gold, 0.1);
+                color: $primary-gold;
                 padding: 2px 8px;
                 border-radius: 4px;
-                font-size: 0.75rem;
+                font-size: 0.7rem;
+                font-weight: 700;
             }
         }
     }
@@ -202,39 +209,15 @@
 
         button {
             border-radius: 8px;
+            background: rgba($primary-gold, 0.1);
+            color: $primary-gold;
+            border: 1px solid rgba($primary-gold, 0.2);
 
-            mat-icon {
-                font-size: 18px;
-                width: 18px;
-                height: 18px;
-                margin-right: 6px;
+            &:hover {
+                background: rgba($primary-gold, 0.2);
+                color: $text-white;
             }
         }
-    }
-}
-
-.empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: #94a3b8;
-
-    mat-icon {
-        font-size: 64px;
-        width: 64px;
-        height: 64px;
-        margin-bottom: 16px;
-        opacity: 0.5;
-    }
-
-    h3 {
-        margin: 0 0 8px;
-        font-weight: 600;
-        color: #64748b;
-    }
-
-    p {
-        margin: 0;
-        font-size: 0.9rem;
     }
 }
 
@@ -243,8 +226,22 @@
         padding: 16px;
     }
 
+    .header .header-content h2 {
+        font-size: 1.3rem;
+    }
+
     .summary-card {
         flex-direction: column;
         text-align: center;
+        padding: 20px;
+
+        .summary-value {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        button {
+            width: 100%;
+        }
     }
 }
