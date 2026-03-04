@@ -1,19 +1,5 @@
 // --- Angular Material Global Premium Overrides ---
 
-.mat-toolbar.mat-toolbar-single-row{
-    --mat-toolbar-container-background-color:$premium-gray-dark;
-    --mat-toolbar-container-text-color: $text-white;
-
-    background: var(--mat-toolbar-container-background-color);
-    color: var(--mat-toolbar-container-text-color);
-}
-
-.mdc-list-item__primary-text {
-    --mdc-list-list-item-label-text-color: $text-white;
-
-    color: var(--mdc-list-list-item-label-text-color);
-}
-
 // Cards
 .mat-mdc-card {
     background-color: $premium-gray-dark !important;
@@ -208,4 +194,19 @@
     .mat-mdc-row:hover {
         background-color: rgba($primary-gold, 0.02) !important;
     }
+}
+
+
+.mat-toolbar.mat-toolbar-single-row{
+    --mat-toolbar-container-background-color:$premium-gray-dark;
+    --mat-toolbar-container-text-color: $text-white;
+
+    background: var(--mat-toolbar-container-background-color);
+    color: var(--mat-toolbar-container-text-color);
+}
+
+.mdc-list-item__primary-text {
+    --mdc-list-list-item-label-text-color: $text-white;
+
+    color: var(--mdc-list-list-item-label-text-color);
 }
