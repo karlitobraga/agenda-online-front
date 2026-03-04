@@ -178,24 +178,6 @@
                     </div>
                 </div>
 
-                <div class="pet-info-fields" *ngIf="tenant?.businessType === 'Pet Shop'">
-                    <div class="pet-form-section">
-                        <div class="form-title">
-                            <mat-icon>pets</mat-icon>
-                            <span>Novo Animal</span>
-                        </div>
-                        <mat-form-field appearance="outline" class="full-width">
-                            <mat-label>Raça do Animal</mat-label>
-                            <input matInput [(ngModel)]="currentPetBreed" placeholder="Ex: Poodle, Persa...">
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline" class="full-width">
-                            <mat-label>Nome do Animal (Opcional)</mat-label>
-                            <input matInput [(ngModel)]="currentPetName" placeholder="Ex: Thor">
-                        </mat-form-field>
-                    </div>
-                </div>
-
                 <div class="services-grid">
                     <div class="service-card" *ngFor="let service of getAvailableServices()"
                         [class.selected]="isServiceSelected(service)" (click)="toggleService(service)">
@@ -214,17 +196,13 @@
                     </div>
                 </div>
 
-
-
                 <div class="selection-summary" *ngIf="selectedServices.length > 0">
                     <span>{{ selectedServices.length }} serviço(s) selecionado(s)</span>
                     <span class="total">Total Aprox: {{ formatPrice(getTotalPrice()) }}</span>
                 </div>
 
-
-
                 <button mat-flat-button class="next-btn" (click)="confirmServices()"
-                    [disabled]="selectedServices.length === 0 && pets.length === 0">
+                    [disabled]="selectedServices.length === 0">
                     Continuar <mat-icon>arrow_forward</mat-icon>
                 </button>
             </div>
@@ -329,12 +307,9 @@
                 <span>Confirmar Agendamento</span>
             </button>
         </div>
+        <!-- Footer Branding -->
+        <div class="booking-footer" *ngIf="tenant">
+            <span>Powered by</span>
+            <span class="brand">agende<span class="highlight">hora</span></span>
+        </div>
     </div>
-</div>
-
-<!-- Footer Branding -->
-<div class="booking-footer" *ngIf="tenant">
-    <span>Powered by</span>
-    <span class="brand">agende<span class="highlight">hora</span></span>
-</div>
-</div>

@@ -188,21 +188,11 @@ export class InitialComponent implements OnInit {
 
   // Calculate total price for a schedule
   getSchedulePrice(schedule: ISchedule): number {
-    if (schedule.petItems && schedule.petItems.length > 0) {
-      return schedule.petItems.reduce((sum, pet) =>
-        sum + (pet.offerings?.reduce((sSum, off) => sSum + (off.price || 0), 0) ?? 0) * (pet.quantity || 1)
-        , 0);
-    }
     return schedule.offerings?.reduce((sum, off) => sum + (off.price || 0), 0) ?? 0;
   }
 
   // Calculate total duration for a schedule
   getScheduleDuration(schedule: ISchedule): number {
-    if (schedule.petItems && schedule.petItems.length > 0) {
-      return schedule.petItems.reduce((sum, pet) =>
-        sum + (pet.offerings?.reduce((sSum, off) => sSum + (off.executionTime || 0), 0) ?? 0) * (pet.quantity || 1)
-        , 0);
-    }
     return schedule.offerings?.reduce((sum, off) => sum + (off.executionTime || 0), 0) ?? 0;
   }
 

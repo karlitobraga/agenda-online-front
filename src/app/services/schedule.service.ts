@@ -24,16 +24,6 @@ export interface ISchedule {
     professional?: { name: string };
     price?: number;
     note?: string;
-    petItems?: Array<{
-        name: string;
-        breed?: string;
-        quantity: number;
-        offerings: Array<{
-            name: string;
-            price: number;
-            executionTime: number;
-        }>;
-    }>;
 }
 
 @Injectable({

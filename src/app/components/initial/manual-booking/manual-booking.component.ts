@@ -157,10 +157,10 @@ import { NgxMaskDirective } from 'ngx-mask';
                 }
 
                 &.selected {
-                    background: #667eea;
+                    background: #D4AF37;
                     color: white;
-                    border-color: #667eea;
-                    box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.4);
+                    border-color: #D4AF37;
+                    box-shadow: 0 4px 6px -1px rgba(212, 175, 55, 0.4);
                 }
             }
         }
@@ -187,7 +187,7 @@ export class ManualBookingComponent implements OnInit {
     private scheduleService: ScheduleService,
     private bookingApi: BookingApiService,
     private dialogRef: MatDialogRef<ManualBookingComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { tenantId: string, slug: string, businessType?: string },
+    @Inject(MAT_DIALOG_DATA) public data: { tenantId: string, slug: string },
     private dialogService: InfoDialogService
   ) {
     this.form = this.fb.group({

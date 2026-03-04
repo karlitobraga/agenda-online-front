@@ -31,8 +31,6 @@ export interface BookingRequest {
     dateTime: string;
     professionalId?: string;
     note?: string;
-    serviceIds?: string[];
-    petItems?: { name: string; breed?: string; serviceIds: string[] }[];
 }
 
 @Injectable({
