@@ -54,6 +54,7 @@ export class InitialComponent implements OnInit {
 
   public showConfigWarning: boolean = false;
   public missingServices: boolean = false;
+  public isWhatsAppDisconnected: boolean = false;
 
   constructor(
     private loginService: LoginService,
@@ -131,9 +132,10 @@ export class InitialComponent implements OnInit {
         this.evolutionService.checkConnectionStatus(this.tenantId).subscribe({
           next: (res) => {
             const isConnected = res && res.connected;
+            this.isWhatsAppDisconnected = !isConnected;
+
             if (!isConnected) {
               console.warn('[INITIAL] WhatsApp not connected. Functionality may be limited.');
-              // We could set a separate 'missingWhatsApp' flag here if we wanted to show a banner
             }
 
             if (!hasServices) {
@@ -143,6 +145,7 @@ export class InitialComponent implements OnInit {
             }
           },
           error: () => {
+            this.isWhatsAppDisconnected = true;
             if (!hasServices) {
               this.missingServices = true;
               this.showConfigWarning = true;

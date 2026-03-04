@@ -14,6 +14,10 @@
             (back)="onProfessionalsBack()">
         </app-setup-professionals>
 
+        <app-qr-code *ngIf="currentStep === 'whatsapp'" [showBackButton]="true" (connected)="onWhatsappCompleted()"
+            (back)="onWhatsappBack()">
+        </app-qr-code>
+
         <app-setup-theme *ngIf="currentStep === 'theme'" (completed)="onSetupCompleted()" (back)="onThemeBack()">
         </app-setup-theme>
     </div>

@@ -6,6 +6,18 @@
         </div>
     </div>
 
+    <!-- WhatsApp Disconnected Banner -->
+    <div class="warning-banner whatsapp-warning" *ngIf="isWhatsAppDisconnected && !showConfigWarning">
+        <div class="warning-content">
+            <mat-icon>phonelink_off</mat-icon>
+            <div class="warning-text">
+                <h3>WhatsApp Desconectado</h3>
+                <p>Seu WhatsApp não está conectado. As confirmações automáticas não serão enviadas.</p>
+            </div>
+            <button mat-flat-button color="primary" (click)="goToConfiguration()">Conectar Agora</button>
+        </div>
+    </div>
+
     <!-- Warning Banner -->
     <div class="warning-banner" *ngIf="showConfigWarning">
         <div class="warning-content">

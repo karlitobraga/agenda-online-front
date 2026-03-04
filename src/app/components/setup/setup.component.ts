@@ -7,6 +7,7 @@ import { ServicesComponent } from './services/services.component';
 import { SetupProfessionalsComponent } from './professionals/setup-professionals.component';
 import { SetupThemeComponent } from './theme/setup-theme.component';
 import { SignupService } from '../signup/signup.service';
+import { QrCodeComponent } from './qr-code/qr-code.component';
 
 @Component({
     selector: 'app-setup',
@@ -17,13 +18,14 @@ import { SignupService } from '../signup/signup.service';
         MatButtonModule,
         ServicesComponent,
         SetupProfessionalsComponent,
-        SetupThemeComponent
+        SetupThemeComponent,
+        QrCodeComponent
     ],
     templateUrl: './setup.component.html',
     styleUrls: ['./setup.component.scss']
 })
 export class SetupComponent implements OnInit {
-    currentStep: 'services' | 'professionals' | 'theme' = 'services';
+    currentStep: 'services' | 'professionals' | 'whatsapp' | 'theme' = 'services';
 
     constructor(
         private router: Router,
@@ -37,6 +39,10 @@ export class SetupComponent implements OnInit {
     }
 
     onProfessionalsCompleted(): void {
+        this.currentStep = 'whatsapp';
+    }
+
+    onWhatsappCompleted(): void {
         this.currentStep = 'theme';
     }
 
@@ -44,8 +50,12 @@ export class SetupComponent implements OnInit {
         this.currentStep = 'services';
     }
 
-    onThemeBack(): void {
+    onWhatsappBack(): void {
         this.currentStep = 'professionals';
+    }
+
+    onThemeBack(): void {
+        this.currentStep = 'whatsapp';
     }
 
     onSetupCompleted(): void {
