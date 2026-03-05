@@ -68,6 +68,7 @@ export class BookingComponent implements OnInit {
     loadingProfessionals: boolean = false;
     loadingSlots: boolean = false;
     bookingSuccess: boolean = false;
+    waitingForWhatsapp: boolean = false;
     error: string = '';
 
     minDate: Date = new Date();
@@ -249,8 +250,12 @@ export class BookingComponent implements OnInit {
 
         this.bookingApi.createBooking(this.slug, booking).subscribe({
             next: () => {
-                this.bookingSuccess = true;
+                this.waitingForWhatsapp = true;
                 this.loading = false;
+
+                // We'll keep the user here for a bit or show the "check whatsapp" screen
+                // The booking Success will only be true if we got a webhook back (hard to track in real-time)
+                // So we'll show a message: "Verifique seu WhatsApp"
             },
             error: (err: any) => {
                 this.snackBar.open(err.error?.message || 'Erro ao criar agendamento', 'Fechar', {

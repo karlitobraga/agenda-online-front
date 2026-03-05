@@ -167,6 +167,16 @@
     border: 1px solid rgba($primary-gold, 0.1);
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
 
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        @media (max-width: 600px) {
+            gap: 8px;
+        }
+    }
+
     h2 {
         font-family: 'Cinzel', serif;
         font-size: 1.5rem;
@@ -220,10 +230,15 @@
 
     .prof-photo,
     .prof-photo-placeholder {
-        width: 60px;
-        height: 60px;
+        width: 64px;
+        height: 64px;
         border-radius: 50%;
         border: 2px solid rgba($primary-gold, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        overflow: hidden;
 
         img {
             width: 100%;
@@ -232,16 +247,34 @@
         }
 
         mat-icon {
-            font-size: 30px;
-            height: 30px;
-            width: 30px;
+            font-size: 32px;
+            height: 32px;
+            width: 32px;
             color: $text-gold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 
-    .prof-info h3 {
-        color: $text-white;
-        font-size: 1.1rem;
+    .prof-info {
+        flex: 1;
+
+        h3 {
+            color: $text-white;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        p {
+            margin: 4px 0 0;
+            color: $text-muted;
+            font-size: 0.9rem;
+        }
+    }
+
+    .arrow {
+        color: rgba($primary-gold, 0.5);
     }
 }
 

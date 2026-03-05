@@ -34,8 +34,33 @@
         </div>
     </div>
 
+    <!-- Waiting for WhatsApp State -->
+    <div class="success-state" *ngIf="waitingForWhatsapp && !bookingSuccess">
+        <div class="success-card whatsapp-card">
+            <div class="whatsapp-icon-pulse">
+                <mat-icon>brand_whatsapp</mat-icon>
+                <div class="ring"></div>
+                <div class="ring"></div>
+            </div>
+            <h1>Verifique seu WhatsApp</h1>
+            <p class="success-message">Enviamos uma mensagem para <strong>{{ clientForm.value.phone }}</strong>.</p>
+
+            <div class="instruction-box">
+                <p>Para concluir seu agendamento, abra a conversa com o <strong>ZenReserve</strong> e clique no botão
+                    <strong>"Sim"</strong>.</p>
+            </div>
+
+            <div class="waiting-indicator">
+                <mat-spinner diameter="30"></mat-spinner>
+                <span>Aguardando sua confirmação...</span>
+            </div>
+
+            <p class="tip">O agendamento só será efetivado após você clicar no botão de confirmação.</p>
+        </div>
+    </div>
+
     <!-- Booking Flow -->
-    <div class="booking-content" *ngIf="tenant && !bookingSuccess && !error">
+    <div class="booking-content" *ngIf="tenant && !bookingSuccess && !waitingForWhatsapp && !error">
         <!-- Header (Instagram Style Profile) -->
         <div class="booking-header">
             <div class="profile-container" *ngIf="tenant.logoBase64">
