@@ -9,6 +9,29 @@
     max-width: 400px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);
     border: 1px solid rgba($primary-gold, 0.1);
+
+    .header-left {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba($primary-gold, 0.15);
+
+        .app-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: $text-white;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+
+            .highlight {
+                color: $primary-gold;
+                text-shadow: 0 0 15px rgba($primary-gold, 0.4);
+            }
+        }
+    }
 }
 
 h2 {
