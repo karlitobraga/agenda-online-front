@@ -11,7 +11,7 @@
     </div>
 
     <div class="content">
-        <button class="btn-add-toggle" (click)="toggleAddForm()" [class.active]="showAddForm">
+        <button class="btn-add" (click)="toggleAddForm()" [class.active]="showAddForm">
             <mat-icon>{{ showAddForm ? 'remove_circle' : 'add_circle' }}</mat-icon>
             <span>{{ showAddForm ? 'Cancelar Adição' : 'Adicionar Dia Especial' }}</span>
         </button>

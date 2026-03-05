@@ -53,6 +53,9 @@
 }
 
 .btn-add {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     width: 100%;
     padding: 24px;
     background: rgba($primary-gold, 0.05);
@@ -60,14 +63,40 @@
     border-radius: 16px;
     color: $primary-gold;
     font-weight: 700;
+    font-size: 1.1rem;
     cursor: pointer;
+    transition: all 0.3s;
+    justify-content: center;
     margin-bottom: 32px;
     text-transform: uppercase;
-    transition: all 0.3s;
+    letter-spacing: 1px;
+
+    mat-icon {
+        color: $primary-gold;
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+    }
 
     &:hover {
         background: rgba($primary-gold, 0.1);
         border-color: $primary-gold;
+        transform: translateY(-2px);
+    }
+
+    &.active {
+        background: rgba($color-error, 0.05);
+        border-color: rgba($color-error, 0.3);
+        color: $color-error;
+
+        mat-icon {
+            color: $color-error;
+        }
+
+        &:hover {
+            background: rgba($color-error, 0.1);
+            border-color: $color-error;
+        }
     }
 }
 

@@ -18,14 +18,13 @@ import { SubscriptionService } from '../../../services/subscription.service';
             <div mat-card-avatar class="avatar-icon">
                 <mat-icon>verified</mat-icon>
             </div>
-            <mat-card-title>Assinatura AgendeHora</mat-card-title>
+            <mat-card-title>Assinatura ZenReserve</mat-card-title>
             <mat-card-subtitle>Desbloqueie todo o potencial do seu negócio</mat-card-subtitle>
         </mat-card-header>
 
         <mat-card-content>
             <div class="alert-box">
-                <mat-icon>warning</mat-icon>
-                <span>Seu período de teste acabou. Assine para continuar.</span>
+                <p>Para continuar gerenciando seus atendimentos com o <strong>ZenReserve</strong>, você precisará de uma assinatura ativa.</p>
             </div>
 
             <h3>O que você ganha:</h3>
