@@ -9,6 +9,7 @@ export class PwaService {
     showInstallButton = signal(false);
     isIos = signal(false);
     showIosTutorial = signal(false);
+    private readonly IOS_TUTORIAL_KEY = 'ios_tutorial_dismissed_at';
 
     constructor(@Inject(PLATFORM_ID) private platformId: Object) {
         if (isPlatformBrowser(this.platformId)) {
@@ -21,7 +22,18 @@ export class PwaService {
             const isStandalone = ('standalone' in window.navigator && (window.navigator as any).standalone) ||
                 window.matchMedia('(display-mode: standalone)').matches;
 
-            if (ios && !isStandalone) {
+            const dismissedAt = localStorage.getItem(this.IOS_TUTORIAL_KEY);
+            let isDismissed = false;
+
+            if (dismissedAt) {
+                const lastDismissed = new Date(dismissedAt).getTime();
+                const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
+                if (Date.now() - lastDismissed < sevenDaysInMs) {
+                    isDismissed = true;
+                }
+            }
+
+            if (ios && !isStandalone && !isDismissed) {
                 this.showIosTutorial.set(true);
             }
 
@@ -40,6 +52,13 @@ export class PwaService {
                 this.deferredPrompt = null;
                 this.showInstallButton.set(false);
             });
+        }
+    }
+
+    dismissIosTutorial() {
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem(this.IOS_TUTORIAL_KEY, new Date().toISOString());
+            this.showIosTutorial.set(false);
         }
     }
 

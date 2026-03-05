@@ -279,6 +279,6 @@ export class IosInstallTutorialComponent {
   public pwaService = inject(PwaService);
 
   close() {
-    this.pwaService.showIosTutorial.set(false);
+    this.pwaService.dismissIosTutorial();
   }
 }
