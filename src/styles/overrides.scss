@@ -231,3 +231,8 @@
     --mdc-icon-button-icon-color: white;
     color: var(--mdc-icon-button-icon-color);
 }
+
+.mat-calendar-table-header th {
+    --mat-datepicker-calendar-header-text-color: white;
+    color: var(--mat-datepicker-calendar-header-text-color);
+}
