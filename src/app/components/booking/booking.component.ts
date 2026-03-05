@@ -52,6 +52,7 @@ export class BookingComponent implements OnInit {
     BookingStep = BookingStep;
     currentStep: BookingStep = BookingStep.ClientInfo;
     slug: string = '';
+    isInternalFlow: boolean = false;
 
     tenant: TenantPublic | null = null;
     services: ServicePublic[] = [];
@@ -94,6 +95,7 @@ export class BookingComponent implements OnInit {
 
     ngOnInit(): void {
         this.slug = this.route.snapshot.paramMap.get('slug') || '';
+        this.isInternalFlow = this.route.snapshot.queryParamMap.get('internal') === 'true';
         if (this.slug) {
             this.loadTenantInfo();
         }

@@ -47,7 +47,8 @@
 
             <div class="instruction-box">
                 <p>Para concluir seu agendamento, abra a conversa com o <strong>ZenReserve</strong> e clique no botão
-                    <strong>"Sim"</strong>.</p>
+                    <strong>"Sim"</strong>.
+                </p>
             </div>
 
             <div class="waiting-indicator">
@@ -69,7 +70,8 @@
                 </div>
             </div>
             <h1 class="tenant-name">{{ tenant.name }}</h1>
-            <p class="tenant-subtitle">Agende seu horário online</p>
+            <p class="tenant-subtitle">{{ isInternalFlow ? 'Agende o horário do cliente' : 'Agende seu horário online'
+                }}</p>
         </div>
 
         <!-- Progress Steps -->
@@ -113,13 +115,15 @@
         <!-- Step 1: Client Info -->
         <div class="step-content" *ngIf="currentStep === BookingStep.ClientInfo">
             <div class="step-card">
-                <h2>Seus Dados</h2>
-                <p class="step-description">Informe seu nome e WhatsApp para continuar</p>
+                <h2>{{ isInternalFlow ? 'Dados do Cliente' : 'Seus Dados' }}</h2>
+                <p class="step-description">{{ isInternalFlow ? 'Informe os dados do cliente para realizar o
+                    agendamento' : 'Informe seu nome e WhatsApp para continuar' }}</p>
 
                 <form [formGroup]="clientForm" (ngSubmit)="submitClientInfo()">
                     <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Seu Nome</mat-label>
-                        <input matInput formControlName="name" placeholder="Digite seu nome completo">
+                        <mat-label>{{ isInternalFlow ? 'Nome do Cliente' : 'Seu Nome' }}</mat-label>
+                        <input matInput formControlName="name"
+                            [placeholder]="isInternalFlow ? 'Digite o nome do cliente' : 'Digite seu nome completo'">
                         <mat-error *ngIf="clientForm.get('name')?.hasError('required')">Nome é obrigatório</mat-error>
                         <mat-error *ngIf="clientForm.get('name')?.hasError('minlength')">Nome muito curto</mat-error>
                     </mat-form-field>
@@ -243,7 +247,8 @@
                 </button>
                 <div>
                     <h2>Escolha a Data e Hora</h2>
-                    <p class="step-description">Selecione o melhor horário para você</p>
+                    <p class="step-description">{{ isInternalFlow ? 'Selecione o melhor horário para o cliente' :
+                        'Selecione o melhor horário para você' }}</p>
                 </div>
             </div>
 
@@ -290,14 +295,14 @@
                     <mat-icon>arrow_back</mat-icon>
                 </button>
                 <div>
-                    <h2>Confirme seu Agendamento</h2>
+                    <h2>{{ isInternalFlow ? 'Confirme o Agendamento' : 'Confirme seu Agendamento' }}</h2>
                     <p class="step-description">Revise os detalhes antes de confirmar</p>
                 </div>
             </div>
 
             <div class="confirmation-details">
                 <div class="detail-group">
-                    <h4>Seus Dados</h4>
+                    <h4>{{ isInternalFlow ? 'Dados do Cliente' : 'Seus Dados' }}</h4>
                     <p><strong>Nome:</strong> {{ clientForm.value.name }}</p>
                     <p><strong>WhatsApp:</strong> {{ clientForm.value.phone }}</p>
                     <p *ngIf="selectedProfessional"><strong>Profissional:</strong> {{

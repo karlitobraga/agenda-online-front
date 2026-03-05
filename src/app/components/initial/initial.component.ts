@@ -18,7 +18,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { OfferingService } from '../offering/offering.service';
 import { environment } from '../../../environments/environment';
 import { MatDialog } from '@angular/material/dialog';
-import { ManualBookingComponent } from './manual-booking/manual-booking.component';
+// import { ManualBookingComponent } from './manual-booking/manual-booking.component';
 import { SubscriptionModalComponent } from '../shared/subscription-modal/subscription-modal.component';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { ConclusionDialogComponent } from './conclusion-dialog/conclusion-dialog.component';
@@ -236,18 +236,7 @@ export class InitialComponent implements OnInit {
   }
 
   openBookingModal() {
-    this.dialog.open(ManualBookingComponent, {
-      width: '500px',
-      data: {
-        tenantId: this.tenantId,
-        slug: this.tenantSlug,
-        businessType: this.businessType
-      }
-    }).afterClosed().subscribe((result: any) => {
-      if (result) {
-        this.loadSchedules();
-      }
-    });
+    this.router.navigate([`/agendar/${this.tenantSlug}`], { queryParams: { internal: 'true' } });
   }
 
   deleteSchedule(schedule: ISchedule) {
