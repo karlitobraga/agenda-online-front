@@ -75,3 +75,9 @@
         </div>
     </mat-sidenav-content>
 </mat-sidenav-container>
+
+<app-ios-install-tutorial></app-ios-install-tutorial>
+
+<button class="install-button" *ngIf="pwaService.showInstallButton()" (click)="pwaService.installPwa()">
+    Instalar App
+</button>

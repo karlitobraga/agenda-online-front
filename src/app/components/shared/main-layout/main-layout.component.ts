@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
@@ -10,6 +10,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AsyncPipe } from '@angular/common';
+import { PwaService } from '../../../services/pwa.service';
+import { IosInstallTutorialComponent } from '../ios-install-tutorial/ios-install-tutorial.component';
 
 @Component({
     selector: 'app-main-layout',
@@ -24,7 +26,8 @@ import { AsyncPipe } from '@angular/common';
         MatIconModule,
         MatButtonModule,
         MatToolbarModule,
-        AsyncPipe
+        AsyncPipe,
+        IosInstallTutorialComponent
     ],
     templateUrl: './main-layout.component.html',
     styleUrls: ['./main-layout.component.scss']
@@ -38,6 +41,7 @@ export class MainLayoutComponent {
         );
 
     isAdmin: boolean = false;
+    public pwaService = inject(PwaService);
 
     constructor(private router: Router, private breakpointObserver: BreakpointObserver) {
         this.checkRole();

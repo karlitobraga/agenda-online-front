@@ -14,18 +14,7 @@ import { PwaService } from './services/pwa.service';
 })
 export class AppComponent {
   title = 'tinypet';
-  public pwaService = inject(PwaService);
-  private router = inject(Router);
-
-  showInstallButton() {
-    return this.pwaService.showInstallButton() && !this.router.url.startsWith('/agendar');
-  }
-
-  showIosTutorial() {
-    return this.pwaService.showIosTutorial() && !this.router.url.startsWith('/agendar');
-  }
-
   constructor() {
-    // Just injecting it is enough to start listening
+    // Moved PWA logic to MainLayoutComponent to avoid flicker on public routes
   }
 }
