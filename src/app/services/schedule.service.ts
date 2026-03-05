@@ -20,6 +20,7 @@ export interface ISchedule {
     start?: string; // "2025-12-13T14:00:00" or similar full date string from backend serialization
     end?: string;
     completed: boolean;
+    confirmed: boolean;
     isCancelled: boolean;
     professional?: { name: string };
     price?: number;

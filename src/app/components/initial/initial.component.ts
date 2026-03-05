@@ -166,8 +166,10 @@ export class InitialComponent implements OnInit {
     const profId = localStorage.getItem('professionalId') ?? undefined;
     this.scheduleService.getByDate(this.tenantId, formattedDate, profId).subscribe({
       next: (data: ISchedule[]) => {
-        this.schedules = data;
-        // Sort by status (active first, then completed, then cancelled) and then time
+        // Only show confirmed bookings in the agenda
+        this.schedules = data.filter(s => s.confirmed);
+
+        // Sort by status and then time
         this.schedules.sort((a, b) => {
           // Status weight: Active=0, Completed=1, Cancelled=2
           const getWeight = (s: ISchedule) => (s.isCancelled ? 2 : (s.completed ? 1 : 0));

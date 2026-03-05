@@ -67,9 +67,9 @@
     .btn-add {
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 12px;
         width: 100%;
-        padding: 24px;
+        padding: 20px 24px;
         background: rgba($primary-gold, 0.05);
         border: 2px dashed rgba($primary-gold, 0.3);
         border-radius: 16px;
@@ -87,6 +87,7 @@
             font-size: 28px;
             width: 28px;
             height: 28px;
+            flex-shrink: 0;
         }
 
         &:hover {
