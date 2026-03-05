@@ -75,7 +75,6 @@
         border-radius: 16px;
         color: $primary-gold;
         font-weight: 700;
-        font-size: 1.1rem;
         cursor: pointer;
         transition: all 0.3s;
         justify-content: center;
@@ -244,9 +243,14 @@
 }
 
 @media (max-width: 768px) {
-    .settings-container { padding: 20px; }
-    .header h2 { font-size: 1.8rem; }
-    
+    .settings-container {
+        padding: 20px;
+    }
+
+    .header h2 {
+        font-size: 1.8rem;
+    }
+
     .service-card {
         flex-direction: column;
         align-items: flex-start;
@@ -260,4 +264,3 @@
         }
     }
 }
-

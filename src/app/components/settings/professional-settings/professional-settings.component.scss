@@ -67,7 +67,7 @@
     .btn-add {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 5px;
         width: 100%;
         padding: 24px;
         background: rgba($primary-gold, 0.05);
@@ -75,7 +75,6 @@
         border-radius: 16px;
         color: $primary-gold;
         font-weight: 700;
-        font-size: 1.1rem;
         cursor: pointer;
         transition: all 0.3s;
         justify-content: center;
@@ -200,7 +199,7 @@
 
         .professional-actions {
             display: flex;
-            gap: 12px;
+            gap: 5px;
 
             .btn-icon {
                 width: 44px;
@@ -288,9 +287,14 @@
 }
 
 @media (max-width: 768px) {
-    .settings-container { padding: 20px; }
-    .header h2 { font-size: 1.8rem; }
-    
+    .settings-container {
+        padding: 20px;
+    }
+
+    .header h2 {
+        font-size: 1.8rem;
+    }
+
     .professional-card {
         flex-direction: column;
         align-items: flex-start;
@@ -304,4 +308,3 @@
         }
     }
 }
-
