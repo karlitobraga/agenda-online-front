@@ -206,3 +206,28 @@
 
     color: var(--mdc-list-list-item-label-text-color);
 }
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label, .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label--float-above {
+    --mdc-outlined-text-field-label-text-color: $text-white;
+    color: var(--mdc-outlined-text-field-label-text-color);
+}
+
+.mat-mdc-dialog-container .mdc-dialog__title {
+    --mdc-dialog-subhead-color: $text-white;
+    color: var(--mdc-dialog-subhead-color, rgba(0, 0, 0, 0.87));
+}
+
+.mat-mdc-button:not(:disabled) {
+    --mdc-text-button-label-text-color: white;
+    color: var(--mdc-text-button-label-text-color);
+}
+
+.mdc-list-item:focus .mdc-list-item__primary-text {
+    --mdc-list-list-item-focus-label-text-color: white;
+    color: var(--mdc-list-list-item-focus-label-text-color);
+}
+
+.mat-mdc-icon-button {
+    --mdc-icon-button-icon-color: white;
+    color: var(--mdc-icon-button-icon-color);
+}
