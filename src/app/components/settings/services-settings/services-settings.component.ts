@@ -58,7 +58,6 @@ export class ServicesSettingsComponent implements OnInit {
             this.offeringService.deleteOffering(offering.id).subscribe({
                 next: () => {
                     this.loadServices();
-                    this.dialogService.showMessage('Serviço removido!', true);
                 },
                 error: () => this.dialogService.showMessage('Erro ao remover serviço', false)
             });

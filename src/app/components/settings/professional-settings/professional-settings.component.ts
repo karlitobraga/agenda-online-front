@@ -60,7 +60,6 @@ export class ProfessionalSettingsComponent implements OnInit {
         this.professionalService.delete(professional.id).subscribe({
             next: () => {
                 this.loadProfessionals();
-                this.dialogService.showMessage('Profissional removido!', true);
             },
             error: () => this.dialogService.showMessage('Erro ao remover profissional', false)
         });

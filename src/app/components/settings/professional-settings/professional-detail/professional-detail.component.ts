@@ -170,7 +170,6 @@ export class ProfessionalDetailComponent implements OnInit {
             payload.id = this.data.id;
             this.professionalService.update(payload).subscribe({
                 next: () => {
-                    this.dialogService.showMessage('Profissional atualizado com sucesso!', true);
                     this.dialogRef.close(true);
                 },
                 error: (err) => this.dialogService.showMessage('Erro ao salvar: ' + (err.error || err.message), false)
@@ -178,7 +177,6 @@ export class ProfessionalDetailComponent implements OnInit {
         } else {
             this.professionalService.create(tenantId, payload).subscribe({
                 next: () => {
-                    this.dialogService.showMessage('Profissional cadastrado!', true);
                     this.dialogRef.close(true);
                 },
                 error: (err) => this.dialogService.showMessage('Erro ao cadastrar: ' + (err.error || err.message), false)

@@ -150,7 +150,6 @@ export class ScheduleHoursComponent implements OnInit {
                 this.dayWeekService.updateLunch(lunch).subscribe({
                     next: () => {
                         this.saving = false;
-                        this.dialogService.showMessage('Horários salvos com sucesso!', true);
                     },
                     error: () => {
                         this.saving = false;

@@ -173,7 +173,7 @@ export class SpecialDaysComponent implements OnInit {
                 this.loadSpecialDays();
                 this.specialDayForm.reset({ isDayOff: true });
                 this.showAddForm = false;
-                this.dialogService.showMessage('Dia especial adicionado!', true);
+
             },
             error: (err) => {
                 console.error('Erro ao adicionar dia especial', err);
@@ -187,7 +187,7 @@ export class SpecialDaysComponent implements OnInit {
         this.dayWeekService.deleteSpecialDay(id).subscribe({
             next: () => {
                 this.loadSpecialDays();
-                this.dialogService.showMessage('Dia especial removido!', true);
+
             },
             error: (err) => {
                 console.error('Erro ao remover dia especial', err);

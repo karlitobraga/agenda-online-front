@@ -225,7 +225,7 @@ export class InitialComponent implements OnInit {
 
   copyBookingLink() {
     navigator.clipboard.writeText(this.bookingUrl).then(() => {
-      this.dialogService.showMessage('Link copiado para a área de transferência!', true);
+
     }).catch(() => {
       this.dialogService.showMessage('Erro ao copiar link', false);
     });
@@ -257,7 +257,7 @@ export class InitialComponent implements OnInit {
         this.scheduleService.delete(schedule.id).subscribe({
           next: () => {
             this.loadSchedules();
-            this.dialogService.showMessage('Agendamento excluído com sucesso!', true);
+
           },
           error: (err) => this.dialogService.showMessage('Erro ao excluir agendamento', false)
         });
@@ -277,7 +277,7 @@ export class InitialComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadSchedules();
-        this.dialogService.showMessage('Agendamento concluído com sucesso!', true);
+
       }
     });
   }
