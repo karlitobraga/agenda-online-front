@@ -158,7 +158,9 @@ export class ProfessionalDetailComponent implements OnInit {
         const val = this.professionalForm.value;
         const tenantId = localStorage.getItem('tenantId') ?? '';
 
-        const photoBase64 = this.photoPreview ? this.photoPreview.split(',')[1] : null;
+        const photoBase64 = this.photoPreview && this.photoPreview.includes(',')
+            ? this.photoPreview.split(',')[1]
+            : this.photoPreview;
 
         const payload: Partial<Professional> = {
             ...val,

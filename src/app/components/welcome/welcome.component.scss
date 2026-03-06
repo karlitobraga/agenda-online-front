@@ -6,8 +6,8 @@
     align-items: center;
     min-height: 100vh;
     background: radial-gradient(circle at top right, rgba($primary-gold, 0.05), transparent),
-                radial-gradient(circle at bottom left, rgba($primary-gold, 0.05), transparent),
-                $premium-black;
+        radial-gradient(circle at bottom left, rgba($primary-gold, 0.05), transparent),
+        $premium-black;
     padding: 24px;
     position: relative;
     overflow: hidden;
@@ -65,6 +65,10 @@
     }
 }
 
+.cta-top {
+    margin-bottom: 60px;
+}
+
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -88,7 +92,10 @@
         .icon-circle {
             background: $gold-gradient;
             transform: scale(1.1);
-            mat-icon { color: $premium-black; }
+
+            mat-icon {
+                color: $premium-black;
+            }
         }
     }
 
@@ -160,11 +167,15 @@
 }
 
 @media (max-width: 768px) {
-    .content-wrapper { padding: 40px 24px; }
-    .header .app-title { font-size: 3rem; }
-    .features-grid { grid-template-columns: 1fr; }
-}
+    .content-wrapper {
+        padding: 40px 24px;
+    }
 
-.cta-top {
-    margin-bottom: 10px;
+    .header .app-title {
+        font-size: 3rem;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
 }

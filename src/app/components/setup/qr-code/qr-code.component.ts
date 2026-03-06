@@ -67,6 +67,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
             error: (err) => {
                 console.error('Erro ao carregar QR Code', err);
                 this.loadingQrCode = false;
+                this.qrCodeBase64 = null; // Ensure null to trigger error UI
             }
         });
     }
