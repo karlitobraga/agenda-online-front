@@ -46,10 +46,6 @@ export class OfferingComponent implements OnInit, OnDestroy {
   public lunchForm: FormGroup;
   public specialDayForm: FormGroup;
   public specialDays: ISpecialDay[] = [];
-  public qrCodeBase64: string | null = null;
-  public loadingQrCode: boolean = false;
-  public isConnected: boolean = false;
-  public connectionCheckInterval: any;
   public isInitialFlow: boolean = false;
 
   constructor(
@@ -98,20 +94,19 @@ export class OfferingComponent implements OnInit, OnDestroy {
       else if (section === 'holidays') this.operacao = Operation.SpecialDay;
 
       // If QR Code section is loaded, start loading the code immediately
-      if (this.operacao === Operation.QrCode) {
-        this.loadQrCode();
+      if (section === 'qrcode') {
+        this.router.navigate(['/setup'], { queryParams: { step: 'whatsapp' } });
       }
+      else if (section === 'services') this.operacao = Operation.Offering;
+      this.getOfferingData();
+
+      this.setupFormSubscriptions();
+      this.loadInitialData();
     });
     this.getOfferingData();
-
-    this.setupFormSubscriptions();
-    this.loadInitialData();
   }
 
   ngOnDestroy(): void {
-    if (this.connectionCheckInterval) {
-      clearInterval(this.connectionCheckInterval);
-    }
   }
 
   setupFormSubscriptions() {
@@ -232,7 +227,7 @@ export class OfferingComponent implements OnInit, OnDestroy {
 
   public continue() {
     if (this.operacao === Operation.QrCode) {
-      if (!this.isConnected) return;
+      // Logic moved to SetupComponent
 
       if (this.isInitialFlow) {
         // Go to Services
@@ -242,8 +237,7 @@ export class OfferingComponent implements OnInit, OnDestroy {
         this.router.navigate(['/inicio']);
       }
 
-      // Stop polling when leaving QR
-      if (this.connectionCheckInterval) clearInterval(this.connectionCheckInterval);
+      // Logic moved to SetupComponent
 
     } else if (this.operacao === Operation.Offering) {
       if (this.offerings.length === 0) return;
@@ -263,7 +257,7 @@ export class OfferingComponent implements OnInit, OnDestroy {
         // But if we want to allow re-scanning?
         // Let's stick to user request: "foi possível clicar em anterior e ele retornou para os horários, isso não deveria ser mais possível."
         this.operacao = Operation.QrCode;
-        this.loadQrCode();
+        this.router.navigate(['/setup'], { queryParams: { step: 'whatsapp' } });
       } else {
         // Maintenance: Exit to home
         this.router.navigate(['/inicio']);
@@ -274,7 +268,6 @@ export class OfferingComponent implements OnInit, OnDestroy {
         return;
       }
       this.operacao = Operation.DayWeek;
-      if (this.connectionCheckInterval) clearInterval(this.connectionCheckInterval);
     } else if (this.operacao === Operation.SpecialDay) { // Special Days
       this.operacao = Operation.Offering;
     } else { // DayWeek or others
@@ -296,8 +289,7 @@ export class OfferingComponent implements OnInit, OnDestroy {
         switchMap(() => this.signupService.updateTenant(localStorage.getItem('tenantId') ?? '', true))
       )
       .subscribe(() => {
-        this.operacao = Operation.QrCode;
-        this.loadQrCode();
+        this.router.navigate(['/setup'], { queryParams: { step: 'whatsapp' } });
       });
 
     let lunch: ILunchTime = {
@@ -365,57 +357,6 @@ export class OfferingComponent implements OnInit, OnDestroy {
     this.router.navigate(['/inicio']);
   }
 
-  public loadQrCode() {
-    this.loadingQrCode = true;
-    this.qrCodeBase64 = null;
-    this.isConnected = false;
-
-    // Initial check to see if already connected
-    this.checkStatus();
-
-    const tenantId = localStorage.getItem('tenantId') ?? '';
-    this.evolutionService.getQrCode(tenantId).subscribe({
-      next: (res) => {
-        // Log for debugging
-        console.log('QR Code received from backend:', res.qrcode ? res.qrcode.substring(0, 50) + '...' : 'null');
-
-        let code = res.qrcode;
-        if (code && !code.startsWith('data:image')) {
-          code = 'data:image/png;base64,' + code;
-        }
-
-        this.qrCodeBase64 = code;
-        this.loadingQrCode = false;
-        // Start polling
-        this.startPolling();
-      },
-      error: (err) => {
-        console.error('Erro ao carregar QR Code', err);
-        this.loadingQrCode = false;
-      }
-    });
-  }
-
-  public startPolling() {
-    if (this.connectionCheckInterval) clearInterval(this.connectionCheckInterval);
-    this.connectionCheckInterval = setInterval(() => {
-      this.checkStatus();
-    }, 3000); // Check every 3 seconds
-  }
-
-  public checkStatus() {
-    const tenantId = localStorage.getItem('tenantId') ?? '';
-    this.evolutionService.checkConnectionStatus(tenantId).subscribe({
-      next: (res) => {
-        if (res.connected) {
-          this.isConnected = true;
-          this.qrCodeBase64 = null; // Hide QR if connected
-          if (this.connectionCheckInterval) clearInterval(this.connectionCheckInterval);
-        }
-      },
-      error: () => { /* ignore errors during polling */ }
-    });
-  }
 
   public continueFromQrCode() {
     // This is called from the button directly

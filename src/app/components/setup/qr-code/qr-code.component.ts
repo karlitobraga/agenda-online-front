@@ -76,12 +76,13 @@ export class QrCodeComponent implements OnInit, OnDestroy {
         this.stopPolling();
         this.connectionCheckInterval = setInterval(() => {
             this.checkStatus();
-        }, 3000);
+        }, 10000); // Optimized for Railway: 10s instead of 3s
     }
 
     private checkStatus(): void {
         const tenantId = localStorage.getItem('tenantId') ?? '';
-        this.evolutionService.checkConnectionStatus(tenantId).subscribe({
+        // Force refresh if it's the interval call
+        this.evolutionService.checkConnectionStatus(tenantId, true).subscribe({
             next: (res) => {
                 if (res.connected) {
                     this.isConnected = true;

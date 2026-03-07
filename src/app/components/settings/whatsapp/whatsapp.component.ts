@@ -85,7 +85,8 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         this.stopPolling();
         this.connectionCheckInterval = setInterval(() => {
             const tenantId = localStorage.getItem('tenantId') ?? '';
-            this.evolutionService.checkConnectionStatus(tenantId).subscribe({
+            // Force refresh for active polling
+            this.evolutionService.checkConnectionStatus(tenantId, true).subscribe({
                 next: (res) => {
                     if (res.connected) {
                         this.isConnected = true;
@@ -94,7 +95,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
                     }
                 }
             });
-        }, 3000);
+        }, 10000); // Optimized for Railway: 10s instead of 3s
     }
 
     goBack(): void {

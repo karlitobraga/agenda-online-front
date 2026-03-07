@@ -17,7 +17,7 @@
                 </div>
                 <div class="title-group">
                     <h3 class="product-name">{{ product.name }}</h3>
-                    <span class="product-id">Ref: {{ product.id.toString().substring(0,8) }}</span>
+                    <span class="product-id">Ref: {{ product.id?.toString()?.substring(0,8) }}</span>
                 </div>
                 <div class="actions">
                     <button mat-icon-button (click)="openProductDialog(product)" title="Editar">
@@ -31,7 +31,7 @@
 
             <mat-card-content>
                 <p class="description">{{ product.description || 'Sem descrição cadastrada.' }}</p>
-                
+
                 <div class="stats-container">
                     <div class="stat-item">
                         <span class="label">Preço de Venda</span>
@@ -43,7 +43,8 @@
                     </div>
                     <div class="stat-item">
                         <span class="label">Estoque</span>
-                        <div class="stock-indicator" [class.low]="product.stock <= 5" [class.none]="product.stock === 0">
+                        <div class="stock-indicator" [class.low]="product.stock <= 5"
+                            [class.none]="product.stock === 0">
                             <span class="value">{{ product.stock }}</span>
                             <span class="unit">unid.</span>
                         </div>
