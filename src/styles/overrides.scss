@@ -23,8 +23,15 @@
         background-color: transparent !important;
     }
 
+    .mdc-floating-label--float-above {
+        color: rgba($text-white, 0.9) !important;
+    }
+
     &.mat-focused {
-        .mat-mdc-form-field-label {
+
+        .mat-mdc-form-field-label,
+        .mdc-floating-label,
+        .mdc-floating-label--float-above {
             color: $primary-gold !important;
         }
 

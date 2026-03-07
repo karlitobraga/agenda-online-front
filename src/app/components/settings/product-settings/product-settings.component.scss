@@ -356,7 +356,44 @@
         grid-template-columns: 1fr;
     }
 
-    .product-card .card-header {
-        padding: 24px;
+    .product-card {
+        .card-header {
+            padding: 20px;
+            gap: 15px;
+
+            .icon-wrapper {
+                width: 48px;
+                height: 48px;
+
+                mat-icon {
+                    font-size: 24px;
+                    width: 24px;
+                    height: 24px;
+                }
+            }
+
+            .product-name {
+                font-size: 1.2rem;
+            }
+        }
+
+        mat-card-content {
+            padding: 20px;
+
+            .stats-container {
+                grid-template-columns: 1fr;
+                padding: 16px;
+                gap: 12px;
+
+                .stat-item:last-child {
+                    grid-column: span 1;
+                    padding-top: 12px;
+                }
+
+                .value {
+                    font-size: 1.1rem;
+                }
+            }
+        }
     }
 }

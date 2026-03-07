@@ -22,15 +22,23 @@
 
 // Ensure visibility for Material Form Fields in this dialog
 :host ::v-deep {
-    .mat-mdc-form-field-label {
+
+    .mat-mdc-form-field-label,
+    .mdc-floating-label {
         color: rgba($text-white, 0.9) !important;
     }
 
     .mat-mdc-input-element::placeholder {
-        color: rgba($text-white, 0.5) !important;
+        color: rgba($text-white, 0.4) !important;
     }
 
     .mat-mdc-form-field-flex {
-        background-color: rgba($premium-charcoal, 0.4) !important;
+        background-color: rgba($premium-charcoal, 0.6) !important;
+    }
+
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+        border-color: rgba($primary-gold, 0.4) !important;
     }
 }
