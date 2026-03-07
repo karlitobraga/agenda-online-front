@@ -16,3 +16,8 @@
         flex: 1;
     }
 }
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label, .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label--float-above {
+    --mdc-outlined-text-field-label-text-color: white;
+    color: var(--mdc-outlined-text-field-label-text-color);
+}

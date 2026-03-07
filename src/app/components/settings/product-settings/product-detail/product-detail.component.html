@@ -3,7 +3,7 @@
     <form [formGroup]="form" class="product-form">
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Nome do Produto</mat-label>
-            <input matInput formControlName="name" placeholder="Ex: Shampoo Antipulgas">
+            <input matInput formControlName="name" placeholder="Ex: Shampoo">
             <mat-error *ngIf="form.get('name')?.hasError('required')">Nome é obrigatório</mat-error>
         </mat-form-field>
 
