@@ -270,13 +270,17 @@
 
       &:hover {
         background: rgba($primary-gold, 0.1);
-        transform: rotate(180deg);
+
+        mat-icon {
+          transform: rotate(180deg);
+        }
       }
 
       mat-icon {
         font-size: 28px;
         width: 28px;
         height: 28px;
+        transition: transform 0.4s ease;
       }
     }
   }
