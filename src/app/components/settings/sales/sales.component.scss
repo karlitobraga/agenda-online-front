@@ -1,83 +1,129 @@
+@import '../../../../styles/colors.scss';
+
 .pos-container {
     display: flex;
-    height: calc(100vh - 64px); // Subtract toolbar height
-    background: #f1f5f9;
+    height: calc(100vh - 64px);
+    background: $premium-black;
     font-family: 'Outfit', sans-serif;
 }
 
 .products-section {
     flex: 2;
-    padding: 24px;
+    padding: 32px;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    background: $premium-black;
 
     .search-bar {
-        margin-bottom: 24px;
+        margin-bottom: 32px;
 
         .full-width {
             width: 100%;
+        }
+
+        // Fix visibility for search label and input
+        :host ::v-deep {
+            .mat-mdc-form-field-label {
+                color: rgba($text-white, 0.9) !important;
+            }
+
+            .mat-mdc-input-element::placeholder {
+                color: rgba($text-white, 0.5) !important;
+            }
+
+            .mat-mdc-text-field-wrapper {
+                background: rgba($premium-charcoal, 0.4) !important;
+            }
         }
     }
 
     .products-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        gap: 16px;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
     }
 
     .product-card {
         cursor: pointer;
-        padding: 16px;
-        transition: transform 0.2s, box-shadow 0.2s;
+        padding: 20px;
+        background: $premium-gray-dark !important;
+        border: 1px solid rgba($primary-gold, 0.1) !important;
+        border-radius: 16px !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        min-height: 120px;
+        min-height: 140px;
+        position: relative;
+        overflow: hidden;
 
         &:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+            border-color: rgba($primary-gold, 0.4) !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6) !important;
+            background: rgba($premium-charcoal, 0.8) !important;
         }
 
         .product-name {
-            font-weight: 600;
-            color: #1e293b;
+            font-weight: 700;
+            color: $text-white;
+            font-size: 1.1rem;
             display: block;
+            margin-bottom: 4px;
         }
 
         .product-price {
-            color: #6366f1;
-            font-weight: 700;
-            font-size: 1.1rem;
+            color: $primary-gold;
+            font-weight: 800;
+            font-size: 1.2rem;
+            font-family: 'Cinzel', serif;
         }
 
         .product-stock {
-            font-size: 0.8rem;
-            color: #94a3b8;
-            margin-top: 8px;
+            font-size: 0.75rem;
+            color: $text-muted;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .add-btn {
             position: absolute;
-            bottom: 8px;
-            right: 8px;
+            bottom: 12px;
+            right: 12px;
+            color: $primary-gold;
+            background: rgba($primary-gold, 0.1);
+
+            &:hover {
+                background: $primary-gold;
+                color: $premium-black;
+            }
         }
     }
 }
 
 .cart-section {
-    flex: 1;
-    background: white;
-    border-left: 1px solid #e2e8f0;
-    padding: 24px;
+    flex: 0.8;
+    background: $premium-gray-dark;
+    border-left: 1px solid rgba($primary-gold, 0.15);
+    padding: 32px;
     display: flex;
     flex-direction: column;
-    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.05);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
 
     h2 {
-        margin: 0 0 24px 0;
-        color: #1e293b;
+        margin: 0 0 32px 0;
+        color: $primary-gold;
+        font-family: 'Cinzel', serif;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 1.8rem;
+        border-bottom: 2px solid rgba($primary-gold, 0.1);
+        padding-bottom: 12px;
     }
 
     .cart-items {
@@ -86,86 +132,143 @@
 
         .empty-cart {
             text-align: center;
-            color: #94a3b8;
-            padding-top: 50px;
+            color: $text-muted;
+            padding-top: 80px;
 
             mat-icon {
-                font-size: 48px;
-                width: 48px;
-                height: 48px;
-                opacity: 0.3;
+                font-size: 64px;
+                width: 64px;
+                height: 64px;
+                margin-bottom: 16px;
+                opacity: 0.15;
+            }
+
+            p {
+                font-style: italic;
             }
         }
     }
 
     .cart-item {
-        margin-bottom: 16px;
-        padding-bottom: 16px;
-        border-bottom: 1px solid #f1f5f9;
+        margin-bottom: 20px;
+        padding: 16px;
+        background: rgba($premium-black, 0.3);
+        border-radius: 12px;
+        border: 1px solid rgba($primary-gold, 0.05);
 
         .item-details {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
 
             .item-name {
-                font-weight: 500;
-                color: #334155;
+                font-weight: 600;
+                color: $text-white;
             }
 
             .item-price {
-                color: #64748b;
+                color: $primary-gold;
+                font-weight: 700;
             }
         }
 
         .item-actions {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+
+            button {
+                color: $primary-gold;
+
+                &[color="warn"] {
+                    color: $color-error;
+                }
+            }
 
             .quantity {
-                font-weight: 600;
-                width: 30px;
+                font-weight: 800;
+                width: 32px;
                 text-align: center;
+                color: $text-white;
+                font-size: 1.1rem;
             }
         }
     }
 
     .cart-footer {
-        padding-top: 24px;
-        border-top: 2px solid #f1f5f9;
+        padding-top: 32px;
+        border-top: 1px solid rgba($primary-gold, 0.15);
+
+        .payment-method {
+            margin-bottom: 24px;
+
+            :host ::v-deep {
+                .mat-mdc-select-value {
+                    color: $text-white !important;
+                }
+
+                .mat-mdc-form-field-label {
+                    color: $primary-gold !important;
+                }
+            }
+        }
 
         .total-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
-            font-size: 1.2rem;
+            margin-bottom: 32px;
+            padding: 16px;
+            background: rgba($primary-gold, 0.05);
+            border-radius: 12px;
+
+            span {
+                font-family: 'Cinzel', serif;
+                font-size: 1.2rem;
+                color: $text-white;
+                text-transform: uppercase;
+            }
 
             .total-amount {
                 font-weight: 800;
-                color: #6366f1;
+                font-size: 1.8rem;
+                color: $primary-gold;
             }
         }
 
         .finalize-btn {
             width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            height: 56px;
+            border-radius: 14px;
+            font-size: 1.2rem;
             font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: $gold-gradient !important;
+            color: $premium-black !important;
+
+            &:hover {
+                background: $gold-gradient-hover !important;
+                box-shadow: 0 5px 15px rgba($primary-gold, 0.3);
+            }
+
+            &[disabled] {
+                background: rgba($primary-gold, 0.1) !important;
+                color: rgba($text-white, 0.3) !important;
+            }
         }
     }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
     .pos-container {
         flex-direction: column;
         height: auto;
     }
 
     .cart-section {
+        flex: none;
         border-left: none;
-        border-top: 1px solid #e2e8f0;
+        border-top: 1px solid rgba($primary-gold, 0.15);
     }
 }

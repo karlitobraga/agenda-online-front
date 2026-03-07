@@ -1,7 +1,10 @@
+@import '../../../../styles/colors.scss';
+
 .product-form {
     display: flex;
     flex-direction: column;
-    padding-top: 10px;
+    padding-top: 15px;
+    background-color: transparent;
 }
 
 .full-width {
@@ -17,7 +20,17 @@
     }
 }
 
-.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label, .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label--float-above {
-    --mdc-outlined-text-field-label-text-color: white;
-    color: var(--mdc-outlined-text-field-label-text-color);
+// Ensure visibility for Material Form Fields in this dialog
+:host ::v-deep {
+    .mat-mdc-form-field-label {
+        color: rgba($text-white, 0.9) !important;
+    }
+
+    .mat-mdc-input-element::placeholder {
+        color: rgba($text-white, 0.5) !important;
+    }
+
+    .mat-mdc-form-field-flex {
+        background-color: rgba($premium-charcoal, 0.4) !important;
+    }
 }

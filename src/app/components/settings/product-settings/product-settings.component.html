@@ -1,54 +1,63 @@
 <div class="settings-container">
-    <div class="header">
+    <div class="header-section">
         <h1>Gerenciar Produtos</h1>
-        <button mat-flat-button color="primary" (click)="openProductDialog()">
-            <mat-icon>add</mat-icon> Novo Produto
-        </button>
+        <p class="subtitle">Controle seu estoque e preços com precisão premium</p>
     </div>
+
+    <button class="btn-add" (click)="openProductDialog()">
+        <mat-icon>add_circle_outline</mat-icon>
+        <span>Cadastrar Novo Produto</span>
+    </button>
 
     <div class="product-grid" *ngIf="products.length > 0; else noData">
         <mat-card *ngFor="let product of products" class="product-card" [class.low-stock]="product.stock <= 5">
-            <mat-card-header>
-                <div mat-card-avatar class="product-icon">
+            <div class="card-header">
+                <div class="icon-wrapper">
                     <mat-icon>inventory_2</mat-icon>
                 </div>
-                <mat-card-title>{{ product.name }}</mat-card-title>
-                <mat-card-subtitle>{{ product.description || 'Sem descrição' }}</mat-card-subtitle>
-            </mat-card-header>
+                <div class="title-group">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <span class="product-id">Ref: {{ product.id.toString().substring(0,8) }}</span>
+                </div>
+                <div class="actions">
+                    <button mat-icon-button (click)="openProductDialog(product)" title="Editar">
+                        <mat-icon>edit_calendar</mat-icon>
+                    </button>
+                    <button mat-icon-button class="btn-delete" (click)="deleteProduct(product)" title="Excluir">
+                        <mat-icon>delete_sweep</mat-icon>
+                    </button>
+                </div>
+            </div>
 
             <mat-card-content>
-                <div class="stats-row">
-                    <div class="stat">
-                        <span class="label">Venda</span>
-                        <span class="value">{{ product.price | currency:'BRL' }}</span>
-                    </div>
-                    <div class="stat">
-                        <span class="label">Custo</span>
-                        <span class="value secondary">{{ product.cost | currency:'BRL' }}</span>
-                    </div>
-                </div>
+                <p class="description">{{ product.description || 'Sem descrição cadastrada.' }}</p>
                 
-                <div class="stock-badge" [class.warning]="product.stock <= 5" [class.danger]="product.stock === 0">
-                    <mat-icon>{{ product.stock > 0 ? 'inventory' : 'block' }}</mat-icon>
-                    <span>Estoque: <strong>{{ product.stock }}</strong></span>
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="label">Preço de Venda</span>
+                        <span class="value price">{{ product.price | currency:'BRL' }}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Custo</span>
+                        <span class="value cost">{{ product.cost | currency:'BRL' }}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Estoque</span>
+                        <div class="stock-indicator" [class.low]="product.stock <= 5" [class.none]="product.stock === 0">
+                            <span class="value">{{ product.stock }}</span>
+                            <span class="unit">unid.</span>
+                        </div>
+                    </div>
                 </div>
             </mat-card-content>
-
-            <mat-card-actions align="end">
-                <button mat-icon-button color="primary" (click)="openProductDialog(product)" title="Editar">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button color="warn" (click)="deleteProduct(product)" title="Excluir">
-                    <mat-icon>delete</mat-icon>
-                </button>
-            </mat-card-actions>
         </mat-card>
     </div>
 
     <ng-template #noData>
         <div class="empty-state">
-            <mat-icon>production_quantity_limits</mat-icon>
-            <p>Nenhum produto cadastrado.</p>
+            <mat-icon>inventory</mat-icon>
+            <h3>Estoque Vazio</h3>
+            <p>Você ainda não possui produtos cadastrados em sua conta.</p>
         </div>
     </ng-template>
 </div>
