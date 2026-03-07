@@ -30,14 +30,6 @@
             </div>
             <span class="step-label">WhatsApp</span>
         </div>
-        <div class="step-connector" [class.completed]="isStepCompleted('whatsapp')"></div>
-
-        <div class="step" [class.active]="currentStep === 'theme'" [class.completed]="isStepCompleted('theme')">
-            <div class="step-indicator">
-                <mat-icon>palette</mat-icon>
-            </div>
-            <span class="step-label">Estilo</span>
-        </div>
     </div>
 
     <!-- Step Content -->
@@ -52,8 +44,5 @@
         <app-qr-code *ngIf="currentStep === 'whatsapp'" [showBackButton]="true" (connected)="onWhatsappCompleted()"
             (back)="onWhatsappBack()">
         </app-qr-code>
-
-        <app-setup-theme *ngIf="currentStep === 'theme'" (completed)="onSetupCompleted()" (back)="onThemeBack()">
-        </app-setup-theme>
     </div>
 </div>

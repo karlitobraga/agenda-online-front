@@ -216,7 +216,11 @@ export class InitialComponent implements OnInit {
   }
 
   goToConfiguration() {
-    this.router.navigate(['/setup']);
+    if (this.isWhatsAppDisconnected && !this.showConfigWarning) {
+      this.router.navigate(['/setup'], { queryParams: { step: 'whatsapp' } });
+    } else {
+      this.router.navigate(['/setup']);
+    }
   }
 
   goToSettings(section: string) {

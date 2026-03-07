@@ -99,6 +99,10 @@ export class QrCodeComponent implements OnInit, OnDestroy {
         }
     }
 
+    onSkip(): void {
+        this.connected.emit(); // Proceed even if not connected
+    }
+
     onBack(): void {
         this.back.emit();
     }

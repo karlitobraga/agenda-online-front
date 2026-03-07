@@ -5,9 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ServicesComponent } from './services/services.component';
 import { SetupProfessionalsComponent } from './professionals/setup-professionals.component';
-import { SetupThemeComponent } from './theme/setup-theme.component';
 import { SignupService } from '../signup/signup.service';
 import { QrCodeComponent } from './qr-code/qr-code.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-setup',
@@ -18,24 +18,30 @@ import { QrCodeComponent } from './qr-code/qr-code.component';
         MatButtonModule,
         ServicesComponent,
         SetupProfessionalsComponent,
-        SetupThemeComponent,
         QrCodeComponent
     ],
     templateUrl: './setup.component.html',
     styleUrls: ['./setup.component.scss']
 })
 export class SetupComponent implements OnInit {
-    currentStep: 'services' | 'professionals' | 'whatsapp' | 'theme' = 'services';
+    currentStep: 'services' | 'professionals' | 'whatsapp' = 'services';
 
     constructor(
         private router: Router,
-        private signupService: SignupService
+        private signupService: SignupService,
+        private route: ActivatedRoute
     ) { }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+        this.route.queryParams.subscribe(params => {
+            if (params['step'] === 'whatsapp') {
+                this.currentStep = 'whatsapp';
+            }
+        });
+    }
 
     isStepCompleted(step: string): boolean {
-        const steps = ['services', 'professionals', 'whatsapp', 'theme'];
+        const steps = ['services', 'professionals', 'whatsapp'];
         const currentIndex = steps.indexOf(this.currentStep);
         const stepIndex = steps.indexOf(step);
         return stepIndex < currentIndex;
@@ -50,7 +56,7 @@ export class SetupComponent implements OnInit {
     }
 
     onWhatsappCompleted(): void {
-        this.currentStep = 'theme';
+        this.onSetupCompleted();
     }
 
     onProfessionalsBack(): void {
@@ -61,9 +67,6 @@ export class SetupComponent implements OnInit {
         this.currentStep = 'professionals';
     }
 
-    onThemeBack(): void {
-        this.currentStep = 'whatsapp';
-    }
 
     onSetupCompleted(): void {
         // Mark configuration as completed and navigate to home

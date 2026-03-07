@@ -59,13 +59,22 @@
         </div>
     </div>
 
+    <div class="mobile-disclaimer" *ngIf="!isConnected">
+        <mat-icon>info</mat-icon>
+        <p><strong>Aviso:</strong> Se você estiver acessando pelo celular, pode pular esta etapa e conectar o WhatsApp
+            depois pelo seu computador.</p>
+    </div>
+
     <div class="actions">
         <button class="btn-secondary" *ngIf="showBackButton" (click)="onBack()">
             <mat-icon>arrow_back</mat-icon> Voltar
         </button>
-        <div class="spacer" *ngIf="!showBackButton"></div>
+        <button class="btn-skip" *ngIf="!isConnected" (click)="onSkip()">
+            Conectar depois
+        </button>
+        <div class="spacer" *ngIf="!showBackButton && isConnected"></div>
         <button class="btn-primary" [disabled]="!isConnected" (click)="onContinue()">
-            Próximo <mat-icon>arrow_forward</mat-icon>
+            Finalizar <mat-icon>check</mat-icon>
         </button>
     </div>
 </div>
