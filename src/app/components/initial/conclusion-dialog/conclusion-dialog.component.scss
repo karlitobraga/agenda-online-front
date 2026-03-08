@@ -1,9 +1,34 @@
+@import '../../../../styles/colors.scss';
+
+:host {
+    display: block;
+    background: $premium-gray-dark;
+    color: $text-white;
+}
+
+::ng-deep {
+    .mat-mdc-dialog-container .mdc-dialog__surface {
+        background-color: $premium-gray-dark !important;
+    }
+
+    .mat-mdc-dialog-title {
+        color: $primary-gold !important;
+        font-family: 'Cinzel', serif !important;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .mat-mdc-dialog-content {
+        color: $text-white !important;
+    }
+}
+
 .offering-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #f1f5f9;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba($text-white, 0.05);
 
     .offering-info {
         display: flex;
@@ -11,12 +36,21 @@
 
         .name {
             font-weight: 600;
-            color: #1e293b;
+            color: $text-white;
         }
 
         .price {
             font-size: 0.85rem;
-            color: #64748b;
+            color: $text-muted;
+        }
+    }
+
+    button {
+        color: rgba($color-error, 0.7);
+
+        &:hover {
+            color: $color-error;
+            background: rgba($color-error, 0.1);
         }
     }
 }
@@ -24,7 +58,7 @@
 .empty-list {
     padding: 16px;
     text-align: center;
-    color: #94a3b8;
+    color: $text-muted;
     font-style: italic;
 }
 
@@ -44,29 +78,36 @@
 
     button {
         height: 56px;
-        border-radius: 8px;
+        border-radius: 12px;
+        background: $gold-gradient;
+        color: $premium-black;
+        font-weight: 700;
     }
 }
 
 .total-section {
     margin-top: 24px;
-    padding: 16px;
-    background: #f8fafc;
-    border-radius: 8px;
+    padding: 24px;
+    background: rgba($primary-gold, 0.05);
+    border: 1px solid rgba($primary-gold, 0.1);
+    border-radius: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     .total-label {
         font-weight: 700;
-        color: #334155;
+        color: $primary-gold;
         font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .total-value {
         font-weight: 800;
-        color: #667eea;
-        font-size: 1.4rem;
+        color: $text-white;
+        font-size: 1.6rem;
+        text-shadow: 0 0 15px rgba($primary-gold, 0.2);
     }
 }
 
@@ -76,41 +117,85 @@
 
     .section-label {
         font-weight: 600;
-        color: #334155;
+        color: $text-gold;
         display: block;
-        margin-bottom: 12px;
+        margin-bottom: 16px;
     }
 
     .payment-radio-group {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px 16px;
+        gap: 12px 24px;
 
-        mat-radio-button {
-            font-size: 0.9rem;
+        ::ng-deep .mdc-label {
+            color: $text-white !important;
         }
     }
 
     .fiado-warning {
         display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-top: 12px;
-        padding: 8px 12px;
-        background: #fef3cd;
-        border-radius: 8px;
-        color: #856404;
-        font-size: 0.85rem;
+        align-items: flex-start;
+        gap: 16px;
+        margin-top: 20px;
+        padding: 16px;
+        background: rgba($primary-gold, 0.1);
+        border: 1px solid rgba($primary-gold, 0.3);
+        border-radius: 16px;
+        color: $text-gold;
+        animation: fadeIn 0.3s ease-out;
 
         mat-icon {
-            font-size: 18px;
-            width: 18px;
-            height: 18px;
-            color: #f59e0b;
+            font-size: 32px;
+            width: 32px;
+            height: 32px;
+            color: $primary-gold;
+            flex-shrink: 0;
+            margin-top: 2px;
         }
+
+        .warning-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            strong {
+                font-family: 'Cinzel', serif;
+                font-size: 1rem;
+                letter-spacing: 1px;
+                color: $primary-gold;
+            }
+
+            span {
+                font-size: 0.95rem;
+                line-height: 1.4;
+                opacity: 0.9;
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
 mat-dialog-actions {
     padding: 24px 0 0 0;
+
+    button[mat-button] {
+        color: $text-muted;
+    }
+
+    button[mat-flat-button] {
+        background: $gold-gradient;
+        color: $premium-black;
+        font-weight: 700;
+    }
 }

@@ -8,7 +8,7 @@
                 <span class="name">{{ offering.name }}</span>
                 <span class="price">R$ {{ offering.price | number:'1.2-2' }}</span>
             </div>
-            <button mat-icon-button color="warn" (click)="removeOffering(offering.id)">
+            <button mat-icon-button (click)="removeOffering(offering.id)">
                 <mat-icon>remove_circle_outline</mat-icon>
             </button>
         </div>
@@ -16,8 +16,6 @@
             Nenhum serviço selecionado.
         </div>
     </mat-list>
-
-    <mat-divider></mat-divider>
 
     <div class="add-offering">
         <mat-form-field appearance="outline">
@@ -36,15 +34,19 @@
     <mat-divider></mat-divider>
 
     <div class="payment-method-section">
-        <span class="section-label">Forma de Pagamento:</span>
+        <span class="section-label">Forma de Pagamento (Caderneta):</span>
         <mat-radio-group [(ngModel)]="paymentMethod" class="payment-radio-group">
             <mat-radio-button *ngFor="let method of paymentMethods" [value]="method">
                 {{ method }}
             </mat-radio-button>
         </mat-radio-group>
         <div class="fiado-warning" *ngIf="paymentMethod === 'Fiado'">
-            <mat-icon>info</mat-icon>
-            <span>O valor será registrado como fiado para cobrança posterior.</span>
+            <mat-icon>menu_book</mat-icon>
+            <div class="warning-text">
+                <strong>Venda na Caderneta</strong>
+                <span>O valor de R$ {{ getTotalPrice() | number:'1.2-2' }} será adicionado ao saldo devedor de {{
+                    data.schedule.clientName }}.</span>
+            </div>
         </div>
     </div>
 

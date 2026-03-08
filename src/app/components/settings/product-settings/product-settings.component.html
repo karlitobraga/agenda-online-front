@@ -19,14 +19,6 @@
                     <h3 class="product-name">{{ product.name }}</h3>
                     <span class="product-id">Ref: {{ product.id?.toString()?.substring(0,8) }}</span>
                 </div>
-                <div class="actions">
-                    <button mat-icon-button (click)="openProductDialog(product)" title="Editar">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button class="btn-delete" (click)="deleteProduct(product)" title="Excluir">
-                        <mat-icon>delete_sweep</mat-icon>
-                    </button>
-                </div>
             </div>
 
             <mat-card-content>
@@ -51,6 +43,15 @@
                     </div>
                 </div>
             </mat-card-content>
+
+            <div class="actions">
+                <button mat-icon-button (click)="openProductDialog(product)" title="Editar">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button class="btn-delete" (click)="deleteProduct(product)" title="Excluir">
+                    <mat-icon>delete_sweep</mat-icon>
+                </button>
+            </div>
         </mat-card>
     </div>
 

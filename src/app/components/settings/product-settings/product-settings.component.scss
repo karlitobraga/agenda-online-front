@@ -186,6 +186,10 @@
         .actions {
             display: flex;
             gap: 8px;
+            padding: 12px 32px;
+            justify-content: flex-end;
+            background: rgba(white, 0.02);
+            border-top: 1px solid rgba($primary-gold, 0.05);
 
             button {
                 color: rgba($text-white, 0.3);
