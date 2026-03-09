@@ -1,0 +1,30 @@
+<div class="registry-container">
+    <div class="header-left">
+        <h1 class="app-title">Admin<span class="highlight">Panel</span></h1>
+    </div>
+    <h2>Acesso Restrito</h2>
+
+    <form (submit)="submit()" [formGroup]="formGroup" class="registry-form">
+        <div class="input-container">
+            <label for="username">Usuário</label>
+            <input placeholder="Digite seu usuário" id="username" formControlName="username"
+                type="text"
+                [ngClass]="{'is-invalid': formGroup.get('username')?.touched && formGroup.get('username')?.invalid }">
+            <div class="error" *ngIf="formGroup.get('username')?.touched && formGroup.get('username')?.invalid">
+                Usuário é obrigatório.</div>
+        </div>
+
+        <div class="input-container">
+            <label for="password">Senha</label>
+            <input id="password" type="password" formControlName="password" placeholder="Digite sua senha"
+                [ngClass]="{'is-invalid': formGroup.get('password')?.touched && formGroup.get('password')?.invalid}">
+            <div class="info"
+                [ngClass]="{'error': formGroup.get('password')?.touched && formGroup.get('password')?.invalid}">
+                Pelo menos 5 caracteres.
+            </div>
+        </div>
+
+        <button [disabled]="formGroup.invalid" [ngClass]="{'invalid': formGroup.invalid}" type="submit">Entrar
+        </button>
+    </form>
+</div>

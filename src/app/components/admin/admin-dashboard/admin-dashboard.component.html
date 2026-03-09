@@ -1,0 +1,89 @@
+<div class="admin-container">
+    <div class="header">
+        <div class="header-content">
+            <mat-icon class="header-icon">admin_panel_settings</mat-icon>
+            <div class="titles">
+                <h2>Painel Administrativo</h2>
+                <p class="subtitle">Gestão de estabelecimentos e controle de usuários.</p>
+            </div>
+        </div>
+        <button class="btn-logout" (click)="logout()">
+            <mat-icon>logout</mat-icon> Sair
+        </button>
+    </div>
+
+    <div class="stats-cards">
+        <div class="stat-card">
+            <span class="label">Total de Clientes</span>
+            <span class="value">{{ tenants.length }}</span>
+        </div>
+        <div class="stat-card">
+            <span class="label">Configuração Pendente</span>
+            <span class="value highlight">{{ pendingConfigCount }}</span>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Estabelecimento</th>
+                        <th>Celular / Usuário</th>
+                        <th>Data Criação</th>
+                        <th>Trial Restante</th>
+                        <th>Configuração</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let tenant of tenants">
+                        <td>
+                            <div class="name-cell">
+                                <span class="main-name">{{ tenant.name }}</span>
+                                <span class="id-sub">{{ tenant.id }}</span>
+                            </div>
+                        </td>
+                        <td>{{ tenant.phoneNumber }}</td>
+                        <td>{{ tenant.createdAt | date:'dd/MM/yyyy' }}</td>
+                        <td>
+                            <span class="badge" [ngClass]="tenant.daysRemaining > 0 ? 'trial' : 'expired'">
+                                {{ tenant.daysRemaining }} dias
+                            </span>
+                        </td>
+                        <td>
+                            <span class="status-indicator"
+                                [ngClass]="tenant.completedConfiguration ? 'done' : 'pending'">
+                                {{ tenant.completedConfiguration ? 'Completa' : 'Pendente' }}
+                            </span>
+                        </td>
+                        <td class="actions-cell">
+                            <button class="btn-icon magic" (click)="copyMagicLink(tenant.magicLinkUrl)"
+                                title="Copiar Magic Link" *ngIf="tenant.magicLinkUrl">
+                                <mat-icon>link</mat-icon>
+                            </button>
+                            <button class="btn-icon whatsapp" (click)="openWhatsApp(tenant.whatsAppLink)"
+                                title="Falar no WhatsApp">
+                                <mat-icon>chat</mat-icon>
+                            </button>
+                            <button class="btn-icon delete" (click)="deleteTenant(tenant)"
+                                title="Excluir Permanentemente">
+                                <mat-icon>delete_forever</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="empty-state" *ngIf="!loading && tenants.length === 0">
+                <mat-icon>group_off</mat-icon>
+                <p>Nenhum estabelecimento encontrado.</p>
+            </div>
+
+            <div class="loading-state" *ngIf="loading">
+                <mat-icon class="spin">sync</mat-icon>
+                <p>Carregando dados dos tenants...</p>
+            </div>
+        </div>
+    </div>
+</div>

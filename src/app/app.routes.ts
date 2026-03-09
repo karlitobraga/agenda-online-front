@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './components/shared/guard/auth.guard';
+import { AdminGuard } from './components/shared/guard/admin.guard';
 import { SetupGuard } from './components/shared/guard/setup.guard';
 import { MainLayoutComponent } from './components/shared/main-layout/main-layout.component';
 
@@ -15,9 +16,19 @@ export const routes: Routes = [
       import('./components/login/login.component').then((m) => m.LoginComponent),
   },
   {
-    path: 'signup',
     loadComponent: () =>
       import('./components/signup/signup.component').then((m) => m.SignupComponent),
+  },
+  {
+    path: 'admin/login',
+    loadComponent: () =>
+      import('./components/admin/admin-login/admin-login.component').then((m) => m.AdminLoginComponent),
+  },
+  {
+    path: 'admin/dashboard',
+    canActivate: [AdminGuard],
+    loadComponent: () =>
+      import('./components/admin/admin-dashboard/admin-dashboard.component').then((m) => m.AdminDashboardComponent),
   },
   {
     path: 'welcome',
