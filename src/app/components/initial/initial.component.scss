@@ -490,26 +490,65 @@
         padding-left: 16px;
         border-left: 1px solid rgba(255, 255, 255, 0.05);
 
-        button {
-          width: 44px;
-          height: 44px;
-          background: rgba($premium-gray, 0.5);
-          color: $text-muted;
+        .btn-action {
+          width: 100%;
+          min-width: 120px;
+          height: 48px;
           border-radius: 12px;
+          font-weight: 700;
+          letter-spacing: 0.5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
-          &:hover {
-            background: rgba($primary-gold, 0.1);
-            color: $primary-gold;
+          mat-icon {
+            margin-right: 8px;
           }
 
-          &.completed-icon {
-            color: $color-success;
+          &.btn-concluir {
+            background: rgba($primary-gold, 0.1);
+            color: $primary-gold;
+            border: 1px solid rgba($primary-gold, 0.3);
+
+            &:hover {
+              background: rgba($primary-gold, 0.2);
+              border-color: $primary-gold;
+            }
+          }
+
+          &.btn-cancelar {
+            background: rgba($color-error, 0.05);
+            border: 1px solid rgba($color-error, 0.3);
+
+            &:hover {
+              background: rgba($color-error, 0.15);
+              border-color: $color-error;
+            }
+          }
+
+          &.completed-btn {
+            background: rgba($color-success, 0.1);
+            color: $color-success !important;
+            opacity: 0.8;
           }
         }
 
-        mat-icon.cancelled-icon {
+        .cancelled-state {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
           color: $text-muted;
-          opacity: 0.5;
+          background: rgba(255, 255, 255, 0.05);
+          padding: 10px;
+          border-radius: 12px;
+          font-weight: 600;
+
+          .cancelled-icon {
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+          }
         }
       }
     }
@@ -583,14 +622,25 @@
 
       .card-actions {
         flex-direction: row !important;
-        justify-content: left !important;
+        justify-content: stretch !important;
         margin-left: 0 !important;
         padding-left: 0 !important;
         border-left: none !important;
-        justify-content: flex-end !important;
-        border-top: unset;
-        padding: 0;
-        margin: 0;
+        border-top: 1px solid rgba($primary-gold, 0.15);
+        padding-top: 16px !important;
+        margin-top: 16px !important;
+
+        .btn-action {
+          flex: 1;
+
+          .action-text {
+            display: inline;
+          }
+        }
+
+        .cancelled-state {
+          flex: 1;
+        }
       }
     }
   }

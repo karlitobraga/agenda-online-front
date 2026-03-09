@@ -126,19 +126,27 @@
                 </div>
 
                 <div class="card-actions">
-                    <button mat-icon-button color="primary" *ngIf="!schedule.completed && !schedule.isCancelled"
-                        (click)="completeSchedule(schedule)" title="Concluir Atendimento">
+                    <button mat-stroked-button color="primary" class="btn-action btn-concluir"
+                        *ngIf="!schedule.completed && !schedule.isCancelled" (click)="completeSchedule(schedule)">
                         <mat-icon>check_circle_outline</mat-icon>
-                    </button>
-                    <button mat-icon-button class="completed-icon" *ngIf="schedule.completed" disabled>
-                        <mat-icon>check_circle</mat-icon>
+                        <span class="action-text">Concluir</span>
                     </button>
 
-                    <button mat-icon-button color="warn" *ngIf="!schedule.isCancelled"
-                        (click)="deleteSchedule(schedule)" title="Cancelar Agendamento">
-                        <mat-icon>delete_outline</mat-icon>
+                    <button mat-flat-button class="btn-action completed-btn" *ngIf="schedule.completed" disabled>
+                        <mat-icon>check_circle</mat-icon>
+                        <span class="action-text">Concluído</span>
                     </button>
-                    <mat-icon class="cancelled-icon" *ngIf="schedule.isCancelled" title="Cancelado">cancel</mat-icon>
+
+                    <button mat-stroked-button color="warn" class="btn-action btn-cancelar"
+                        *ngIf="!schedule.isCancelled" (click)="deleteSchedule(schedule)">
+                        <mat-icon>close</mat-icon>
+                        <span class="action-text">Cancelar</span>
+                    </button>
+
+                    <div class="cancelled-state" *ngIf="schedule.isCancelled">
+                        <mat-icon class="cancelled-icon" title="Cancelado">cancel</mat-icon>
+                        <span class="action-text">Cancelado</span>
+                    </div>
                 </div>
             </div>
         </div>
